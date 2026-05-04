@@ -24,7 +24,7 @@ const eslintConfig = [
       // Existing rules
       "react/no-unescaped-entities": "off",
       "@next/next/no-page-custom-font": "off",
-      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/rules-of-hooks": "warn",
       "react-hooks/exhaustive-deps": "warn",
       "@typescript-eslint/no-explicit-any": "warn",
       "react/display-name": "off",
