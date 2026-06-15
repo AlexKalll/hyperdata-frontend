@@ -110,7 +110,7 @@ export function useAuthToken() {
     retry: 2,
   });
 }
-export function NewProjectProfiles({
+function useNewProjectProfiles({
   page,
   pageSize,
   searchQuery,
@@ -168,7 +168,7 @@ export function NewProjectProfiles({
     },
   });
 }
-export function NewProjectProfilesArchive({
+function useNewProjectProfilesArchive({
   page,
   pageSize,
   searchQuery,
@@ -227,7 +227,7 @@ export function NewProjectProfilesArchive({
     },
   });
 }
-export function MyProjectProfiles({
+function useMyProjectProfiles({
   page,
   pageSize,
   searchQuery,
@@ -849,7 +849,7 @@ export const useAddTask = () => {
     },
   });
 };
-export const updateTaskRequirement = () => {
+const useUpdateTaskRequirement = () => {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
 
@@ -1066,7 +1066,7 @@ export const useUpdateProject = () => {
     },
   });
 };
-export function projectTaskasAll({ project_id }: projectTaskaskALLProps) {
+function useProjectTaskAsAll({ project_id }: projectTaskaskALLProps) {
   const res1 = useSession();
   const { data: session } = useSession();
 
@@ -1107,7 +1107,7 @@ export function projectTaskasAll({ project_id }: projectTaskaskALLProps) {
     },
   });
 }
-export function projectTaskasRelated({ task_id }: projectTaskaskRealtedProps) {
+function useProjectTaskAsRelated({ task_id }: projectTaskaskRealtedProps) {
   const res1 = useSession();
   const { data: session } = useSession();
 
@@ -1695,4 +1695,13 @@ export const useToggleActivateTaskUser= () => {
   );
 
 
+};
+
+export {
+  useMyProjectProfiles as MyProjectProfiles,
+  useNewProjectProfiles as NewProjectProfiles,
+  useNewProjectProfilesArchive as NewProjectProfilesArchive,
+  useProjectTaskAsAll as projectTaskasAll,
+  useProjectTaskAsRelated as projectTaskasRelated,
+  useUpdateTaskRequirement as updateTaskRequirement,
 };

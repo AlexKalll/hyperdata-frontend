@@ -32,7 +32,7 @@ interface UserProfilesProps {
     verificationStatus?: string;
     token?: string;
 }
-export function userProfileFacilitators({
+function useUserProfileFacilitators({
     page,
     taskId,
     pageSize,
@@ -87,3 +87,5 @@ export function userProfileFacilitators({
         },
     });
 }
+
+export { useUserProfileFacilitators as userProfileFacilitators };
