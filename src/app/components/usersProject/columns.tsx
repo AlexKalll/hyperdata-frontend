@@ -8,7 +8,7 @@ export const individualColumns: ColumnDef<UserData>[] = [
   {
     accessorKey: "first_name",
     header: "First  Name",
-    cell: ({ row }) => {
+    cell: function ProjectUserFirstNameCell({ row }) {
       const initials =
         row
           .getValue<string>("first_name")
@@ -33,7 +33,7 @@ export const individualColumns: ColumnDef<UserData>[] = [
   {
     accessorKey: "is_active",
     header: "Status",
-    cell: ({ row }) => {
+    cell: function ProjectUserStatusCell({ row }) {
       const status = row.original.is_active;
       return (
         <Badge variant={status ? "active" : "deactivated"}>
@@ -45,7 +45,7 @@ export const individualColumns: ColumnDef<UserData>[] = [
   {
     accessorKey: "role",
     header: "Role",
-    cell: ({ row }) => {
+    cell: function ProjectUserRoleCell({ row }) {
       const roleData = row.original?.role;
       const role = typeof roleData === 'object' ? roleData?.name : roleData;
       const roleColors: Record<string, string> = {
@@ -73,7 +73,7 @@ export const individualColumns: ColumnDef<UserData>[] = [
   {
     accessorKey: "",
     header: "Action",
-    cell: ({ row }) => {
+    cell: function ProjectUserActionCell({ row }) {
       const [isOpen, setIsOpen] = useState(false);
 
       const handleDeactivate = () => {};
