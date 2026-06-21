@@ -107,7 +107,7 @@ export function DialectCRUD() {
     {
       accessorKey: "language",
       header: "Language",
-      cell: ({ row }) => {
+      cell: function DialectLanguageCell({ row }) {
         const language = row.original?.language?.name;
         return (
           <span className={`px-2 py-1 rounded text-sm font-medium  `}>
@@ -119,7 +119,7 @@ export function DialectCRUD() {
     {
       accessorKey: "",
       header: "Action",
-      cell: ({ row }) => {
+      cell: function DialectActionCell({ row }) {
         const [isOpen, setIsOpen] = useState(false);
         const [isOpenDeletor, setIsOpenDeletor] = useState(false);
 

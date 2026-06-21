@@ -371,7 +371,7 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
         <div className="text-center align-middle justify-center">Audio</div>
       ),
       enableSorting: false,
-      cell: ({ row }) => {
+      cell: function ProjectManagerAudioCell({ row }) {
         const waveformRef = useRef<HTMLDivElement>(null);
         const wavesurferRef = useRef<WaveSurfer | null>(null);
         const [isPlaying, setIsPlaying] = useState(false);

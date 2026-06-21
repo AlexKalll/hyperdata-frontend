@@ -165,46 +165,15 @@ interface CreateTaskFormData {
   locations?: { name: string }[];
 }
 
-const fetchUsers = async ({
-  projectId,
-  page,
-  pageSize,
-  searchQuery,
-}: {
-  projectId: string;
-  page: number;
-  pageSize: number;
-  searchQuery?: string;
-}) => {
-  const { data: session } = useSession();
-  if (!session || !session.access_token) {
-    throw new Error("No session or access token found");
-  }
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/project-mgmt/project/${projectId}/members?page=${page}&pageSize=${pageSize}${
-      searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ""
-    }`,
-    {
-      headers: {
-        Authorization: `Bearer ${session.access_token}`,
-        "Content-Type": "application/json",
-      },
-    },
-  );
-  if (!response.ok) throw new Error("Failed to fetch users");
-  return response.json();
-};
-
-const fetchOrganizations = async () => {
-  const { data: session } = useSession();
-  if (!session || !session.access_token) {
+const fetchOrganizations = async (accessToken?: string) => {
+  if (!accessToken) {
     throw new Error("No session or access token found");
   }
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting/organization/all`,
     {
       headers: {
-        Authorization: `Bearer ${session.access_token}`,
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
     },
@@ -355,7 +324,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
   const { data: organizationsData, isLoading: isOrganizationsLoading } =
     useQuery({
       queryKey: ["organizations"],
-      queryFn: fetchOrganizations,
+      queryFn: () => fetchOrganizations(session?.access_token),
     });
   const addLinkMutation = GenerateInvitationLink();
   const handleFilterChange = (

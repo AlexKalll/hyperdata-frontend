@@ -105,7 +105,7 @@ export function RegionCRUD() {
     {
       accessorKey: "country",
       header: "Country",
-      cell: ({ row }) => {
+      cell: function RegionCountryCell({ row }) {
         const country = row.original?.country.name;
         return (
           <span className={`px-2 py-1 rounded text-sm font-medium  `}>
@@ -117,7 +117,7 @@ export function RegionCRUD() {
     {
       accessorKey: "",
       header: "Action",
-      cell: ({ row }) => {
+      cell: function RegionActionCell({ row }) {
         const [isOpen, setIsOpen] = useState(false);
         const [isOpenDeletor, setIsOpenDeletor] = useState(false);
 

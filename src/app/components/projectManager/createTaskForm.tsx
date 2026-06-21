@@ -8,7 +8,6 @@ import axios from "axios";
 import {
   useBasedataall,
   useBasedataTaskType,
-  useBasedatadialectLanguage,
 } from "@/lib/hooks/useBasedata";
 
 interface CreateTaskFormProps {
@@ -146,18 +145,6 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
       },
       enabled: !!session?.access_token && !!formData.language_id, // Only fetch when country_id is set
     });
-  const loadDialectOptions = () => {
-    const { data: dialectData, isLoading: isDialectLoading } =
-      useBasedatadialectLanguage({
-        language_id: formData.language_id || "none", // Use a fallback to ensure queryKey stability
-      });
-    const dialectOptions =
-      dialectData?.data?.map((dialect: Basedata) => ({
-        id: dialect.id,
-        name: dialect.name,
-      })) || [];
-  };
-
   const sectorOptions =
     sectorData?.data?.map((sector: Basedata) => ({
       id: sector.id,

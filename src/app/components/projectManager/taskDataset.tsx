@@ -248,7 +248,7 @@ const TaskDataset: React.FC<TaskDatasetProps> = ({ taskId }) => {
       accessorKey: "micro_task",
       header: "Micro Task",
       enableSorting: false,
-      cell: ({ row }) => {
+      cell: function TaskDatasetMicroTaskCell({ row }) {
         const waveformRef = useRef<HTMLDivElement>(null);
         const wavesurferRef = useRef<WaveSurfer | null>(null);
         const [isPlaying, setIsPlaying] = useState(false);
@@ -369,7 +369,7 @@ const TaskDataset: React.FC<TaskDatasetProps> = ({ taskId }) => {
       accessorKey: "actions",
       header: "Data",
       enableSorting: false,
-      cell: ({ row }) => {
+      cell: function TaskDatasetDataCell({ row }) {
         const waveformRef = useRef<HTMLDivElement>(null);
         const wavesurferRef = useRef<WaveSurfer | null>(null);
         const [isPlaying, setIsPlaying] = useState(false);
@@ -498,7 +498,7 @@ const TaskDataset: React.FC<TaskDatasetProps> = ({ taskId }) => {
       accessorKey: "",
       header: "Action",
       enableSorting: false,
-      cell: ({ row }) => {
+      cell: function TaskDatasetActionCell({ row }) {
         const rejectionReasons = row.original.rejectionReasons || [];
         const flagReasons = row.original.flagReason || [];
 

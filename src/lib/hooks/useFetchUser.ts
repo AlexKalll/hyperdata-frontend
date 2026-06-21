@@ -137,7 +137,7 @@ export function useAuthToken() {
     retry: 2,
   });
 }
-export function userProfilesall({
+function useUserProfilesAll({
   page,
   pageSize,
   searchQuery,
@@ -193,7 +193,7 @@ export function userProfilesall({
   });
 }
 
-export function userProfiles({
+function useUserProfiles({
   page,
   pageSize,
   searchQuery,
@@ -249,7 +249,7 @@ export function userProfiles({
     },
   });
 }
-export function userProfilesFilter({
+function useUserProfilesFilter({
   page,
   pageSize,
   searchQuery,
@@ -312,7 +312,7 @@ export function userProfilesFilter({
     },
   });
 }
-export function userRoleProfiles({
+function useUserRoleProfiles({
   page,
   pageSize,
   searchQuery,
@@ -380,7 +380,7 @@ export function userRoleProfiles({
     },
   });
 }
-export function userRoleProfilesFilter({
+function useUserRoleProfilesFilter({
   page,
   pageSize,
   searchQuery,
@@ -450,7 +450,7 @@ export function userRoleProfilesFilter({
     },
   });
 }
-export function userRoleProfilesFilterUnassigned({
+function useUserRoleProfilesFilterUnassigned({
   page,
   pageSize,
   searchQuery,
@@ -803,7 +803,7 @@ export const useMeUser = () => {
     },
   });
 };
-export const usedeactivateUser = () => {
+const useDeactivateUser = () => {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
   return useMutation({
@@ -875,7 +875,7 @@ export const useMeData = (accessToken: string) => {
 }
 
 
-export function userLogProfiles({
+function useUserLogProfiles({
   page,
   pageSize,
   searchQuery,
@@ -933,7 +933,7 @@ export function userLogProfiles({
     },
   });
 }
-export function userFacilltatorContributors({
+function useUserFacilltatorContributors({
   page,
   taskID,
   pageSize,
@@ -992,7 +992,7 @@ export function userFacilltatorContributors({
     },
   });
 }
-export function userFacilltatorContributorsFiltered({
+function useUserFacilltatorContributorsFiltered({
   page,
   taskID,
   pageSize,
@@ -1061,7 +1061,7 @@ export function userFacilltatorContributorsFiltered({
     },
   });
 }
-export function showFacilltatorContributorsFiltered({
+function useShowFacilltatorContributorsFiltered({
   page,
   user_id,
   taskID,
@@ -1131,7 +1131,7 @@ export function showFacilltatorContributorsFiltered({
     },
   });
 }
-export function userFacilltatorContributorSubmissions({
+function useUserFacilltatorContributorSubmissions({
   page,
   taskID,
   pageSize,
@@ -1216,4 +1216,19 @@ export const RemoveFacilitatorContributor = () => {
       console.error("Remove contributor error:", error);
     },
   });
+};
+
+export {
+  useShowFacilltatorContributorsFiltered as showFacilltatorContributorsFiltered,
+  useDeactivateUser as usedeactivateUser,
+  useUserFacilltatorContributorSubmissions as userFacilltatorContributorSubmissions,
+  useUserFacilltatorContributors as userFacilltatorContributors,
+  useUserFacilltatorContributorsFiltered as userFacilltatorContributorsFiltered,
+  useUserLogProfiles as userLogProfiles,
+  useUserProfiles as userProfiles,
+  useUserProfilesAll as userProfilesall,
+  useUserProfilesFilter as userProfilesFilter,
+  useUserRoleProfiles as userRoleProfiles,
+  useUserRoleProfilesFilter as userRoleProfilesFilter,
+  useUserRoleProfilesFilterUnassigned as userRoleProfilesFilterUnassigned,
 };

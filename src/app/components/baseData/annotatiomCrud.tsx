@@ -107,7 +107,7 @@ export function AnnotationCRUD() {
     {
       accessorKey: "annotation_type",
       header: "Annotation Type",
-      cell: ({ row }) => {
+      cell: function AnnotationTypeNameCell({ row }) {
         const annotationType = row.original?.annotation_type?.name;
         return (
           <span className={`px-2 py-1 rounded text-sm font-medium  `}>
@@ -119,7 +119,7 @@ export function AnnotationCRUD() {
     {
       accessorKey: "",
       header: "Action",
-      cell: ({ row }) => {
+      cell: function AnnotationActionCell({ row }) {
         const [isOpen, setIsOpen] = useState(false);
         const [isOpenDeletor, setIsOpenDeletor] = useState(false);
 

@@ -256,7 +256,7 @@ const TaskDataset: React.FC<TaskDatasetProps> = ({
       header: "Micro Task",
       enableSorting: false,
       size: 250,
-      cell: ({ row }) => {
+      cell: function FacilitatorMicroTaskCell({ row }) {
         const waveformRef = useRef<HTMLDivElement>(null);
         const wavesurferRef = useRef<WaveSurfer | null>(null);
         const [isPlaying, setIsPlaying] = useState(false);
@@ -384,7 +384,7 @@ const TaskDataset: React.FC<TaskDatasetProps> = ({
       accessorKey: "actions",
       header: "Data",
       size: 250,
-      cell: ({ row }) => {
+      cell: function FacilitatorDataCell({ row }) {
         const waveformRef = useRef<HTMLDivElement>(null);
         const wavesurferRef = useRef<WaveSurfer | null>(null);
         const [isPlaying, setIsPlaying] = useState(false);
@@ -513,7 +513,7 @@ const TaskDataset: React.FC<TaskDatasetProps> = ({
       header: "Submission",
       enableSorting: true,
       size: 100,
-      cell: ({ row }) => {
+      cell: function FacilitatorSubmissionCell({ row }) {
           const rejectionReasons = row.original.rejectionReasons || [];
         const flagReasons = row.original.flagReason || [];
         return (

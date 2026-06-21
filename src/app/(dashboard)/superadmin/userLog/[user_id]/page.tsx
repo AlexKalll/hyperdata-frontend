@@ -44,7 +44,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialogLeft";
-const userLogPage: React.FC = () => {
+const UserLogPage: React.FC = () => {
   const router = useRouter();
   const { user_id } = useParams();
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -293,4 +293,4 @@ const userLogPage: React.FC = () => {
   );
 };
 
-export default userLogPage;
+export default UserLogPage;
