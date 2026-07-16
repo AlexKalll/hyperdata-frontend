@@ -82,9 +82,9 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className="mb-10 flex items-center justify-between">
         {isOpen && (
           <Image
-            src="/logo/leyu.png"
-            alt="Logo"
-            width={120}
+            src="/logo/app-logo.svg"
+            alt="Data platform logo"
+            width={132}
             height={40}
             className="mb-6"
             priority // Add priority for faster loading
