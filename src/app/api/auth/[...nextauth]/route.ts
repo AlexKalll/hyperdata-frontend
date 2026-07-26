@@ -168,7 +168,7 @@ const authOptions: NextAuthOptions = {
         httpOnly: true,
         sameSite: "lax",
         path: "/",
-        secure: false, // Disable secure for development
+        secure: process.env.NODE_ENV === "production", // Secure cookies in production
         domain: undefined, // Let browser handle domain
       },
     },

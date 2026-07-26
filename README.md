@@ -1,5 +1,5 @@
 
-# LeYu Frontend
+# Hyperdata Frontend
 
 > A comprehensive project management and data annotation platform with role-based access control
 
@@ -31,9 +31,9 @@
 
 ## About
 
-LeYu Frontend is a comprehensive project management and data annotation platform built with Next.js 15 and React 19. The system provides a complete workflow solution for managing complex projects that require structured data collection, annotation, and review processes. With its role-based access control architecture, LeYu Frontend enables organizations to efficiently coordinate teams across different stages of project execution, from initial setup through final review and approval.
+Hyperdata Frontend is a comprehensive project management and data annotation platform built with Next.js 15 and React 19. The system provides a complete workflow solution for managing complex projects that require structured data collection, annotation, and review processes. With its role-based access control architecture, Hyperdata Frontend enables organizations to efficiently coordinate teams across different stages of project execution, from initial setup through final review and approval.
 
-The platform is designed to handle large-scale data annotation projects, research initiatives, and collaborative workflows where multiple stakeholders need controlled access to different aspects of the project lifecycle. Built with modern web technologies and a focus on user experience, LeYu Frontend delivers a responsive, intuitive interface that scales from small teams to enterprise-level deployments.
+The platform is designed to handle large-scale data annotation projects, research initiatives, and collaborative workflows where multiple stakeholders need controlled access to different aspects of the project lifecycle. Built with modern web technologies and a focus on user experience, Hyperdata Frontend delivers a responsive, intuitive interface that scales from small teams to enterprise-level deployments.
 
 ### Key Features
 
@@ -50,7 +50,7 @@ The platform is designed to handle large-scale data annotation projects, researc
 
 ### Screenshots
 
-Get a visual overview of the LeYu Frontend platform's key features and interfaces:
+Get a visual overview of the Hyperdata Frontend platform's key features and interfaces:
 
 #### Project Management
 ![Project List](docs/images/project-list.png)
@@ -106,7 +106,7 @@ The platform supports four distinct user roles, each with specific capabilities 
 
 ## Tech Stack
 
-LeYu Frontend is built with modern web technologies, carefully selected for performance, developer experience, and maintainability. The stack emphasizes type safety, component reusability, and scalable architecture patterns.
+Hyperdata Frontend is built with modern web technologies, carefully selected for performance, developer experience, and maintainability. The stack emphasizes type safety, component reusability, and scalable architecture patterns.
 
 ### Core Framework
 - **[Next.js 15](https://nextjs.org/)** - React framework with App Router, server-side rendering, and full-stack capabilities
@@ -166,7 +166,7 @@ LeYu Frontend is built with modern web technologies, carefully selected for perf
 
 ## Getting Started
 
-Follow these instructions to get the LeYu Frontend project running on your local machine for development and testing purposes.
+Follow these instructions to get the Hyperdata Frontend project running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -200,7 +200,7 @@ Follow these step-by-step instructions to set up the project locally:
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd leyu-frontend
+   cd hyperdata-frontend
    ```
 
 2. **Install dependencies**
@@ -302,7 +302,7 @@ The project uses two different environment files for different deployment scenar
 
 ## Development
 
-This section covers the essential development workflow commands and processes for working with the LeYu Frontend project. These commands will help you run the application locally, build for production, and maintain code quality.
+This section covers the essential development workflow commands and processes for working with the Hyperdata Frontend project. These commands will help you run the application locally, build for production, and maintain code quality.
 
 ### Running Development Server
 
@@ -441,12 +441,12 @@ pnpm lint --fix
 
 ## Project Structure
 
-The LeYu Frontend project follows a well-organized directory structure that leverages Next.js 15's App Router architecture with route groups for clean separation of concerns. This structure promotes maintainability, scalability, and clear separation between different application areas.
+The Hyperdata Frontend project follows a well-organized directory structure that leverages Next.js 15's App Router architecture with route groups for clean separation of concerns. This structure promotes maintainability, scalability, and clear separation between different application areas.
 
 ### Directory Overview
 
 ```
-leyu-frontend/
+hyperdata-frontend/
 ├── .kiro/                          # Kiro IDE configuration and specs
 │   └── specs/                      # Feature specifications and documentation
 ├── public/                         # Static assets served directly by the web server
@@ -535,7 +535,7 @@ leyu-frontend/
 ├── .env.production                 # Production environment variables
 ├── .gitignore                      # Git ignore patterns
 ├── components.json                 # shadcn/ui component configuration
-├── docker-compose.front.yaml       # Docker Compose configuration
+├── docker-compose.yml              # Docker Compose configuration
 ├── Dockerfile                      # Docker container configuration
 ├── eslint.config.mjs               # ESLint configuration
 ├── middleware.ts                   # Additional middleware configuration
@@ -685,7 +685,7 @@ This structure provides a solid foundation for scalable development while mainta
 
 ## Deployment
 
-This section covers various deployment options for the LeYu Frontend application, from Docker-based deployments to traditional production builds. Choose the deployment method that best fits your infrastructure and requirements.
+This section covers various deployment options for the Hyperdata Frontend application, from Docker-based deployments to traditional production builds. Choose the deployment method that best fits your infrastructure and requirements.
 
 ### Quick Docker Setup
 
@@ -694,7 +694,7 @@ For a clean Docker build experience, follow these steps:
 ```bash
 # 1. Clone the repository
 git clone <repository-url>
-cd leyu-frontend
+cd hyperdata-frontend
 
 # 2. Ensure no node_modules directory exists (clean state)
 rm -rf node_modules
@@ -703,15 +703,15 @@ rm -rf node_modules
 cp .env.example .env
 
 # 4. Build the Docker image
-docker build -t leyu-frontend:latest .
+docker build -t hyperdata-frontend:latest .
 
 # 5. Run the container
-docker run -d --name leyu-frontend-app -p 3000:3000 \
+docker run -d --name hyperdata-frontend-app -p 3000:3000 \
   -e NEXT_PUBLIC_API_BASE_URL=http://localhost:3003/api \
   -e NEXT_PUBLIC_BASE_URL=http://localhost:3000 \
   -e NEXTAUTH_SECRET=your-strong-secret-here \
   -e NEXTAUTH_URL=http://localhost:3000 \
-  leyu-frontend:latest
+  hyperdata-frontend:latest
 
 # 6. Check if it's running
 docker ps
@@ -728,10 +728,10 @@ To build a Docker image for the application:
 
 ```bash
 # Build the Docker image with a specific tag
-docker build -t leyu-frontend:latest .
+docker build -t hyperdata-frontend:latest .
 
 # Build with a custom tag for versioning
-docker build -t leyu-frontend:v1.0.0 .
+docker build -t hyperdata-frontend:v1.0.0 .
 ```
 
 **Build Process:**
@@ -748,7 +748,7 @@ To run the containerized application:
 
 ```bash
 # Run with default settings
-docker run -p 3000:3000 leyu-frontend:latest
+docker run -p 3000:3000 hyperdata-frontend:latest
 
 # Run with custom environment variables
 docker run -p 3000:3000 \
@@ -756,10 +756,10 @@ docker run -p 3000:3000 \
   -e NEXT_PUBLIC_BASE_URL=https://yourdomain.com \
   -e NEXTAUTH_SECRET=your-production-secret \
   -e NEXTAUTH_URL=https://yourdomain.com \
-  leyu-frontend:latest
+  hyperdata-frontend:latest
 
 # Run in detached mode with a custom name
-docker run -d --name leyu-frontend-app -p 3000:3000 leyu-frontend:latest
+docker run -d --name hyperdata-frontend-app -p 3000:3000 hyperdata-frontend:latest
 ```
 
 **Container Configuration:**
@@ -775,16 +775,16 @@ docker run -d --name leyu-frontend-app -p 3000:3000 leyu-frontend:latest
 docker images
 
 # Remove old images
-docker rmi leyu-frontend:old-version
+docker rmi hyperdata-frontend:old-version
 
 # View running containers
 docker ps
 
 # Stop a running container
-docker stop leyu-frontend-app
+docker stop hyperdata-frontend-app
 
 # Remove a stopped container
-docker rm leyu-frontend-app
+docker rm hyperdata-frontend-app
 ```
 
 #### Common Docker Issues and Solutions
@@ -801,13 +801,13 @@ failed to solve: invalid file request node_modules/-
 1. **Ensure .dockerignore exists**: Check that `.dockerignore` is in the same directory as your `Dockerfile`
 2. **Clean node_modules**: Remove the `node_modules` directory before building:
    ```bash
-   rm -rf leyu-frontend/node_modules
-   docker build -t leyu-frontend:latest leyu-frontend/
+   rm -rf hyperdata-frontend/node_modules
+   docker build -t hyperdata-frontend:latest hyperdata-frontend/
    ```
 3. **Check for hidden files**: Ensure no hidden files are causing issues:
    ```bash
    # List all files including hidden ones
-   ls -la leyu-frontend/
+   ls -la hyperdata-frontend/
    ```
 4. **Build from clean state**: Clone a fresh copy of the repository if the issue persists
 
@@ -833,16 +833,16 @@ For more complex deployments or when you need to coordinate multiple services, u
 
 ```bash
 # Start the application using Docker Compose
-docker-compose up
+docker compose up
 
 # Start in detached mode (background)
-docker-compose up -d
+docker compose up -d
 
 # Stop the application
-docker-compose down
+docker compose down
 
 # Rebuild and start (useful after code changes)
-docker-compose up --build
+docker compose up --build
 ```
 
 #### Docker Compose Configuration
@@ -850,39 +850,60 @@ docker-compose up --build
 The `docker-compose.yml` file includes:
 
 ```yaml
-version: "3.8"
 services:
-  leyu-frontend:
-    image: ${DOCKER_IMAGE_NAME:-leyu-frontend}:${DOCKER_IMAGE_TAG:-latest}
+  hyperdata-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${DOCKER_IMAGE_NAME:-hyperdata-frontend}:${DOCKER_IMAGE_TAG:-latest}
+    container_name: ${CONTAINER_NAME:-hyperdata-frontend-app}
+    ports:
+      - "${HOST_PORT:-3000}:3000"
     environment:
       - NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3003/api}
       - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL:-http://localhost:3000}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-your-strong-secret-here}
       - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
-    ports:
-      - ${HOST_PORT:-3000}:3000
+      - NODE_ENV=${NODE_ENV:-production}
+    restart: unless-stopped
+    networks:
+      - hyperdata-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  hyperdata-network:
+    driver: bridge
 ```
 
 **Environment Variables for Docker Compose:**
-- `DOCKER_IMAGE_NAME`: Docker image name (e.g., `leyu-frontend`)
+- `DOCKER_IMAGE_NAME`: Docker image name (e.g., `hyperdata-frontend`)
 - `DOCKER_IMAGE_TAG`: Docker image tag (e.g., `latest`, `v1.0.0`)
+- `CONTAINER_NAME`: Docker container name (e.g., `hyperdata-frontend-app`)
 - `HOST_PORT`: Host port to map to container port 3000
 - `NEXT_PUBLIC_API_BASE_URL`: Backend API URL
 - `NEXT_PUBLIC_BASE_URL`: Frontend application URL
 - `NEXTAUTH_SECRET`: Authentication secret key
 - `NEXTAUTH_URL`: Authentication callback URL
+- `NODE_ENV`: Node runtime environment for the container
 
 **Setting Environment Variables:**
-Create a `.env` file in the same directory as the Docker Compose file:
+Create a `.env` file in the same directory as the Docker Compose file, or copy `.env.docker` to `.env`:
 
 ```env
-DOCKER_IMAGE_NAME=leyu-frontend
+DOCKER_IMAGE_NAME=hyperdata-frontend
 DOCKER_IMAGE_TAG=latest
+CONTAINER_NAME=hyperdata-frontend-app
 HOST_PORT=3000
 NEXT_PUBLIC_API_BASE_URL=http://localhost:3003/api
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 NEXTAUTH_SECRET=your-strong-secret-here
 NEXTAUTH_URL=http://localhost:3000
+NODE_ENV=production
 ```
 
 ### Production Build
@@ -985,8 +1006,8 @@ NEXTAUTH_URL=https://yourdomain.com
 **Docker-based Platforms (AWS ECS, Google Cloud Run, Azure Container Instances):**
 ```bash
 # Build and tag for registry
-docker build -t your-registry/leyu-frontend:v1.0.0 .
-docker push your-registry/leyu-frontend:v1.0.0
+docker build -t your-registry/hyperdata-frontend:v1.0.0 .
+docker push your-registry/hyperdata-frontend:v1.0.0
 
 # Deploy with platform-specific commands
 # Platform will handle environment variables and scaling
@@ -996,7 +1017,7 @@ docker push your-registry/leyu-frontend:v1.0.0
 ```bash
 # On your production server
 git clone <repository-url>
-cd leyu-frontend
+cd hyperdata-frontend
 pnpm install
 pnpm build
 
@@ -1004,7 +1025,7 @@ pnpm build
 cp .env.production .env
 
 # Start with process manager (PM2 example)
-pm2 start "pnpm start" --name leyu-frontend
+pm2 start "pnpm start" --name hyperdata-frontend
 ```
 
 **Serverless Platforms (Vercel, Netlify):**
@@ -1020,10 +1041,10 @@ pm2 start "pnpm start" --name leyu-frontend
 curl http://localhost:3000/api/health
 
 # Monitor application logs
-docker logs leyu-frontend-app
+docker logs hyperdata-frontend-app
 
 # Check resource usage
-docker stats leyu-frontend-app
+docker stats hyperdata-frontend-app
 ```
 
 **Updates and Maintenance:**
@@ -1082,7 +1103,7 @@ pnpm lint --fix            # Auto-fix linting issues where possible
 
 ### Security Considerations
 
-When deploying LeYu Frontend, please consider the following security best practices:
+When deploying Hyperdata Frontend, please consider the following security best practices:
 
 #### Environment Variables
 - Never commit `.env` files with real credentials to version control
@@ -1108,7 +1129,7 @@ If you discover a security vulnerability, please report it responsibly:
 
 ## Documentation
 
-For comprehensive information about using the LeYu Frontend system, refer to the following documentation resources:
+For comprehensive information about using the Hyperdata Frontend system, refer to the following documentation resources:
 
 ### User Manual
 The **[USER_MANUAL.md](USER_MANUAL.md)** file contains detailed guides for all user roles and system features:
@@ -1138,7 +1159,7 @@ If you find any gaps in the documentation or need clarification on specific feat
 
 ### Getting Help
 
-If you encounter issues or need assistance with the LeYu Frontend system, follow these steps to get the help you need:
+If you encounter issues or need assistance with the Hyperdata Frontend system, follow these steps to get the help you need:
 
 #### For End Users
 1. **Check the User Manual**: Start with the [USER_MANUAL.md](USER_MANUAL.md) for comprehensive guides and troubleshooting steps
@@ -1208,7 +1229,7 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ### Open Source
 
-LeYu Frontend is an open source project. We welcome contributions from the community! Please read our [Contributing Guidelines](CONTRIBUTING.md) to get started.
+Hyperdata Frontend is an open source project. We welcome contributions from the community! Please read our [Contributing Guidelines](CONTRIBUTING.md) to get started.
 
 
 #### Community
