@@ -278,7 +278,7 @@ const LinkFormPage: React.FC = () => {
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center p-8 text-white">
             <h1 className="text-2xl md:text-3xl font-bold mb-4">
-              Welcome to Leyu
+              Welcome to the data platform
             </h1>
             <p className="text-lg">Create your account</p>
           </div>
@@ -287,7 +287,7 @@ const LinkFormPage: React.FC = () => {
       <div className="flex-1 flex items-center justify-center bg-gray-100 p-8">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <Image src="/logo/leyu.png" width={206} height={62} alt="Leyu Logo" />
+            <Image src="/logo/app-logo.svg" width={206} height={62} alt="Data platform logo" />
             <h2 className="text-2xl font-bold mt-4">Create Your Account</h2>
             <p className="text-sm text-gray-600">Step {step} of 2</p>
           </div>

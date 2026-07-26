@@ -1,12 +1,10 @@
-version: "3.8"
-
 services:
-  leyu-frontend:
+  hyperdata-frontend:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ${DOCKER_IMAGE_NAME:-leyu-frontend}:${DOCKER_IMAGE_TAG:-latest}
-    container_name: ${CONTAINER_NAME:-leyu-frontend-app}
+    image: ${DOCKER_IMAGE_NAME:-hyperdata-frontend}:${DOCKER_IMAGE_TAG:-latest}
+    container_name: ${CONTAINER_NAME:-hyperdata-frontend-app}
     ports:
       - "${HOST_PORT:-3000}:3000"
     environment:
@@ -22,19 +20,19 @@ services:
       - NODE_ENV=${NODE_ENV:-production}
     restart: unless-stopped
     networks:
-      - leyu-network
+      - hyperdata-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
 
 networks:
-  leyu-network:
+  hyperdata-network:
     driver: bridge
 
 # To use this docker-compose file:
-# 1. Copy .env.example to .env and configure your environment variables
-# 2. Run: docker-compose up -d
+# 1. Copy .env.docker to .env and configure your environment variables
+# 2. Run: docker compose up -d
 # 3. Access the application at http://localhost:3000 (or your configured HOST_PORT)
