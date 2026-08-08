@@ -1,5 +1,5 @@
 
-# Hyperdata Frontend
+# Mahder Frontend
 
 > A comprehensive project management and data annotation platform with role-based access control
 
@@ -31,9 +31,9 @@
 
 ## About
 
-Hyperdata Frontend is a comprehensive project management and data annotation platform built with Next.js 15 and React 19. The system provides a complete workflow solution for managing complex projects that require structured data collection, annotation, and review processes. With its role-based access control architecture, Hyperdata Frontend enables organizations to efficiently coordinate teams across different stages of project execution, from initial setup through final review and approval.
+Mahder Frontend is a comprehensive project management and data annotation platform built with Next.js 15 and React 19. The system provides a complete workflow solution for managing complex projects that require structured data collection, annotation, and review processes. With its role-based access control architecture, Mahder Frontend enables organizations to efficiently coordinate teams across different stages of project execution, from initial setup through final review and approval.
 
-The platform is designed to handle large-scale data annotation projects, research initiatives, and collaborative workflows where multiple stakeholders need controlled access to different aspects of the project lifecycle. Built with modern web technologies and a focus on user experience, Hyperdata Frontend delivers a responsive, intuitive interface that scales from small teams to enterprise-level deployments.
+The platform is designed to handle large-scale data annotation projects, research initiatives, and collaborative workflows where multiple stakeholders need controlled access to different aspects of the project lifecycle. Built with modern web technologies and a focus on user experience, Mahder Frontend delivers a responsive, intuitive interface that scales from small teams to enterprise-level deployments.
 
 ### Key Features
 
@@ -50,7 +50,7 @@ The platform is designed to handle large-scale data annotation projects, researc
 
 ### Screenshots
 
-Get a visual overview of the Hyperdata Frontend platform's key features and interfaces:
+Get a visual overview of the Mahder Frontend platform's key features and interfaces:
 
 #### Project Management
 ![Project List](docs/images/project-list.png)
@@ -106,7 +106,7 @@ The platform supports four distinct user roles, each with specific capabilities 
 
 ## Tech Stack
 
-Hyperdata Frontend is built with modern web technologies, carefully selected for performance, developer experience, and maintainability. The stack emphasizes type safety, component reusability, and scalable architecture patterns.
+Mahder Frontend is built with modern web technologies, carefully selected for performance, developer experience, and maintainability. The stack emphasizes type safety, component reusability, and scalable architecture patterns.
 
 ### Core Framework
 - **[Next.js 15](https://nextjs.org/)** - React framework with App Router, server-side rendering, and full-stack capabilities
@@ -166,7 +166,7 @@ Hyperdata Frontend is built with modern web technologies, carefully selected for
 
 ## Getting Started
 
-Follow these instructions to get the Hyperdata Frontend project running on your local machine for development and testing purposes.
+Follow these instructions to get the Mahder Frontend project running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -200,7 +200,7 @@ Follow these step-by-step instructions to set up the project locally:
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd hyperdata-frontend
+   cd mahder-frontend
    ```
 
 2. **Install dependencies**
@@ -302,7 +302,7 @@ The project uses two different environment files for different deployment scenar
 
 ## Development
 
-This section covers the essential development workflow commands and processes for working with the Hyperdata Frontend project. These commands will help you run the application locally, build for production, and maintain code quality.
+This section covers the essential development workflow commands and processes for working with the Mahder Frontend project. These commands will help you run the application locally, build for production, and maintain code quality.
 
 ### Running Development Server
 
@@ -441,12 +441,12 @@ pnpm lint --fix
 
 ## Project Structure
 
-The Hyperdata Frontend project follows a well-organized directory structure that leverages Next.js 15's App Router architecture with route groups for clean separation of concerns. This structure promotes maintainability, scalability, and clear separation between different application areas.
+The Mahder Frontend project follows a well-organized directory structure that leverages Next.js 15's App Router architecture with route groups for clean separation of concerns. This structure promotes maintainability, scalability, and clear separation between different application areas.
 
 ### Directory Overview
 
 ```
-hyperdata-frontend/
+mahder-frontend/
 ├── .kiro/                          # Kiro IDE configuration and specs
 │   └── specs/                      # Feature specifications and documentation
 ├── public/                         # Static assets served directly by the web server
@@ -685,7 +685,7 @@ This structure provides a solid foundation for scalable development while mainta
 
 ## Deployment
 
-This section covers various deployment options for the Hyperdata Frontend application, from Docker-based deployments to traditional production builds. Choose the deployment method that best fits your infrastructure and requirements.
+This section covers various deployment options for the Mahder Frontend application, from Docker-based deployments to traditional production builds. Choose the deployment method that best fits your infrastructure and requirements.
 
 ### Quick Docker Setup
 
@@ -694,7 +694,7 @@ For a clean Docker build experience, follow these steps:
 ```bash
 # 1. Clone the repository
 git clone <repository-url>
-cd hyperdata-frontend
+cd mahder-frontend
 
 # 2. Ensure no node_modules directory exists (clean state)
 rm -rf node_modules
@@ -703,15 +703,15 @@ rm -rf node_modules
 cp .env.example .env
 
 # 4. Build the Docker image
-docker build -t hyperdata-frontend:latest .
+docker build -t mahder-frontend:latest .
 
 # 5. Run the container
-docker run -d --name hyperdata-frontend-app -p 3000:3000 \
+docker run -d --name mahder-frontend-app -p 3000:3000 \
   -e NEXT_PUBLIC_API_BASE_URL=http://localhost:3003/api \
   -e NEXT_PUBLIC_BASE_URL=http://localhost:3000 \
   -e NEXTAUTH_SECRET=your-strong-secret-here \
   -e NEXTAUTH_URL=http://localhost:3000 \
-  hyperdata-frontend:latest
+  mahder-frontend:latest
 
 # 6. Check if it's running
 docker ps
@@ -728,10 +728,10 @@ To build a Docker image for the application:
 
 ```bash
 # Build the Docker image with a specific tag
-docker build -t hyperdata-frontend:latest .
+docker build -t mahder-frontend:latest .
 
 # Build with a custom tag for versioning
-docker build -t hyperdata-frontend:v1.0.0 .
+docker build -t mahder-frontend:v1.0.0 .
 ```
 
 **Build Process:**
@@ -748,7 +748,7 @@ To run the containerized application:
 
 ```bash
 # Run with default settings
-docker run -p 3000:3000 hyperdata-frontend:latest
+docker run -p 3000:3000 mahder-frontend:latest
 
 # Run with custom environment variables
 docker run -p 3000:3000 \
@@ -756,10 +756,10 @@ docker run -p 3000:3000 \
   -e NEXT_PUBLIC_BASE_URL=https://yourdomain.com \
   -e NEXTAUTH_SECRET=your-production-secret \
   -e NEXTAUTH_URL=https://yourdomain.com \
-  hyperdata-frontend:latest
+  mahder-frontend:latest
 
 # Run in detached mode with a custom name
-docker run -d --name hyperdata-frontend-app -p 3000:3000 hyperdata-frontend:latest
+docker run -d --name mahder-frontend-app -p 3000:3000 Mahder-frontend:latest
 ```
 
 **Container Configuration:**
@@ -775,16 +775,16 @@ docker run -d --name hyperdata-frontend-app -p 3000:3000 hyperdata-frontend:late
 docker images
 
 # Remove old images
-docker rmi hyperdata-frontend:old-version
+docker rmi mahder-frontend:old-version
 
 # View running containers
 docker ps
 
 # Stop a running container
-docker stop hyperdata-frontend-app
+docker stop mahder-frontend-app
 
 # Remove a stopped container
-docker rm hyperdata-frontend-app
+docker rm mahder-frontend-app
 ```
 
 #### Common Docker Issues and Solutions
@@ -801,13 +801,13 @@ failed to solve: invalid file request node_modules/-
 1. **Ensure .dockerignore exists**: Check that `.dockerignore` is in the same directory as your `Dockerfile`
 2. **Clean node_modules**: Remove the `node_modules` directory before building:
    ```bash
-   rm -rf hyperdata-frontend/node_modules
-   docker build -t hyperdata-frontend:latest hyperdata-frontend/
+   rm -rf mahder-frontend/node_modules
+   docker build -t mahder-frontend:latest mahder-frontend/
    ```
 3. **Check for hidden files**: Ensure no hidden files are causing issues:
    ```bash
    # List all files including hidden ones
-   ls -la hyperdata-frontend/
+   ls -la mahder-frontend/
    ```
 4. **Build from clean state**: Clone a fresh copy of the repository if the issue persists
 
@@ -851,12 +851,12 @@ The `docker-compose.yml` file includes:
 
 ```yaml
 services:
-  hyperdata-frontend:
+  mahder-frontend:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ${DOCKER_IMAGE_NAME:-hyperdata-frontend}:${DOCKER_IMAGE_TAG:-latest}
-    container_name: ${CONTAINER_NAME:-hyperdata-frontend-app}
+    image: ${DOCKER_IMAGE_NAME:-mahder-frontend}:${DOCKER_IMAGE_TAG:-latest}
+    container_name: ${CONTAINER_NAME:-mahder-frontend-app}
     ports:
       - "${HOST_PORT:-3000}:3000"
     environment:
@@ -867,7 +867,7 @@ services:
       - NODE_ENV=${NODE_ENV:-production}
     restart: unless-stopped
     networks:
-      - hyperdata-network
+      - mahder-network
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
       interval: 30s
@@ -876,14 +876,14 @@ services:
       start_period: 40s
 
 networks:
-  hyperdata-network:
+  mahder-network:
     driver: bridge
 ```
 
 **Environment Variables for Docker Compose:**
-- `DOCKER_IMAGE_NAME`: Docker image name (e.g., `hyperdata-frontend`)
+- `DOCKER_IMAGE_NAME`: Docker image name (e.g., `mahder-frontend`)
 - `DOCKER_IMAGE_TAG`: Docker image tag (e.g., `latest`, `v1.0.0`)
-- `CONTAINER_NAME`: Docker container name (e.g., `hyperdata-frontend-app`)
+- `CONTAINER_NAME`: Docker container name (e.g., `mahder-frontend-app`)
 - `HOST_PORT`: Host port to map to container port 3000
 - `NEXT_PUBLIC_API_BASE_URL`: Backend API URL
 - `NEXT_PUBLIC_BASE_URL`: Frontend application URL
@@ -895,9 +895,9 @@ networks:
 Create a `.env` file in the same directory as the Docker Compose file, or copy `.env.docker` to `.env`:
 
 ```env
-DOCKER_IMAGE_NAME=hyperdata-frontend
+DOCKER_IMAGE_NAME=mahder-frontend
 DOCKER_IMAGE_TAG=latest
-CONTAINER_NAME=hyperdata-frontend-app
+CONTAINER_NAME=mahder-frontend-app
 HOST_PORT=3000
 NEXT_PUBLIC_API_BASE_URL=http://localhost:3003/api
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
@@ -1006,8 +1006,8 @@ NEXTAUTH_URL=https://yourdomain.com
 **Docker-based Platforms (AWS ECS, Google Cloud Run, Azure Container Instances):**
 ```bash
 # Build and tag for registry
-docker build -t your-registry/hyperdata-frontend:v1.0.0 .
-docker push your-registry/hyperdata-frontend:v1.0.0
+docker build -t your-registry/mahder-frontend:v1.0.0 .
+docker push your-registry/mahder-frontend:v1.0.0
 
 # Deploy with platform-specific commands
 # Platform will handle environment variables and scaling
@@ -1017,7 +1017,7 @@ docker push your-registry/hyperdata-frontend:v1.0.0
 ```bash
 # On your production server
 git clone <repository-url>
-cd hyperdata-frontend
+cd mahder-frontend
 pnpm install
 pnpm build
 
@@ -1025,7 +1025,7 @@ pnpm build
 cp .env.production .env
 
 # Start with process manager (PM2 example)
-pm2 start "pnpm start" --name hyperdata-frontend
+pm2 start "pnpm start" --name mahder-frontend
 ```
 
 **Serverless Platforms (Vercel, Netlify):**
@@ -1041,10 +1041,10 @@ pm2 start "pnpm start" --name hyperdata-frontend
 curl http://localhost:3000/api/health
 
 # Monitor application logs
-docker logs hyperdata-frontend-app
+docker logs mahder-frontend-app
 
 # Check resource usage
-docker stats hyperdata-frontend-app
+docker stats mahder-frontend-app
 ```
 
 **Updates and Maintenance:**
@@ -1103,7 +1103,7 @@ pnpm lint --fix            # Auto-fix linting issues where possible
 
 ### Security Considerations
 
-When deploying Hyperdata Frontend, please consider the following security best practices:
+When deploying Mahder Frontend, please consider the following security best practices:
 
 #### Environment Variables
 - Never commit `.env` files with real credentials to version control
@@ -1129,7 +1129,7 @@ If you discover a security vulnerability, please report it responsibly:
 
 ## Documentation
 
-For comprehensive information about using the Hyperdata Frontend system, refer to the following documentation resources:
+For comprehensive information about using the Mahder Frontend system, refer to the following documentation resources:
 
 ### User Manual
 The **[USER_MANUAL.md](USER_MANUAL.md)** file contains detailed guides for all user roles and system features:
@@ -1159,7 +1159,7 @@ If you find any gaps in the documentation or need clarification on specific feat
 
 ### Getting Help
 
-If you encounter issues or need assistance with the Hyperdata Frontend system, follow these steps to get the help you need:
+If you encounter issues or need assistance with the Mahder Frontend system, follow these steps to get the help you need:
 
 #### For End Users
 1. **Check the User Manual**: Start with the [USER_MANUAL.md](USER_MANUAL.md) for comprehensive guides and troubleshooting steps
@@ -1229,7 +1229,7 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ### Open Source
 
-Hyperdata Frontend is an open source project. We welcome contributions from the community! Please read our [Contributing Guidelines](CONTRIBUTING.md) to get started.
+Mahder Frontend is an open source project. We welcome contributions from the community! Please read our [Contributing Guidelines](CONTRIBUTING.md) to get started.
 
 
 #### Community
