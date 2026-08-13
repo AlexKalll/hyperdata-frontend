@@ -1,10 +1,10 @@
 services:
-  hyperdata-frontend:
+  mahder-frontend:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ${DOCKER_IMAGE_NAME:-hyperdata-frontend}:${DOCKER_IMAGE_TAG:-latest}
-    container_name: ${CONTAINER_NAME:-hyperdata-frontend-app}
+    image: ${DOCKER_IMAGE_NAME:-mahder-frontend}:${DOCKER_IMAGE_TAG:-latest}
+    container_name: ${CONTAINER_NAME:-mahder-frontend-app}
     ports:
       - "${HOST_PORT:-3000}:3000"
     environment:
@@ -20,7 +20,7 @@ services:
       - NODE_ENV=${NODE_ENV:-production}
     restart: unless-stopped
     networks:
-      - hyperdata-network
+      - mahder-network
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
       interval: 30s
@@ -29,7 +29,7 @@ services:
       start_period: 40s
 
 networks:
-  hyperdata-network:
+  mahder-network:
     driver: bridge
 
 # To use this docker-compose file:
