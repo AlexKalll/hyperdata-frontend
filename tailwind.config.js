@@ -6,7 +6,7 @@ module.exports = {
       colors: {
         primaryButton: "#095FAF",
         green: {
-          600: "#16a34a", // For the Leyu logo
+          600: "#16a34a",
         },
         myGreen: "#00AC26",
         blue: {
