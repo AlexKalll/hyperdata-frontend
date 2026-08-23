@@ -222,12 +222,12 @@ Follow these step-by-step instructions to set up the project locally:
    
    ```env
    # Base API URLs
-   NEXT_PUBLIC_API_BASE_URL=http://localhost:3003/api
-   NEXT_PUBLIC_BASE_URL=http://localhost:3000
+   NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
+   NEXT_PUBLIC_BASE_URL=http://localhost:3001
    
    # NextAuth Configuration
    NEXTAUTH_SECRET=your-strong-secret-here
-   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_URL=http://localhost:3001
    ```
    
    **Important**: Replace `your-strong-secret-here` with a secure random string. You can generate one using:
@@ -243,7 +243,7 @@ Follow these step-by-step instructions to set up the project locally:
 
 5. **Open your browser**
    
-   Navigate to [http://localhost:3000](http://localhost:3000) to see the application running.
+   Navigate to [http://localhost:3001](http://localhost:3001) to see the application running.
 
 ### Environment Configuration
 
@@ -253,12 +253,12 @@ The application requires several environment variables to function properly. Cre
 
 ```env
 # Base API URLs
-NEXT_PUBLIC_API_BASE_URL=http://localhost:3003/api
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
+NEXT_PUBLIC_BASE_URL=http://localhost:3001
 
 # NextAuth Configuration
 NEXTAUTH_SECRET=your-strong-secret-here
-NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_URL=http://localhost:3001
 ```
 
 #### Environment Variables Explained
@@ -706,16 +706,16 @@ cp .env.example .env
 docker build -t mahder-frontend:latest .
 
 # 5. Run the container
-docker run -d --name mahder-frontend-app -p 3000:3000 \
-  -e NEXT_PUBLIC_API_BASE_URL=http://localhost:3003/api \
-  -e NEXT_PUBLIC_BASE_URL=http://localhost:3000 \
+docker run -d --name mahder-frontend-app -p 3001:3000 \
+  -e NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api \
+  -e NEXT_PUBLIC_BASE_URL=http://localhost:3001 \
   -e NEXTAUTH_SECRET=your-strong-secret-here \
-  -e NEXTAUTH_URL=http://localhost:3000 \
+  -e NEXTAUTH_URL=http://localhost:3001 \
   mahder-frontend:latest
 
 # 6. Check if it's running
 docker ps
-curl -I http://localhost:3000
+curl -I http://localhost:3001
 ```
 
 ### Docker Deployment
@@ -858,12 +858,12 @@ services:
     image: ${DOCKER_IMAGE_NAME:-mahder-frontend}:${DOCKER_IMAGE_TAG:-latest}
     container_name: ${CONTAINER_NAME:-mahder-frontend-app}
     ports:
-      - "${HOST_PORT:-3000}:3000"
+      - "${HOST_PORT:-3001}:3000"
     environment:
-      - NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3003/api}
-      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL:-http://localhost:3000}
+      - NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3000/api}
+      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL:-http://localhost:3001}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-your-strong-secret-here}
-      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3001}
       - NODE_ENV=${NODE_ENV:-production}
     restart: unless-stopped
     networks:
@@ -898,11 +898,11 @@ Create a `.env` file in the same directory as the Docker Compose file, or copy `
 DOCKER_IMAGE_NAME=mahder-frontend
 DOCKER_IMAGE_TAG=latest
 CONTAINER_NAME=mahder-frontend-app
-HOST_PORT=3000
-NEXT_PUBLIC_API_BASE_URL=http://localhost:3003/api
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
+HOST_PORT=3001
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
+NEXT_PUBLIC_BASE_URL=http://localhost:3001
 NEXTAUTH_SECRET=your-strong-secret-here
-NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_URL=http://localhost:3001
 NODE_ENV=production
 ```
 
