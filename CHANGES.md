@@ -3,7 +3,7 @@ This file documents modifications made to the upstream project in compliance wit
 Section 4(b) of the Apache License, Version 2.0.
 
 ## Upstream
-- **Original project:** [leyu-data-collection-platform/leyu-frontend](https://github.com/leyu-data-collection-platform/leyu-frontend)
+- **Original project:** [leyu-frontend](https://github.com/dave-lab12/leyu-frontend)
 - **License:** Apache License 2.0
 - **Fork:** [iCog-Labs-Dev/hyperdata-frontend](https://github.com/iCog-Labs-Dev/hyperdata-frontend)
 
