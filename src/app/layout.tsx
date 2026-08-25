@@ -2,6 +2,16 @@
 import "./globals.css";
 import { Toaster } from "sonner";
 import Providers from "@/app/components/Providers";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Mahder",
+  description: "Mahder data platform",
+  icons: {
+    icon: "/Mahder Logo XS.png",
+    apple: "/Mahder Logo XS.png",
+  },
+};
 
 export default function RootLayout({
   children,

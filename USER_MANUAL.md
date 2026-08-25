@@ -1,4 +1,4 @@
-# Hyperdata Frontend - Comprehensive User Manual
+# Mahder Frontend - Comprehensive User Manual
 
 ## Table of Contents
 
@@ -17,11 +17,11 @@
 
 ## Introduction
 
-Welcome to the Hyperdata Frontend system - a comprehensive project management and data annotation platform. This manual provides detailed instructions for all user types to effectively navigate and utilize the system's features.
+Welcome to the Mahder Frontend system - a comprehensive project management and data annotation platform. This manual provides detailed instructions for all user types to effectively navigate and utilize the system's features.
 
 ## System Overview
 
-The Hyperdata Frontend system is designed to manage projects, tasks, and data annotation workflows with role-based access control. The system supports four distinct user roles, each with specific permissions and responsibilities.
+The Mahder Frontend system is designed to manage projects, tasks, and data annotation workflows with role-based access control. The system supports four distinct user roles, each with specific permissions and responsibilities.
 
 ## User Roles
 
@@ -621,7 +621,7 @@ Reviewers are responsible for quality assurance, reviewing submissions, and ensu
 
 ## Conclusion
 
-This comprehensive user manual provides detailed guidance for all user types in the Hyperdata Frontend system. Each role has specific responsibilities and access levels, ensuring efficient project management and data quality control.
+This comprehensive user manual provides detailed guidance for all user types in the Mahder Frontend system. Each role has specific responsibilities and access levels, ensuring efficient project management and data quality control.
 
 For additional support or questions not covered in this manual, please contact the system administrator or support team.
 
