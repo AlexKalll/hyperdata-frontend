@@ -6,7 +6,7 @@ module.exports = {
       colors: {
         primaryButton: "#095FAF",
         green: {
-          600: "#16a34a",
+          600: "#16a34a", // For the Mahder logo
         },
         myGreen: "#00AC26",
         blue: {
