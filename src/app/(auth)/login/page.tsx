@@ -229,8 +229,8 @@ export default function LoginPage() {
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center p-8 text-white">
-            <h1 className="text-2xl md:text-3xl font-bold mb-4">
-              Welcome to the data platform
+              <h1 className="text-2xl md:text-3xl font-bold mb-4">
+                Welcome to Mahder
             </h1>
             <p className="text-lg">Log in to your account</p>
           </div>
@@ -242,12 +242,15 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           <div className="w-full py-5">
             <div className="flex justify-center mb-7">
-              <Image
-                src="/logo/app-logo.svg"
-                width={168}
-                height={51}
-                alt="Data platform logo"
-              />
+              <div className="relative mx-auto h-24 w-full max-w-[280px] overflow-hidden">
+                <Image
+                  src="/Mahder Logo.png"
+                  alt="Mahder logo"
+                  fill
+                  className="object-cover object-center"
+                  priority
+                />
+              </div>
             </div>
 
             {showForget ? (

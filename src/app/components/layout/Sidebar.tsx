@@ -80,14 +80,24 @@ const Sidebar: React.FC<SidebarProps> = ({
       `}</style>
       {/* Logo and Toggle Button */}
       <div className="mb-10 flex items-center justify-between">
-        {isOpen && (
+        {isOpen ? (
+          <div className="relative mb-6 h-12 w-36 overflow-hidden">
+            <Image
+              src="/Mahder Logo S.png"
+              alt="Mahder logo"
+              fill
+              className="object-cover object-center"
+              priority
+            />
+          </div>
+        ) : (
           <Image
-            src="/logo/app-logo.svg"
-            alt="Data platform logo"
-            width={132}
+            src="/Mahder Logo XS.png"
+            alt="Mahder logo"
+            width={40}
             height={40}
-            className="mb-6"
-            priority // Add priority for faster loading
+            className="mb-6 object-contain"
+            priority
           />
         )}
         {isMobile && (
