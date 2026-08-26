@@ -52,6 +52,18 @@ Section 4(b) of the Apache License, Version 2.0.
 - Locked file after updating next.js and adding pnpm workspace config
 - Fixed DOS vulnerable next dependency version and removed unused overrides
 
+## 2026-08-26 - Task creation payload fix
+
+### Bug fixes
+- Removed non-whitelisted `expected_number_of_total_contributors` field from task
+  creation/update payloads (`NewTask` type, `createTaskForm.tsx`,
+  `updateTaskForm.tsx`, `taskTable.tsx`).
+- The backend's global validation pipe uses `forbidNonWhitelisted: true`, so this
+  unknown property caused task creation by Project Managers to fail with
+  `400 "property expected_number_of_total_contributors should not exist"`.
+- The backend already exposes the equivalent field under its real name
+  `max_expected_no_of_contributors`, which the forms already include.
+
 ## How to record future changes
 - When making non-trivial modifications, add a short entry under a new dated section below
 - Split commits by cohesive behavior or deployable concern, use Conventional Commit messages
