@@ -49,7 +49,6 @@ interface CreateTaskForm {
   reviewer_payment_per_microtask: number | null;
   contributor_payment_per_microtask: number | null;
   max_retry_per_task: number | null;
-  expected_number_of_total_contributors: number | null;
   batch: number | null;
   is_dialect_specific: boolean;
   dialects?: string[];
@@ -91,7 +90,6 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
     reviewer_payment_per_microtask: null,
     contributor_payment_per_microtask: null,
     max_retry_per_task: null,
-    expected_number_of_total_contributors: null,
     max_micro_task_per_contributor: null,
     batch: null,
     is_dialect_specific: false,
@@ -421,7 +419,6 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
           reviewer_payment_per_microtask: null,
           contributor_payment_per_microtask: null,
           max_retry_per_task: 0,
-          expected_number_of_total_contributors: 0,
           max_micro_task_per_contributor: null,
           batch: null,
           is_dialect_specific: false,

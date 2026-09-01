@@ -6,15 +6,15 @@ services:
     image: ${DOCKER_IMAGE_NAME:-mahder-frontend}:${DOCKER_IMAGE_TAG:-latest}
     container_name: ${CONTAINER_NAME:-mahder-frontend-app}
     ports:
-      - "${HOST_PORT:-3000}:3000"
+      - "${HOST_PORT:-3001}:3000"
     environment:
       # API Configuration
-      - NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3003/api}
-      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL:-http://localhost:3000}
+      - NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3000/api}
+      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL:-http://localhost:3001}
       
       # Authentication Configuration
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-your-strong-secret-here}
-      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3001}
       
       # Optional Configuration
       - NODE_ENV=${NODE_ENV:-production}
@@ -35,4 +35,4 @@ networks:
 # To use this docker-compose file:
 # 1. Copy .env.docker to .env and configure your environment variables
 # 2. Run: docker compose up -d
-# 3. Access the application at http://localhost:3000 (or your configured HOST_PORT)
+# 3. Access the application at http://localhost:3001 (or your configured HOST_PORT)

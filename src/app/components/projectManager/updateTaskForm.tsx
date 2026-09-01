@@ -43,7 +43,6 @@ interface UpdateTaskForm {
   reviewer_payment_per_microtask: number | null;
   contributor_payment_per_microtask: number | null;
   max_retry_per_task: number | null;
-  expected_number_of_total_contributors: number;
   max_expected_no_of_contributors: number | null;
   batch: number | null;
   is_dialect_specific: boolean;
@@ -88,8 +87,6 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
     reviewer_payment_per_microtask: task.payment?.reviewer_credit_per_microtask ?? null,
     contributor_payment_per_microtask: task.payment?.contributor_credit_per_microtask ?? null,
     max_retry_per_task: task.taskRequirement.max_retry_per_task,
-    expected_number_of_total_contributors:
-      task.taskRequirement.expected_number_of_total_contributors,
     max_micro_task_per_contributor: task.taskRequirement.max_micro_task_per_contributor ?? null,
     batch: task.taskRequirement.batch ?? null,
     is_dialect_specific: task.taskRequirement.is_dialect_specific,
@@ -430,8 +427,6 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
           contributor_payment_per_microtask:
             taskData.contributor_payment_per_microtask,
           max_retry_per_task: taskData.max_retry_per_task,
-          expected_number_of_total_contributors:
-            taskData.expected_number_of_total_contributors,
           max_micro_task_per_contributor:
             taskData.max_micro_task_per_contributor,
           batch: taskData.batch,
@@ -508,7 +503,6 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
           reviewer_payment_per_microtask: 0,
           contributor_payment_per_microtask: 0,
           max_retry_per_task: 0,
-          expected_number_of_total_contributors: 0,
           max_expected_no_of_contributors: null,
           max_micro_task_per_contributor: 0,
           batch: 0,

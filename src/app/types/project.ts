@@ -280,7 +280,6 @@ export interface NewTask {
   is_public: boolean;
   max_contributor_per_micro_task: number | null;
   max_retry_per_task: number | null;
-  expected_number_of_total_contributors: number | null;
   is_dialect_specific: boolean;
   dialects?: string[];
   is_age_specific: boolean;

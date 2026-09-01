@@ -151,7 +151,6 @@ interface CreateTaskFormData {
   reviewer_payment_per_microtask: number | null;
   contributor_payment_per_microtask: number | null;
   max_retry_per_task: number | null;
-  expected_number_of_total_contributors: number | null;
   batch: number | null;
   is_dialect_specific: boolean;
   dialects?: string[];
