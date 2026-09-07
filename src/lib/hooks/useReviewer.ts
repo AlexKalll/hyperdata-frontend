@@ -362,13 +362,13 @@ export const useFlagMicrotask = () => {
     const { data: session } = useSession();
     return useMutation({
         mutationFn: async (payload: FlagPayload) => {
-            var data = {
+            const data = {
                 flag_type_id: payload.flag_type_id,
                 comment: payload.comment,
             };
             const response = await axios.put(
                 `${process.env.NEXT_PUBLIC_API_BASE_URL}/workspace/data-set/flag/${payload.microTaskId}`,
-                payload,
+                data,
                 {
                     headers: { Authorization: `Bearer ${session?.access_token}` },
                 }
@@ -390,7 +390,7 @@ export const useApprove = () => {
 
             const response = await axios.put(
                 `${process.env.NEXT_PUBLIC_API_BASE_URL}/workspace/data-set/approve/${userData.microTaskId}`,
-                userData,
+                { annotation: userData.annotation },
                 {
                     headers: { Authorization: `Bearer ${session.access_token}` },
                 }

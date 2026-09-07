@@ -394,11 +394,11 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
     if (validateStep(3)) {
       setIsSubmitting(true);
       try {
-        formData.contributor_completion_time_limit =
-          (formData.contributor_completion_time_limit ?? 0) * 24;
-        formData.reviewer_completion_time_limit =
-          (formData.reviewer_completion_time_limit ?? 0) * 24;
-        await onSubmit(formData);
+        await onSubmit({
+          ...formData,
+          contributor_completion_time_limit:
+            (formData.contributor_completion_time_limit ?? 0) * 24,
+        });
         setFormData({
           name: "",
           description: "",

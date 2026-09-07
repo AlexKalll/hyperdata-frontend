@@ -193,7 +193,11 @@ export const useWithdrawMoney = () => {
 
             const response = await axios.post<WithdrawMoney>(
                 `${process.env.NEXT_PUBLIC_API_BASE_URL}/wallet/withdraw-money`,
-                taskData,
+                {
+                    paymentMethod: taskData.paymentMethod,
+                    phoneNumber: taskData.phoneNumber,
+                    amount: Number(taskData.amount),
+                },
                 {
                     headers: { Authorization: `Bearer ${session.access_token}` },
                 }

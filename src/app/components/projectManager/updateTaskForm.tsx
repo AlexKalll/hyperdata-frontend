@@ -76,10 +76,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
     max_expected_no_of_contributors: task.max_expected_no_of_contributors ?? null,
     max_dataset_per_reviewer: task.taskRequirement.max_dataset_per_reviewer,
     appriximate_time_per_batch: task.taskRequirement.appriximate_time_per_batch ?? null,
-    reviewer_completion_time_limit:
-      task?.reviewer_completion_time_limit != null
-        ? task.reviewer_completion_time_limit / 24
-        : null,
+    reviewer_completion_time_limit: task.reviewer_completion_time_limit ?? null,
     contributor_completion_time_limit:
       task.contributor_completion_time_limit != null
         ? task.contributor_completion_time_limit / 24
@@ -442,10 +439,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
             taskData.contributor_completion_time_limit != null
               ? taskData.contributor_completion_time_limit * 24
               : null,
-          reviewer_completion_time_limit:
-            taskData.reviewer_completion_time_limit != null
-              ? taskData.reviewer_completion_time_limit * 24
-              : null,
+          reviewer_completion_time_limit: taskData.reviewer_completion_time_limit,
           is_gender_specific: taskData.is_gender_specific,
           gender: taskData.is_gender_specific
             ? taskData.gender
