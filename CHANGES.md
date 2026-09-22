@@ -79,6 +79,12 @@ Section 4(b) of the Apache License, Version 2.0.
 - Declare the Next.js ESLint plugin directly so Node-based lint resolves it with pnpm's isolated dependencies; reuse the already locked plugin version.
 - Run the retained request-contract regression suite through `pnpm test` and in CI after the build.
 
+## 2026-09-22 - Netcup production deployment baseline
+
+- Promoted the tested frontend changes to the default `main` branch.
+- Added deterministic pnpm 9 installation to the production Docker image.
+- Added Docker build arguments for the public API and frontend URLs so client bundles use the production endpoints.
+
 ## How to record future changes
 - When making non-trivial modifications, add a short entry under a new dated section below
 - Split commits by cohesive behavior or deployable concern, use Conventional Commit messages

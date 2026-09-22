@@ -4,8 +4,14 @@ FROM node:20-alpine AS builder
 # Set working directory
 WORKDIR /app
 
+# Public Next.js values are embedded into client bundles during the build.
+ARG NEXT_PUBLIC_API_BASE_URL
+ARG NEXT_PUBLIC_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
+ENV NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
+
 # Install pnpm globally
-RUN npm install -g pnpm
+RUN npm install -g pnpm@9
 
 # Copy package files for dependency installation
 COPY package.json pnpm-lock.yaml* ./
@@ -30,7 +36,7 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 # Install pnpm in production image
-RUN npm install -g pnpm
+RUN npm install -g pnpm@9
 
 # Copy package files
 COPY package.json pnpm-lock.yaml* ./
