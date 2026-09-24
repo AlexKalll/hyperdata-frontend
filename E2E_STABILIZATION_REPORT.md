@@ -55,6 +55,8 @@ flowchart LR
 - `pnpm build`: completed successfully, including lint and type validation.
 - Production bundle contains `https://mahder-api.duckdns.org/api`.
 - Public login redirect and frontend health endpoint returned HTTP 200.
+- The rebuilt production Reviewer panel is backed by a live API result of one
+  task with `All = 4` and `Pending = 4` submissions.
 
 Existing repository lint warnings are still reported, but the build has no lint
 errors or TypeScript failures.
