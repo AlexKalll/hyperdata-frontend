@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { usePutDynamicBasedata } from "@/lib/hooks/useBasedata";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -10,6 +10,10 @@ interface basedataDetailsModalProps {
     name?: string;
     code?: string;
     description?: string;
+    country?: { id?: string } | null;
+    language?: { id?: string } | null;
+    region?: { id?: string } | null;
+    annotation_type?: { id?: string } | null;
   } | null;
   isOpen: boolean;
   onClose: () => void;
@@ -17,8 +21,28 @@ interface basedataDetailsModalProps {
   coloumn_name?: string;
   foriegnData?: string;
 }
-interface resultdata {
-  result: dynamicResponse[];
+type DynamicFormData = {
+  id: string;
+  name: string;
+  description: string;
+  relationId: string;
+};
+
+function getInitialRelationId(
+  initialData: basedataDetailsModalProps["intialdata"],
+  columnName?: string,
+  foreignData?: string,
+): string {
+  if (!initialData || !columnName) return "";
+  const data = initialData as Record<string, unknown>;
+  const directValue = data[columnName];
+  if (typeof directValue === "string") return directValue;
+  const relation = data[foreignData || ""];
+  if (relation && typeof relation === "object" && "id" in relation) {
+    const relationId = (relation as { id?: unknown }).id;
+    return typeof relationId === "string" ? relationId : "";
+  }
+  return "";
 }
 interface dynamicResponse {
   id: string;
@@ -33,7 +57,7 @@ interface dynamicResponse {
 interface dynamicResponsedata {
   message: string;
   code: number;
-  data: resultdata;
+  data: dynamicResponse[];
 }
 
 export default function UpdateBasedataFormDynamic({
@@ -45,20 +69,36 @@ export default function UpdateBasedataFormDynamic({
   foriegnData,
 }: basedataDetailsModalProps) {
   const { data: session } = useSession();
-  const [formData, setFormData] = useState({
+  // Annotation updates use UpdateRejectionTypeDto and therefore cannot change
+  // annotation_type_id through this endpoint.
+  const relationServices = ["dialect", "region", "zone"];
+  const hasRelation = Boolean(
+    coloumn_name &&
+      foriegnData &&
+      servicename &&
+      relationServices.includes(servicename),
+  );
+  const hasDescription = servicename !== "zone";
+  const [formData, setFormData] = useState<DynamicFormData>({
     id: intialdata?.id || "",
     name: intialdata?.name || "",
-    code: intialdata?.code || "",
     description: intialdata?.description || "",
-    [coloumn_name || ""]: coloumn_name
-      ? intialdata?.[coloumn_name as keyof typeof intialdata] || ""
-      : "",
+    relationId: getInitialRelationId(intialdata, coloumn_name, foriegnData),
   });
+
+  useEffect(() => {
+    setFormData({
+      id: intialdata?.id || "",
+      name: intialdata?.name || "",
+      description: intialdata?.description || "",
+      relationId: getInitialRelationId(intialdata, coloumn_name, foriegnData),
+    });
+  }, [intialdata, coloumn_name, foriegnData]);
 
   // Fetch roles from API
   const { data: dynamicResponsedata, isLoading: rolesLoading } =
     useQuery<dynamicResponsedata>({
-      queryKey: [`${foriegnData}`],
+      queryKey: ["base-data-reference", foriegnData],
       queryFn: async () => {
         if (!session?.access_token) {
           throw new Error("No authentication token available");
@@ -71,7 +111,7 @@ export default function UpdateBasedataFormDynamic({
         );
         return response.data;
       },
-      enabled: !!session?.access_token,
+      enabled: Boolean(session?.access_token && hasRelation),
     });
 
   const addbasedataMutation = usePutDynamicBasedata(servicename || "");
@@ -79,13 +119,15 @@ export default function UpdateBasedataFormDynamic({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await addbasedataMutation.mutateAsync({
+      const payload: Record<string, string> & { id: string } = {
         id: formData.id,
         name: formData.name,
-        code: formData.code,
-        description: formData.description,
-        [coloumn_name || ""]: formData[coloumn_name || ""],
-      });
+      };
+      if (hasDescription) payload.description = formData.description;
+      if (hasRelation && coloumn_name) {
+        payload[coloumn_name] = formData.relationId;
+      }
+      await addbasedataMutation.mutateAsync(payload);
       onClose();
     } catch (error) {}
   };
@@ -110,12 +152,7 @@ export default function UpdateBasedataFormDynamic({
               />
             </div>
 
-            {servicename === "dialect" ||
-            servicename === "sector" ||
-            servicename === "annotation" ||
-            servicename === "annotation-type" ||
-            servicename === "flag-type" ||
-            servicename === "rejection-type" ? (
+            {hasDescription ? (
               <div>
                 <label className="block text-gray-700 mb-2">Description</label>
                 <textarea
@@ -127,38 +164,18 @@ export default function UpdateBasedataFormDynamic({
                   required
                 />
               </div>
-            ) : (
-              <>
-                <div>
-                  <label className="block text-gray-700 mb-2">Code</label>
-                  <input
-                    type="text"
-                    value={formData.code}
-                    onChange={(e) =>
-                      setFormData({ ...formData, code: e.target.value })
-                    }
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-primary"
-                    required
-                  />
-                </div>
-              </>
-            )}
-            {servicename === "sector" ||
-            servicename === "annotation-type" ||
-            servicename === "rejection-type" ||
-            servicename === "flag-type" ? (
-              <></>
-            ) : (
+            ) : null}
+            {hasRelation && (
               <div>
                 <label className="block text-gray-700 mb-2">
                   {foriegnData}*
                 </label>
                 <select
-                  value={formData[coloumn_name || ""]}
+                  value={formData.relationId}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      [coloumn_name || ""]: e.target.value,
+                      relationId: e.target.value,
                     })
                   }
                   className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-primary"

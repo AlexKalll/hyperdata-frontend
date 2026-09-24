@@ -12,7 +12,6 @@ import {
   userFacilltatorContributors,
   userFacilltatorContributorsFiltered,
 } from "@/lib/hooks/useFetchUser";
-import { toast } from "sonner";
 import { UserTask } from "@/app/types/global";
 import { FilterComponent } from "@/components/ui/filterComponent";
 
@@ -87,10 +86,8 @@ const AssignFacilltatorContributors: React.FC<
         contributor_ids: selectedUsers,
         taskId: taskID,
       });
-      toast.success("Contributors added successfully!");
       onCancel();
     } catch (error) {
-      toast.error("Failed to add contributors.");
       console.error("Error adding contributors:", error);
     }
   };

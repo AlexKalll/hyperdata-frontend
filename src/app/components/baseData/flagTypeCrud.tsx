@@ -165,8 +165,6 @@ export function FlagTypeCRUD() {
                     intialdata={row.original}
                     onClose={() => setIsOpen(false)}
                     servicename="flag-type"
-                    coloumn_name="language_id"
-                    foriegnData="language"
                   />
                 </DialogContent>
               </Dialog>

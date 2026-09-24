@@ -121,7 +121,7 @@ export const GenerateAutomaticAssignXontributortoFacilitator = () => {
 
                 const response = await axios.post<InvitationResponseData>(
                     `${process.env.NEXT_PUBLIC_API_BASE_URL}/project-mgmt/task/facilitator/${data.taskId}/automatic-assign-contributor-to-facilitator`,
-                    data,
+                    {},
                     {
                         headers: {
                             Authorization: `Bearer ${session.access_token}`,
@@ -161,9 +161,10 @@ export const GenerateInstruction = () => {
 
 
 
+                const { taskId, ...payload } = InstructionData;
                 const response = await axios.post<InvitationResponseData>(
-                    `${process.env.NEXT_PUBLIC_API_BASE_URL}/project-mgmt/task/${InstructionData.taskId}/add-instruction`,
-                    InstructionData,
+                    `${process.env.NEXT_PUBLIC_API_BASE_URL}/project-mgmt/task/${taskId}/add-instruction`,
+                    payload,
                     {
                         headers: {
                             Authorization: `Bearer ${session.access_token}`,
@@ -204,9 +205,10 @@ export const EditInstruction = () => {
 
 
 
+                const { taskId, ...payload } = InstructionData;
                 const response = await axios.put<InvitationResponseData>(
-                    `${process.env.NEXT_PUBLIC_API_BASE_URL}/project-mgmt/task/${InstructionData.taskId}/instruction`,
-                    InstructionData,
+                    `${process.env.NEXT_PUBLIC_API_BASE_URL}/project-mgmt/task/${taskId}/instruction`,
+                    payload,
                     {
                         headers: {
                             Authorization: `Bearer ${session.access_token}`,
@@ -348,7 +350,7 @@ export const AddTaskUser = () => {
                 if (!session?.access_token) {
                     throw new Error("No authentication token available");
                 }
-                let role = data.memberType
+                const role = data.memberType;
                 let usertype = "facilitator";
 
                 if (role) {
@@ -361,7 +363,7 @@ export const AddTaskUser = () => {
                 }
                 const response = await axios.post<InvitationResponseData>(
                     `${process.env.NEXT_PUBLIC_API_BASE_URL}/project-mgmt/task/${data.taskId}/assign-${usertype}`,
-                    data,
+                    { emails: data.emails },
                     {
                         headers: {
                             Authorization: `Bearer ${session.access_token}`,
@@ -402,7 +404,7 @@ export const AddTaskContributor = () => {
 
                 const response = await axios.post<InvitationResponseData>(
                     `${process.env.NEXT_PUBLIC_API_BASE_URL}/project-mgmt/task/${data.taskId}/assign-contributor`,
-                    data,
+                    { contributor_ids: data.contributor_ids },
                     {
                         headers: {
                             Authorization: `Bearer ${session.access_token}`,
@@ -443,7 +445,10 @@ export const AddFacilitatorContributor = () => {
 
                 const response = await axios.post<InvitationResponseData>(
                     `${process.env.NEXT_PUBLIC_API_BASE_URL}/project-mgmt/task/${data.taskId}/assign-contributor-to-facilitator`,
-                    data,
+                    {
+                        facilitator_id: data.facilitator_id,
+                        contributor_ids: data.contributor_ids,
+                    },
                     {
                         headers: {
                             Authorization: `Bearer ${session.access_token}`,

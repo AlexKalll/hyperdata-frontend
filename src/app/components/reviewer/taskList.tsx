@@ -86,6 +86,7 @@ const TaskList: React.FC<TaskListProps> = ({}) => {
   const {
     data: tasksData,
     isLoading: isTaskLoading,
+    isError: isTaskError,
     refetch,
   } = useGetProjectTask({
     page: taskPage,
@@ -112,6 +113,15 @@ const TaskList: React.FC<TaskListProps> = ({}) => {
       {isTaskLoading ? (
         <div className="flex justify-center items-center h-48">
           <Loader2 className="w-6 h-6 animate-spin" />
+        </div>
+      ) : isTaskError ? (
+        <div className="flex flex-col items-center justify-center gap-3 py-12 text-center">
+          <p className="text-sm text-red-600">
+            Reviewer tasks could not be loaded. Please try again.
+          </p>
+          <Button variant="outline" onClick={() => refetch()}>
+            Retry
+          </Button>
         </div>
       ) : tasks.length === 0 ? (
         <div className="relative flex flex-col items-center justify-center py-12">

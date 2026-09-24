@@ -639,7 +639,6 @@ export interface AssignTask {
 export interface AssignTaskContributor {
   taskId: string,
   contributor_ids: string[],
-  memeberType: string
 }
 export interface AssignAutomaticContributor {
   taskId: string,

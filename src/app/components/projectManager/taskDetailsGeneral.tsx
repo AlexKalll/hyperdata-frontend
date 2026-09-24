@@ -437,7 +437,7 @@ const TaskDetailsGeneral: React.FC<TaskCardProps> = ({ task, type }) => {
                   <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
                     <div className="flex flex-col">
                       <span className="font-semibold text-gray-800">
-                        Contributor credit per microtask
+                        Contributor credit (credits per microtask)
                       </span>
                       <span className="text-gray-600 mt-1">
                         {task.payment?.contributor_credit_per_microtask ||
@@ -447,7 +447,7 @@ const TaskDetailsGeneral: React.FC<TaskCardProps> = ({ task, type }) => {
 
                     <div className="flex flex-col">
                       <span className="font-semibold text-gray-800">
-                        Reviewer credit per microtask
+                        Reviewer credit (credits per microtask)
                       </span>
                       <span className="text-gray-600 mt-1">
                         {task.payment?.reviewer_credit_per_microtask || "N/A"}
@@ -583,14 +583,16 @@ const TaskDetailsGeneral: React.FC<TaskCardProps> = ({ task, type }) => {
                   </h3>
                   <div className="flex flex-wrap gap-4 text-sm text-gray-600">
                     <div className="flex flex-col">
-                      <span className="font-medium">Batch Size:</span>
+                      <span className="font-medium">
+                        Batch size (microtasks/batch):
+                      </span>
                       <span className="text-gray-600 p-1">
                         {task.taskRequirement.batch}
                       </span>
                     </div>
                     <div className="flex flex-col">
                       <span className="font-medium">
-                        Approximate time per batch:
+                          Approximate time per batch (minutes):
                       </span>
                       <span className="text-gray-600 p-1">
                         {task.taskRequirement.appriximate_time_per_batch}
@@ -598,7 +600,7 @@ const TaskDetailsGeneral: React.FC<TaskCardProps> = ({ task, type }) => {
                     </div>
                     <div className="flex flex-col">
                       <span className="font-medium">
-                        Maximum contributors assignment per facilitator:
+                        Maximum contributors per facilitator (contributors/facilitator):
                       </span>
                       <span className="text-gray-600 p-1">
                         {task.taskRequirement.max_contributor_per_facilitator}
@@ -608,7 +610,7 @@ const TaskDetailsGeneral: React.FC<TaskCardProps> = ({ task, type }) => {
                       <>
                         <div className="flex flex-col">
                           <span className="font-medium">
-                            Maximum audio length:
+                            Maximum audio length (seconds):
                           </span>
                           <span className="text-gray-600 p-1">
                             {task.taskRequirement.maximum_seconds}
@@ -616,7 +618,7 @@ const TaskDetailsGeneral: React.FC<TaskCardProps> = ({ task, type }) => {
                         </div>
                         <div className="flex flex-col">
                           <span className="font-medium">
-                            Minimum audio length:
+                            Minimum audio length (seconds):
                           </span>
                           <span className="text-gray-600 p-1">
                             {task.taskRequirement.minimum_seconds}
@@ -628,7 +630,7 @@ const TaskDetailsGeneral: React.FC<TaskCardProps> = ({ task, type }) => {
                       <>
                         <div className="flex flex-col">
                           <span className="font-medium">
-                            Maximum characters length:
+                            Maximum character length (characters):
                           </span>
                           <span className="text-gray-600 p-1">
                             {task.taskRequirement.maximum_characters_length}
@@ -636,7 +638,7 @@ const TaskDetailsGeneral: React.FC<TaskCardProps> = ({ task, type }) => {
                         </div>
                         <div className="flex flex-col">
                           <span className="font-medium">
-                            Minimum characters length:
+                            Minimum character length (characters):
                           </span>
                           <span className="text-gray-600 p-1">
                             {task.taskRequirement.minimum_characters_length}
@@ -646,17 +648,17 @@ const TaskDetailsGeneral: React.FC<TaskCardProps> = ({ task, type }) => {
                     )}
                     <div className="flex flex-col">
                       <span className="font-medium">
-                        Reviewer Completion time in Day
+                          Reviewer completion time (days)
                       </span>
                       <span className="text-gray-600 p-1">
                         {task.reviewer_completion_time_limit != null
-                          ? `${Math.round(task.reviewer_completion_time_limit / 24)} day${Math.round(task.reviewer_completion_time_limit / 24) === 1 ? "" : "s"}`
+                          ? `${task.reviewer_completion_time_limit} day${task.reviewer_completion_time_limit === 1 ? "" : "s"}`
                           : "-"}
                       </span>
                     </div>
                     <div className="flex flex-col">
                       <span className="font-medium">
-                        Contributors Completion Time :
+                          Contributor completion time (days):
                       </span>
                       <span className="text-gray-600 p-1">
                         {task.contributor_completion_time_limit != null
@@ -666,7 +668,7 @@ const TaskDetailsGeneral: React.FC<TaskCardProps> = ({ task, type }) => {
                     </div>
                     <div className="flex flex-col">
                       <span className="font-medium">
-                        Maximum submission per microtask:
+                          Maximum contributors per microtask (contributors/microtask):
                       </span>
                       <span className="text-gray-600 p-1">
                         {task?.taskRequirement
@@ -675,7 +677,7 @@ const TaskDetailsGeneral: React.FC<TaskCardProps> = ({ task, type }) => {
                     </div>
                     <div className="flex flex-col">
                       <span className="font-medium">
-                        Maximum assignment per contributor:
+                          Maximum microtasks per contributor (microtasks/contributor):
                       </span>
                       <span className="text-gray-600 p-1">
                         {task?.taskRequirement
@@ -684,7 +686,7 @@ const TaskDetailsGeneral: React.FC<TaskCardProps> = ({ task, type }) => {
                     </div>
                     <div className="flex flex-col">
                       <span className="font-medium">
-                        Max dataset per reviewer:
+                          Maximum datasets per reviewer (datasets/reviewer):
                       </span>
                       <span className="text-gray-600 p-1">
                         {task?.taskRequirement?.max_dataset_per_reviewer || ""}
@@ -701,7 +703,7 @@ const TaskDetailsGeneral: React.FC<TaskCardProps> = ({ task, type }) => {
                     </div> */}
                     <div className="flex flex-col">
                       <span className="font-medium">
-                        Maximum Retry per mico Task:
+                          Maximum retries per microtask (retries/microtask):
                       </span>
                       <span className="text-gray-600 p-1">
                         {task.taskRequirement.max_retry_per_task}

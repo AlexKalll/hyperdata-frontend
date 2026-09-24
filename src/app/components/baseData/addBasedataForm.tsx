@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useAddBasedata } from "@/lib/hooks/useBasedata";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 interface basedataDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -12,12 +11,10 @@ export default function AddBasedataForm({
   onClose,
   servicename,
 }: basedataDetailsModalProps) {
-  const { data: session } = useSession();
   const [formData, setFormData] = useState({
     name: "",
     code: "",
     continent: "",
-    description: "",
   });
 
   // Fetch roles from API
@@ -27,11 +24,18 @@ export default function AddBasedataForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await addbasedataMutation.mutateAsync({
-        name: formData.name,
-        code: formData.code,
-        description: formData.description,
-      });
+      await addbasedataMutation.mutateAsync(
+        servicename === "country"
+          ? {
+              name: formData.name,
+              code: formData.code,
+              continent: formData.continent,
+            }
+          : {
+              name: formData.name,
+              code: formData.code,
+            },
+      );
       onClose();
     } catch (error) {
       // Error handling is done in useAddbasedata hook
