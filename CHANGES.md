@@ -113,6 +113,12 @@ Section 4(b) of the Apache License, Version 2.0.
 - Display a retryable error state instead of showing the empty-task illustration
   when the Reviewer task request fails.
 
+## 2026-09-24 - Facilitator submission view contract
+
+- Aligned the facilitator contributor-submission query with the backend's
+  supported pagination and contributor filter parameters, preventing strict
+  validation 400 responses when opening a submission.
+
 ## How to record future changes
 - When making non-trivial modifications, add a short entry under a new dated section below
 - Split commits by cohesive behavior or deployable concern, use Conventional Commit messages
