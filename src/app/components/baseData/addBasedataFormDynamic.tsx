@@ -11,9 +11,11 @@ interface basedataDetailsModalProps {
   coloumn_name?: string;
   foriegnData?: string;
 }
-interface resultdata {
-  result: dynamicResponse[];
-}
+type DynamicFormData = {
+  name: string;
+  description: string;
+  relationId: string;
+};
 interface dynamicResponse {
   id: string;
   name: string;
@@ -37,16 +39,23 @@ export default function AddBasedataFormDynamic({
   foriegnData,
 }: basedataDetailsModalProps) {
   const { data: session } = useSession();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<DynamicFormData>({
     name: "",
-    code: "",
     description: "",
-    [coloumn_name || ""]: "",
+    relationId: "",
   });
+  const relationServices = ["annotation", "dialect", "region", "zone"];
+  const hasRelation = Boolean(
+    coloumn_name &&
+      foriegnData &&
+      servicename &&
+      relationServices.includes(servicename),
+  );
+  const hasDescription = servicename !== "zone";
 
   const { data: dynamicResponsedata, isLoading: rolesLoading } =
     useQuery<dynamicResponsedata>({
-      queryKey: [`${foriegnData}`],
+      queryKey: ["base-data-reference", foriegnData],
       queryFn: async () => {
         if (!session?.access_token) {
           throw new Error("No authentication token available");
@@ -59,7 +68,7 @@ export default function AddBasedataFormDynamic({
         );
         return response.data;
       },
-      enabled: !!session?.access_token,
+      enabled: Boolean(session?.access_token && hasRelation),
     });
 
   const addbasedataMutation = useAddBasedata(servicename || "");
@@ -67,12 +76,12 @@ export default function AddBasedataFormDynamic({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await addbasedataMutation.mutateAsync({
-        name: formData.name,
-        code: formData.code,
-        description: formData.description,
-        [coloumn_name || ""]: formData[coloumn_name || ""],
-      });
+      const payload: Record<string, string> = { name: formData.name };
+      if (hasDescription) payload.description = formData.description;
+      if (hasRelation && coloumn_name) {
+        payload[coloumn_name] = formData.relationId;
+      }
+      await addbasedataMutation.mutateAsync(payload);
       onClose();
     } catch (error) {
       // Error handling is done in useAddbasedata hook
@@ -93,7 +102,7 @@ export default function AddBasedataFormDynamic({
           />
         </div>
 
-        {servicename === "dialect" || servicename === "sector" || servicename === "rejection-type"  || servicename === "annotation-type" || servicename === "annotation" || servicename === "flag-type"  ? (
+        {hasDescription && (
             <div>
             <label className="block font-bold text-gray-700 mb-2">Description</label>
             <textarea
@@ -105,37 +114,16 @@ export default function AddBasedataFormDynamic({
               required
             />
             </div>
-        ) : (
-          <>
-            {servicename === "sector" || servicename === "rejection-type" || servicename === "annotation" || servicename === "annotation-type" || servicename === "flag-type"  ? (
-              <></>
-            ) : (
-              <div>
-                <label className="block font-bold text-gray-700 mb-2">Code</label>
-                <input
-                  type="text"
-                  value={formData.code}
-                  onChange={(e) =>
-                    setFormData({ ...formData, code: e.target.value })
-                  }
-                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-primary"
-                  required
-                />
-              </div>
-            )}
-          </>
         )}
-        {servicename === "sector" || servicename === "rejection-type"  || servicename === "flag-type" || servicename === "annotation-type"  ? (
-          <></>
-        ) : (
+        {hasRelation && (
           <div>
             <label className="block font-bold text-gray-700 mb-2">{foriegnData}*</label>
             <select
-              value={formData[coloumn_name || ""]}
+              value={formData.relationId}
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  [coloumn_name || ""]: e.target.value,
+                  relationId: e.target.value,
                 })
               }
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-primary"

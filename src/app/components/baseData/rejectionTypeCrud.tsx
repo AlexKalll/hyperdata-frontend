@@ -165,8 +165,6 @@ export function RejectionTypeCRUD() {
                     intialdata={row.original}
                     onClose={() => setIsOpen(false)}
                     servicename="rejection-type"
-                    coloumn_name="language_id"
-                    foriegnData="language"
                   />
                 </DialogContent>
               </Dialog>

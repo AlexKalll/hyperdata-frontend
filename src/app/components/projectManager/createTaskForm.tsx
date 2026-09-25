@@ -591,7 +591,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  maximum submission per microtask {" "}
+                  Maximum contributors per microtask (contributors/microtask){" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -615,7 +615,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Contributors Completion Time in Days
+                  Contributor completion time limit (days)
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -654,7 +654,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Reviewer Completion time in Days
+                  Reviewer completion time limit (days)
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -694,7 +694,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Maximum assignment per reviewer{" "}
+                  Maximum datasets per reviewer (datasets/reviewer){" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -719,7 +719,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Maximum  contributors assignment per facilitator  {" "}
+                  Maximum contributors per facilitator (contributors/facilitator){" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -744,7 +744,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Reviewer payment  per review{" "}
+                  Reviewer payment (credits per reviewed microtask){" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -754,7 +754,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
                   min="0"
                   value={formData.reviewer_payment_per_microtask ?? ""}
                   onChange={handleChange}
-                  placeholder="Enter number"
+                  placeholder="Enter credits"
                   className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                     errors.reviewer_payment_per_microtask
                       ? "border-red-500"
@@ -769,7 +769,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Contributor payment per approved contribution{" "}
+                  Contributor payment (credits per approved microtask){" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -779,7 +779,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
                   min="0"
                   value={formData.contributor_payment_per_microtask ?? ""}
                   onChange={handleChange}
-                  placeholder="Enter number"
+                  placeholder="Enter credits"
                   className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                     errors.contributor_payment_per_microtask
                       ? "border-red-500"
@@ -794,7 +794,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Approximate time to finish task {" "}
+                  Approximate time per batch (minutes){" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -821,7 +821,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
                 <>
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
-                      Minimum Characters Length{" "}
+                      Minimum character length (characters){" "}
                       <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -831,7 +831,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
                       min="0"
                       value={formData.minimum_characters_length ?? ""}
                       onChange={handleChange}
-                      placeholder="Enter seconds"
+                      placeholder="Enter character count"
                       className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                         errors.minimum_characters_length
                           ? "border-red-500"
@@ -846,7 +846,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
                   </div>
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
-                      Maximum Characters Length{" "}
+                      Maximum character length (characters){" "}
                       <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -856,7 +856,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
                       min="0"
                       value={formData.maximum_characters_length ?? ""}
                       onChange={handleChange}
-                      placeholder="Enter seconds"
+                      placeholder="Enter character count"
                       className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                         errors.maximum_characters_length
                           ? "border-red-500"
@@ -875,7 +875,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
                 <>
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
-                      Minimum Recording Length{" "}
+                      Minimum recording length (seconds){" "}
                       <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -900,7 +900,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
                   </div>
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
-                      Maximum Audio Seconds{" "}
+                      Maximum recording length (seconds){" "}
                       <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -927,7 +927,8 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
               )}
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Maximum Retry per mico Task <span className="text-red-500">*</span>
+                  Maximum retries per microtask (retries/microtask){" "}
+                  <span className="text-red-500">*</span>
                 </label>
                 <input
                   name="max_retry_per_task"
@@ -951,7 +952,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Maximum Expected Total contributors{" "}
+                  Maximum expected total contributors (contributors){" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -990,7 +991,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Maximum microtasks per contributor{" "}
+                  Maximum microtasks per contributor (microtasks/contributor){" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -1015,7 +1016,8 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Batch Size <span className="text-red-500">*</span>
+                  Batch size (microtasks/batch){" "}
+                  <span className="text-red-500">*</span>
                 </label>
                 <input
                   name="batch"
@@ -1328,7 +1330,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
                   <div className="flex items-center space-x-6">
                     <div className="space-y-2">
                       <label className="block text-sm font-medium text-gray-700">
-                        Min Age
+                         Minimum age (years)
                       </label>
                       <input
                         type="number"
@@ -1348,7 +1350,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({
                     </div>
                     <div className="space-y-2">
                       <label className="block text-sm font-medium text-gray-700">
-                        Max Age
+                         Maximum age (years)
                       </label>
                       <input
                         type="number"

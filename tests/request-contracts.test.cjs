@@ -132,6 +132,19 @@ test("approval without authentication does not send a request", async () => {
   assert.equal(requests.length, 0);
 });
 
+test("reviewer and facilitator task queries use isolated refreshable caches", () => {
+  const hooks = read("src/lib/hooks/useReviewer.ts");
+  assert.match(hooks, /queryKey:\s*\["reviewer_tasks", page, pageSize/);
+  assert.match(hooks, /queryKey:\s*\["facilitator_tasks", page, pageSize/);
+  assert.match(hooks, /refetchOnMount:\s*"always"/);
+  assert.match(hooks, /\["taskMicroTasksResulFacilitator", taskId,/);
+  assert.match(hooks, /\["taskMicroTasksResultReviewersSubmission", taskId,/);
+
+  const taskList = read("src/app/components/reviewer/taskList.tsx");
+  assert.match(taskList, /Reviewer tasks could not be loaded/);
+  assert.match(taskList, /onClick=\{\(\) => refetch\(\)\}/);
+});
+
 test("withdrawal serializes the form amount as a JSON number", async () => {
   const { hooks, requests } = loadHooks("src/lib/hooks/usePayment.ts");
   await hooks.useWithdrawMoney().mutationFn({ paymentMethod: "Telebirr", phoneNumber: "+251912345678", amount: "12.50" });

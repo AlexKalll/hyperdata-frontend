@@ -27,6 +27,10 @@ export interface AnnotationBasedata {
   name: string,
   code: string,
   description: string,
+  annotationType?: {
+    id: string,
+    name: string,
+  }
   annotation_type: {
     id: string,
     name: string,

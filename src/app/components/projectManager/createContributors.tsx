@@ -13,7 +13,6 @@ import {
   userRoleProfilesFilter,
   userRoleProfilesFilterUnassigned,
 } from "@/lib/hooks/useFetchUser";
-import { toast } from "sonner";
 import { FilterComponent } from "@/components/ui/filterComponent";
 
 interface CreateContributorsProps {
@@ -87,16 +86,13 @@ const CreateContributors: React.FC<CreateContributorsProps> = ({
     e.preventDefault();
 
     try {
-      addUSerMutation.mutateAsync({
-        memeberType: memberType,
+      await addUSerMutation.mutateAsync({
         contributor_ids: selectedUsers, // Correctly uses selectedUsers
         taskId: taskId,
       });
-      toast.success("Contributors added successfully!");
       localStorage.removeItem(`selectedUsers_${taskId}`);
       onCancel();
     } catch (error) {
-      toast.error("Failed to add contributors.");
       console.error("Error adding contributors:", error);
     }
   };
@@ -106,8 +102,6 @@ const CreateContributors: React.FC<CreateContributorsProps> = ({
     const saved = localStorage.getItem(`selectedUsers_${taskId}`);
     return saved ? JSON.parse(saved) : [];
   });
-  ``;
-
   const handleToggleUser = (userId: string) => {
     setSelectedUsers((prev) =>
       prev.includes(userId)

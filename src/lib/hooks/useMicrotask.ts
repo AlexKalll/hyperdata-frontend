@@ -315,7 +315,6 @@ export const useAddSingleMicroTask = ({
         if (!session?.access_token) {
           throw new Error("No authentication token available");
         }
-        console.log("MicroTask Data:", microTaskData);
         const data = { text: microTaskData.text, instruction: microTaskData.instruction, task_id: taskId, is_test: microTaskData.is_test };
 
 
@@ -770,16 +769,15 @@ export function useGetMicroTaskDataSetFacilitatorDetail({
         }
         const params = new URLSearchParams({
           page: String(page),
-          "limit": String(pageSize),
-          ...(searchQuery && { "search": searchQuery }),
-          ...(verificationStatus && { "verification-status": verificationStatus }),
+          limit: String(pageSize),
+          contributor_id,
         });
 
         const baseUrl =
           process.env.NEXT_PUBLIC_API_BASE_URL;
 
         const response = await axios.get<DatasetMicroTaskResponse>(
-          `${baseUrl}/workspace/data-set/facilitator/contributor/submissions/${task_id}?${params.toString()}&contributor_id=${contributor_id}`,
+          `${baseUrl}/workspace/data-set/facilitator/contributor/submissions/${task_id}?${params.toString()}`,
 
           {
             headers: {

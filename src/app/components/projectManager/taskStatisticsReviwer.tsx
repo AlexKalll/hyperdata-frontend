@@ -309,7 +309,6 @@ export default function TaskStatisticsReviwer({
     isLoading: boolean;
     isError: boolean;
   };
-console.log("Reviewer Stats Data:", stats);
   const userColumns: ColumnDef<UserData>[] = [
     { accessorKey: "fullName", header: "Full Name" },
     { accessorKey: "microtasksAssigned", header: "Assigned" },

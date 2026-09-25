@@ -44,6 +44,11 @@ interface basedataDeleteProfilesProps {
   servicename?: string;
 }
 
+type BasedataUpdatePayload = {
+  id: string;
+  [key: string]: unknown;
+};
+
 interface languageProfilesProps {
   page: number;
   pageSize: number;
@@ -673,15 +678,17 @@ export const usePutBasedata = (
 ) => {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
-  return useMutation<Basedata, MutationError, Basedata>({
-    mutationFn: async (ResponseData: Basedata) => {
+  return useMutation<Basedata, MutationError, BasedataUpdatePayload>({
+    mutationFn: async (responseData: BasedataUpdatePayload) => {
       if (!session?.access_token) {
         throw new Error("No authentication token available");
       }
 
+      const { id, ...payload } = responseData;
+
       const response = await axios.put<Basedata>(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting/${servicename}/${ResponseData.id}`,
-        ResponseData,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting/${servicename}/${id}`,
+        payload,
         {
           headers: { Authorization: `Bearer ${session.access_token}` },
         }
@@ -712,7 +719,7 @@ export const useAddBasedata = (
   const { data: session } = useSession();
 
   return useMutation({
-    mutationFn: async (ResponseData: Omit<Basedata, "id">) => {
+    mutationFn: async (ResponseData: Record<string, unknown>) => {
       if (!session?.access_token) {
         throw new Error("No authentication token available");
       }
@@ -786,14 +793,16 @@ export const usePutDynamicBasedata = (
   const { data: session } = useSession();
 
   return useMutation({
-    mutationFn: async (ResponseData: Basedata) => {
+    mutationFn: async (ResponseData: BasedataUpdatePayload) => {
       if (!session?.access_token) {
         throw new Error("No authentication token available");
       }
 
+      const { id, ...payload } = ResponseData;
+
       const response = await axios.put<Basedata>(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting/${servicename}/${ResponseData.id}`,
-        ResponseData,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting/${servicename}/${id}`,
+        payload,
         {
           headers: { Authorization: `Bearer ${session.access_token}` },
         }
@@ -830,9 +839,11 @@ export const usePutOrganiztionBasedata = (
         throw new Error("No authentication token available");
       }
 
+      const { id, ...payload } = ResponseData;
+
       const response = await axios.put<Organization>(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting/${servicename}/${ResponseData.id}`,
-        ResponseData,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting/${servicename}/${id}`,
+        payload,
         {
           headers: { Authorization: `Bearer ${session.access_token}` },
         }

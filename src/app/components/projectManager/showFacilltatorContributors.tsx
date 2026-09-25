@@ -10,7 +10,6 @@ import {
   showFacilltatorContributorsFiltered,
   RemoveFacilitatorContributor,
 } from "@/lib/hooks/useFetchUser";
-import { toast } from "sonner";
 import { UserTask } from "@/app/types/global";
 
 interface ShowFacilltatorContributorsProps {
@@ -89,10 +88,8 @@ const ShowFacilltatorContributors: React.FC<
       // Also refetch to ensure data is in sync with backend
       refetch();
 
-      toast.success("Contributor removed successfully!");
     } catch (error) {
-      toast.error("Failed to remove contributor.");
-    
+      console.error("Error removing contributor:", error);
     }
   };
 

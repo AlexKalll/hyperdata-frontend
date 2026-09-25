@@ -51,7 +51,7 @@ export function DialectCRUD() {
     {
       page,
       pageSize,
-      servicename: "Dialect",
+      servicename: "dialect",
       searchQuery: debouncedSearch,
       verificationStatus,
     }

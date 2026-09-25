@@ -85,6 +85,40 @@ Section 4(b) of the Apache License, Version 2.0.
 - Added deterministic pnpm 9 installation to the production Docker image.
 - Added Docker build arguments for the public API and frontend URLs so client bundles use the production endpoints.
 
+## 2026-09-23 - Production login session cookie
+
+- Removed the custom NextAuth session-cookie override so the credentials route and `withAuth` middleware use the same production cookie name.
+- Fixed valid logins being redirected back to `/login?callbackUrl=...` because middleware could not read the custom session cookie.
+
+## 2026-09-23 - Task wizard measurement labels
+
+- Added explicit units to task creation, task editing, payment editing, and task summary labels for days, minutes, seconds, characters, age in years, contributor/dataset counts, retries, batches, and wallet credits.
+- Corrected character-field placeholders that incorrectly said `Enter seconds`.
+- Kept contributor deadline inputs in user-facing days with the existing days-to-hours API conversion, and displayed reviewer deadlines in their backend day units.
+
+## 2026-09-24 - E2E request-contract alignment
+
+- Aligned reference-data create/update forms with strict endpoint DTOs, including
+  relation-ID fields and edit prepopulation for dialects, regions, and zones.
+- Kept task and instruction IDs in endpoint URLs and limited assignment and
+  instruction request bodies to endpoint-supported properties.
+- Awaited assignment and instruction mutations and removed duplicate component
+  notifications so dialogs close only after successful requests.
+
+## 2026-09-24 - Reviewer task visibility
+
+- Always refetch the Reviewer task panel when it opens or regains focus.
+- Separated Reviewer and Facilitator React Query cache keys and scoped detail
+  query keys by task ID to prevent role/task results from sharing stale data.
+- Display a retryable error state instead of showing the empty-task illustration
+  when the Reviewer task request fails.
+
+## 2026-09-24 - Facilitator submission view contract
+
+- Aligned the facilitator contributor-submission query with the backend's
+  supported pagination and contributor filter parameters, preventing strict
+  validation 400 responses when opening a submission.
+
 ## How to record future changes
 - When making non-trivial modifications, add a short entry under a new dated section below
 - Split commits by cohesive behavior or deployable concern, use Conventional Commit messages
