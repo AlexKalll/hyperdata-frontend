@@ -315,7 +315,6 @@ export const useAddSingleMicroTask = ({
         if (!session?.access_token) {
           throw new Error("No authentication token available");
         }
-        console.log("MicroTask Data:", microTaskData);
         const data = { text: microTaskData.text, instruction: microTaskData.instruction, task_id: taskId, is_test: microTaskData.is_test };
 
 
