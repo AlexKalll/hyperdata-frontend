@@ -293,6 +293,12 @@ const TaskDetailPage: React.FC = () => {
       accessorKey: "fullName",
       header: "Full Name",
       enableSorting: true,
+      cell: ({ row }) => (
+        <span>
+          {row.original.user?.first_name} {row.original.user?.middle_name}{" "}
+          {row.original.user?.last_name}
+        </span>
+      ),
     },
     {
       accessorKey: "role",
