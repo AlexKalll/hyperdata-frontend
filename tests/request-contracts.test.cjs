@@ -123,6 +123,13 @@ test("instruction deletion uses the task instruction endpoint", async () => {
   assert.match(view, /disabled=\{deleteInstruction\.isPending\}/);
 });
 
+test("sector descriptions render as compact single-line text", () => {
+  const source = read("src/app/components/baseData/sectorCrud.tsx");
+  assert.ok(source.includes('accessorKey: "description"'));
+  assert.ok(source.includes('className="block max-w-[240px] truncate"'));
+  assert.ok(source.includes("row.original.description || \"—\""));
+});
+
 for (const [hook, action, input, body] of [
   ["useApprove", "approve", { annotation_id: "annotation-id", annotation: "Correct" }, { annotation: "Correct" }],
   ["useFlagMicrotask", "flag", { flag_type_id: "flag-id", comment: "Check audio" }, { flag_type_id: "flag-id", comment: "Check audio" }],

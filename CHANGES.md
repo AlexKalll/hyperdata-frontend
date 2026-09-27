@@ -130,6 +130,10 @@ Section 4(b) of the Apache License, Version 2.0.
 - Rendered task-member full names from the nested user data in the SuperAdmin
   task users table.
 
+## 2026-09-27 - Reference-data administration fixes
+
+- Display sector descriptions in a compact, single-line truncated table cell.
+
 ## How to record future changes
 - When making non-trivial modifications, add a short entry under a new dated section below
 - Split commits by cohesive behavior or deployable concern, use Conventional Commit messages
