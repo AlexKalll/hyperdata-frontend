@@ -130,6 +130,9 @@ importers:
       '@eslint/eslintrc':
         specifier: ^3
         version: 3.3.6(supports-color@7.2.0)
+      '@next/eslint-plugin-next':
+        specifier: ^15.4.8
+        version: 15.5.21
       '@types/js-cookie':
         specifier: ^3.0.6
         version: 3.0.6

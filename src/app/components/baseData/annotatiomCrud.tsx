@@ -108,7 +108,9 @@ export function AnnotationCRUD() {
       accessorKey: "annotation_type",
       header: "Annotation Type",
       cell: function AnnotationTypeNameCell({ row }) {
-        const annotationType = row.original?.annotation_type?.name;
+        const annotationType =
+          row.original?.annotationType?.name ||
+          row.original?.annotation_type?.name;
         return (
           <span className={`px-2 py-1 rounded text-sm font-medium  `}>
             {annotationType}
@@ -175,8 +177,6 @@ export function AnnotationCRUD() {
                     intialdata={row.original}
                     onClose={() => setIsOpen(false)}
                     servicename="annotation"
-                    coloumn_name="id"
-                    foriegnData="annotation-type"
                   />
                 </DialogContent>
               </Dialog>

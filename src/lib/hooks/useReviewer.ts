@@ -85,6 +85,9 @@ export function useGetProjectTask({
             }
         },
         enabled: !!session?.access_token, // Only fetch when token is available
+        staleTime: 0,
+        refetchOnMount: "always",
+        refetchOnWindowFocus: true,
         retry: (failureCount, error) => {
             if (error.message === "No authentication token available") return false;
             return failureCount < 2;
@@ -99,7 +102,7 @@ export function useGetProjectTaskFacilitator({
 }: NewProjectrofileTaskProps) {
     const { data: session } = useSession();
     return useQuery<NewProjectTaskResponse>({
-        queryKey: ["reviewer_tasks", page, pageSize, searchQuery, verificationStatus],
+        queryKey: ["facilitator_tasks", page, pageSize, searchQuery, verificationStatus],
         queryFn: async () => {
 
 
@@ -215,7 +218,7 @@ export function useGetTaskMicroTaskResponseForFacilitator({
 }: NewTaskMicroTaskProps) {
     const { data: session } = useSession();
     return useQuery<NewTaskMicroTaskResponse>({
-        queryKey: ["taskMicroTasksResulFacilitator", microTaskPage, microTaskPageSize, searchQuery, verificationStatus],
+        queryKey: ["taskMicroTasksResulFacilitator", taskId, microTaskPage, microTaskPageSize, searchQuery, verificationStatus],
         queryFn: async () => {
 
 
@@ -271,7 +274,7 @@ export function useGetTaskMicroTaskResponseForReviewersSubmission({
 }: NewTaskMicroTaskProps) {
     const { data: session } = useSession();
     return useQuery<NewTaskMicroTaskResponse>({
-        queryKey: ["taskMicroTasksResultReviewersSubmission", microTaskPage, microTaskPageSize, searchQuery, verificationStatus],
+        queryKey: ["taskMicroTasksResultReviewersSubmission", taskId, microTaskPage, microTaskPageSize, searchQuery, verificationStatus],
         queryFn: async () => {
 
 
@@ -362,13 +365,13 @@ export const useFlagMicrotask = () => {
     const { data: session } = useSession();
     return useMutation({
         mutationFn: async (payload: FlagPayload) => {
-            var data = {
+            const data = {
                 flag_type_id: payload.flag_type_id,
                 comment: payload.comment,
             };
             const response = await axios.put(
                 `${process.env.NEXT_PUBLIC_API_BASE_URL}/workspace/data-set/flag/${payload.microTaskId}`,
-                payload,
+                data,
                 {
                     headers: { Authorization: `Bearer ${session?.access_token}` },
                 }
@@ -390,7 +393,7 @@ export const useApprove = () => {
 
             const response = await axios.put(
                 `${process.env.NEXT_PUBLIC_API_BASE_URL}/workspace/data-set/approve/${userData.microTaskId}`,
-                userData,
+                { annotation: userData.annotation },
                 {
                     headers: { Authorization: `Bearer ${session.access_token}` },
                 }

@@ -160,8 +160,6 @@ export function SectorCRUD() {
                     intialdata={row.original}
                     onClose={() => setIsOpen(false)}
                     servicename="sector"
-                    coloumn_name="language_id"
-                    foriegnData="language"
                   />
                 </DialogContent>
               </Dialog>

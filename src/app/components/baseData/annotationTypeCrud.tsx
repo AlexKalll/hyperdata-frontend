@@ -167,8 +167,6 @@ export function AnnotationTypeCRUD() {
                     intialdata={row.original}
                     onClose={() => setIsOpen(false)}
                     servicename="annotation-type"
-                    coloumn_name="language_id"
-                    foriegnData="language"
                   />
                 </DialogContent>
               </Dialog>

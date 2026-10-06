@@ -145,7 +145,7 @@ const UpdatePaymentModal: React.FC<UpdateTaskFormProps> = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">
-              Reviewer payment  per review{" "}
+              Reviewer payment (credits per reviewed microtask){" "}
               <span className="text-red-500">*</span>
             </label>
             <input
@@ -154,7 +154,7 @@ const UpdatePaymentModal: React.FC<UpdateTaskFormProps> = ({
               type="number"
               value={formData.reviewer_payment_per_microtask}
               onChange={handleChange}
-              placeholder="Enter number"
+               placeholder="Enter credits"
               className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                 errors.reviewer_payment_per_microtask
                   ? "border-red-500"
@@ -169,7 +169,7 @@ const UpdatePaymentModal: React.FC<UpdateTaskFormProps> = ({
           </div>
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">
-              Contributor payment per approved contribution{" "}
+              Contributor payment (credits per approved microtask){" "}
               <span className="text-red-500">*</span>
             </label>
             <input
@@ -178,7 +178,7 @@ const UpdatePaymentModal: React.FC<UpdateTaskFormProps> = ({
               type="number"
               value={formData.contributor_payment_per_microtask}
               onChange={handleChange}
-              placeholder="Enter number"
+               placeholder="Enter credits"
               className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                 errors.contributor_payment_per_microtask
                   ? "border-red-500"

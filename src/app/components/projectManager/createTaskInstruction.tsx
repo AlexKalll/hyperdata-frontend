@@ -58,15 +58,17 @@ const CreateTaskInstruction: React.FC<CreateTaskInstructionProps> = ({
     e.preventDefault();
 
     try {
-      addInstructionMutation.mutateAsync({
+      await addInstructionMutation.mutateAsync({
         title: formData.title,
         content: formData.content,
         video_instruction_url: formData.video_instruction_url,
         audio_instruction_url: formData.audio_instruction_url,
         taskId: taskId,
       });
-      onCancel()
-    } catch (error) {}
+      onCancel();
+    } catch (error) {
+      console.error("Error creating task instruction:", error);
+    }
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
