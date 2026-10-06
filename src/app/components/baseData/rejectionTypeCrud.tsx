@@ -110,7 +110,7 @@ export function RejectionTypeCRUD() {
     {
       accessorKey: "",
       header: "Action",
-      cell: ({ row }) => {
+      cell: function RejectionTypeActionCell({ row }) {
         const [isOpen, setIsOpen] = useState(false);
         const [isOpenDeletor, setIsOpenDeletor] = useState(false);
         return (
@@ -165,8 +165,6 @@ export function RejectionTypeCRUD() {
                     intialdata={row.original}
                     onClose={() => setIsOpen(false)}
                     servicename="rejection-type"
-                    coloumn_name="language_id"
-                    foriegnData="language"
                   />
                 </DialogContent>
               </Dialog>

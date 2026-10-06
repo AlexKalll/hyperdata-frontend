@@ -107,8 +107,10 @@ export function AnnotationCRUD() {
     {
       accessorKey: "annotation_type",
       header: "Annotation Type",
-      cell: ({ row }) => {
-        const annotationType = row.original?.annotation_type?.name;
+      cell: function AnnotationTypeNameCell({ row }) {
+        const annotationType =
+          row.original?.annotationType?.name ||
+          row.original?.annotation_type?.name;
         return (
           <span className={`px-2 py-1 rounded text-sm font-medium  `}>
             {annotationType}
@@ -119,7 +121,7 @@ export function AnnotationCRUD() {
     {
       accessorKey: "",
       header: "Action",
-      cell: ({ row }) => {
+      cell: function AnnotationActionCell({ row }) {
         const [isOpen, setIsOpen] = useState(false);
         const [isOpenDeletor, setIsOpenDeletor] = useState(false);
 
@@ -175,8 +177,6 @@ export function AnnotationCRUD() {
                     intialdata={row.original}
                     onClose={() => setIsOpen(false)}
                     servicename="annotation"
-                    coloumn_name="id"
-                    foriegnData="annotation-type"
                   />
                 </DialogContent>
               </Dialog>

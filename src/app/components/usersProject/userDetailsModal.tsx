@@ -36,16 +36,17 @@ export function UserDetailsModal({
   onClose,
 
 }: UserDetailsModalProps) {
-  if (!user) return null;
   const currentUser = user;
   const [isOpenEditer, setIsOpenEditer] = useState(false);
   const [isOpendeactivate, setIsOpendeactivate] = useState(false);
   const [isOpendeactivateId, setIsOpendeactivateid] = useState("");
   const updateUserMutation = usedeactivateUser();
   const handleDeactivate = async () => {
+    if (!user) return;
     await updateUserMutation.mutateAsync(user);
     onClose();
   };
+  if (!user) return null;
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>

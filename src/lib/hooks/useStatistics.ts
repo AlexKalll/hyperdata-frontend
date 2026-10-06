@@ -153,7 +153,7 @@ export function useSingleUserlog(user_id: string, page: number, pageSize: number
                 throw error;
             }
         },
-        enabled: !!session?.access_token,
+        enabled: !!session?.access_token && !!user_id,
         retry: (failureCount, error) => {
             if (error.message === "No authentication token available") return false;
             return failureCount < 2;

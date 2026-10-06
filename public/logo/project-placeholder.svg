@@ -1,0 +1,11 @@
+<svg width="800" height="320" viewBox="0 0 800 320" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Project cover placeholder</title>
+  <desc id="desc">A neutral abstract project cover placeholder.</desc>
+  <rect width="800" height="320" fill="#F2F4F7"/>
+  <path d="M0 232C102 176 205 164 309 197C414 230 520 236 627 189C697 158 755 142 800 141V320H0V232Z" fill="#D1FADF"/>
+  <path d="M0 258C132 203 249 203 350 259C451 315 587 311 800 247V320H0V258Z" fill="#B2DDFF"/>
+  <rect x="334" y="98" width="132" height="86" rx="12" fill="white" stroke="#D0D5DD" stroke-width="2"/>
+  <path d="M358 156L385 130L412 154L431 139L452 156" stroke="#095FAF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="433" cy="121" r="10" fill="#17A2A4"/>
+  <text x="400" y="218" text-anchor="middle" fill="#475467" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">Project cover</text>
+</svg>

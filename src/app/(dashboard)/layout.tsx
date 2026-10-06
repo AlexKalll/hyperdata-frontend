@@ -21,11 +21,6 @@ export default function DashboardLayout({
   useSyncAuthStore();
   const pathname = usePathname();
 
-  // Debug navigation
-  useEffect(() => {
-   
-  }, [pathname]);
-
   // Map for friendly names
   const titleMap: Record<string, string> = {
     project: "Project",

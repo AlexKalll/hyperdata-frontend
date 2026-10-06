@@ -106,7 +106,7 @@ export function CountryCRUD() {
     {
       accessorKey: "",
       header: "Action",
-      cell: ({ row }) => {
+      cell: function CountryActionCell({ row }) {
         const [isOpen, setIsOpen] = useState(false);
         const [isOpenDeletor, setIsOpenDeletor] = useState(false);
         return (

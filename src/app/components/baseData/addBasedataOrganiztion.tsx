@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import { countryCodes } from "@/app/types/countryCodes";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { toast } from "react-toastify";
 interface basedataDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -77,6 +76,7 @@ export default function AddBasedataFormDynamic({
     city: "",
     country: "",
     region: "",
+    zone: "",
     subCity: "",
     phone: "",
     address: "",
@@ -144,9 +144,7 @@ export default function AddBasedataFormDynamic({
         address: `${formData.subCity},${formData.city},${formData.zone}, ${formData.region}, ${formData.country}`,
       });
       onClose();
-    } catch (error) {
-      toast.error("Failed to create basedata");
-    }
+    } catch (error) {}
   };
 
   return (
@@ -265,7 +263,7 @@ export default function AddBasedataFormDynamic({
               name="zone"
               value={formData.zone}
               onChange={(e) =>
-                setFormData({ ...formData, zone_: e.target.value })
+                setFormData({ ...formData, zone: e.target.value })
               }
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-primary"
             >

@@ -161,18 +161,6 @@ const authOptions: NextAuthOptions = {
     signIn: "/login",
     error: "/login",
   },
-  cookies: {
-    sessionToken: {
-      name: "next-auth.session-token",
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: false, // Disable secure for development
-        domain: undefined, // Let browser handle domain
-      },
-    },
-  },
 
 };
 

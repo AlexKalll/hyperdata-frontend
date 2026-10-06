@@ -147,12 +147,10 @@ const CreateProjectMember: React.FC<CreateProjectMemberProps> = ({
         emails: selectedUsers,
         taskId,
       });
-      toast.success(`${memberType} added successfully!`);
       setOpen(false);
       setSelectedUsers([]);
       localStorage.removeItem(`selectedProjectMembers_${taskId}`);
     } catch (error) {
-      toast.error(`Failed to add ${memberType.toLowerCase()}.`);
       console.error(`Error adding ${memberType.toLowerCase()}:`, error);
     }
   };

@@ -112,7 +112,7 @@ export function AnnotationTypeCRUD() {
     {
       accessorKey: "",
       header: "Action",
-      cell: ({ row }) => {
+      cell: function AnnotationTypeActionCell({ row }) {
         const [isOpen, setIsOpen] = useState(false);
         const [isOpenDeletor, setIsOpenDeletor] = useState(false);
         return (
@@ -167,8 +167,6 @@ export function AnnotationTypeCRUD() {
                     intialdata={row.original}
                     onClose={() => setIsOpen(false)}
                     servicename="annotation-type"
-                    coloumn_name="language_id"
-                    foriegnData="language"
                   />
                 </DialogContent>
               </Dialog>

@@ -80,6 +80,7 @@ const ScheduleDistribution: React.FC<ScheduleDistributionProps> = ({
                 type="date"
                 name="startDate"
                 value={scheduleformData.startDate}
+                min={new Date().toISOString().split('T')[0]}
                 onChange={handleInputChange}
                 className={`w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none `}
                 required

@@ -241,7 +241,7 @@ const TaskDatasetSubmit: React.FC<TaskDatasetProps> = ({
       header: "Micro Task",
       enableSorting: false,
       size: 250,
-      cell: ({ row }) => {
+      cell: function ProjectManagerSubmitMicroTaskCell({ row }) {
         const waveformRef = useRef<HTMLDivElement>(null);
         const wavesurferRef = useRef<WaveSurfer | null>(null);
         const [isPlaying, setIsPlaying] = useState(false);
@@ -369,7 +369,7 @@ const TaskDatasetSubmit: React.FC<TaskDatasetProps> = ({
       accessorKey: "actions",
       header: "Data",
       size: 250,
-      cell: ({ row }) => {
+      cell: function ProjectManagerSubmitDataCell({ row }) {
         const waveformRef = useRef<HTMLDivElement>(null);
         const wavesurferRef = useRef<WaveSurfer | null>(null);
         const [isPlaying, setIsPlaying] = useState(false);
@@ -498,7 +498,7 @@ const TaskDatasetSubmit: React.FC<TaskDatasetProps> = ({
       header: "Submission",
       enableSorting: true,
       size: 100,
-      cell: ({ row }) => {
+      cell: function ProjectManagerSubmitSubmissionCell({ row }) {
         return (
           <div className="w-[100px]">
             <Dialog>

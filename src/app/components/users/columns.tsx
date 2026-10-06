@@ -9,7 +9,7 @@ export const individualColumns: ColumnDef<UserData>[] = [
   {
     accessorKey: "",
     header: "Full   Name",
-    cell: ({ row }) => {
+    cell: function UserFullNameCell({ row }) {
       return (
         <div className="flex items-center gap-3">
           <span className="font-medium">
@@ -28,7 +28,7 @@ export const individualColumns: ColumnDef<UserData>[] = [
   {
     accessorKey: "role",
     header: "Role",
-    cell: ({ row }) => {
+    cell: function UserRoleCell({ row }) {
       const roleData = row.original?.role;
       const role = typeof roleData === 'object' ? roleData?.name : roleData;
       const roleColors: Record<string, string> = {
@@ -53,7 +53,7 @@ export const individualColumns: ColumnDef<UserData>[] = [
   {
     accessorKey: "is_active",
     header: "Status",
-    cell: ({ row }) => {
+    cell: function UserStatusCell({ row }) {
       const status = row.original.is_active;
       return (
         <Badge variant={status ? "active" : "deactivated"}>
@@ -65,7 +65,7 @@ export const individualColumns: ColumnDef<UserData>[] = [
   {
     accessorKey: "created_date",
     header: "Created Date",
-    cell: ({ row }) => {
+    cell: function UserCreatedDateCell({ row }) {
       const date = row.original.created_date;
       return <span>{date ? formatDateMedium(date) : ""}</span>;
     },
@@ -74,7 +74,7 @@ export const individualColumns: ColumnDef<UserData>[] = [
   {
     accessorKey: "",
     header: "Action",
-    cell: ({ row }) => {
+    cell: function UserActionCell({ row }) {
       const [isOpen, setIsOpen] = useState(false);
 
       const handleDeactivate = (userId: string) => {};

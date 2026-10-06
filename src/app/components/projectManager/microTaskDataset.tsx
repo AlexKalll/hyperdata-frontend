@@ -166,7 +166,7 @@ const TaskDataset: React.FC<TaskDatasetProps> = ({ microTaskId }) => {
     {
       accessorKey: "status",
       header: "Status",
-      cell: ({ row }) => {
+      cell: function ProjectManagerDatasetStatusCell({ row }) {
         const status = row.original.status?.toLowerCase();
         const bg =
           status === "approved"
@@ -240,7 +240,7 @@ const TaskDataset: React.FC<TaskDatasetProps> = ({ microTaskId }) => {
       accessorKey: "micro_task",
       header: "Micro Task",
       enableSorting: false,
-      cell: ({ row }) => {
+      cell: function ProjectManagerDatasetMicroTaskCell({ row }) {
         const mt = row.original.microTask;
         const isAudio = mt?.type === "audio";
         const url = mt?.file_path;
@@ -331,7 +331,7 @@ const TaskDataset: React.FC<TaskDatasetProps> = ({ microTaskId }) => {
       header: "Data",
 
       enableSorting: false,
-      cell: ({ row }) => {
+      cell: function ProjectManagerDatasetDataCell({ row }) {
         const url = row.original.file_path;
         const isAudio = row.original.type === "audio";
 

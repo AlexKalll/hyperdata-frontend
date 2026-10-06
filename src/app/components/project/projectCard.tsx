@@ -120,9 +120,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <img
           src={
             cover_image_url == ""
-              ? "/logo/leyupro.jpg"
+              ? "/logo/project-placeholder.svg"
               : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${cover_image_url}`
           }
+          alt="Project cover"
           className="h-25 w-full object-cover"
         />
         <div className="p-4">

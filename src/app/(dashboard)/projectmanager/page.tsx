@@ -291,7 +291,7 @@ const ProjectOverview: React.FC<ProjectOverviewProps> = ({ projectId }) => {
     <div className="p-6 space-y-6">
       <div className="y-0 py-5 px-4">
         <span className="text-gray-700 text-lg font-medium">
-          {superadminData?.data.project.name}
+          {superadminData?.data?.project?.name}
         </span>
       </div>
 
@@ -434,10 +434,8 @@ export default function UsersPage() {
         </div>
       </div>
 
-      {selectedProject ? (
+      {selectedProject && (
         <ProjectOverview projectId={selectedProject} />
-      ) : (
-        <ProjectOverview projectId={""} />
       )}
     </div>
   );

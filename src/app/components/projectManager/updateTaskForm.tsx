@@ -43,7 +43,6 @@ interface UpdateTaskForm {
   reviewer_payment_per_microtask: number | null;
   contributor_payment_per_microtask: number | null;
   max_retry_per_task: number | null;
-  expected_number_of_total_contributors: number;
   max_expected_no_of_contributors: number | null;
   batch: number | null;
   is_dialect_specific: boolean;
@@ -77,10 +76,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
     max_expected_no_of_contributors: task.max_expected_no_of_contributors ?? null,
     max_dataset_per_reviewer: task.taskRequirement.max_dataset_per_reviewer,
     appriximate_time_per_batch: task.taskRequirement.appriximate_time_per_batch ?? null,
-    reviewer_completion_time_limit:
-      task?.reviewer_completion_time_limit != null
-        ? task.reviewer_completion_time_limit / 24
-        : null,
+    reviewer_completion_time_limit: task.reviewer_completion_time_limit ?? null,
     contributor_completion_time_limit:
       task.contributor_completion_time_limit != null
         ? task.contributor_completion_time_limit / 24
@@ -88,8 +84,6 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
     reviewer_payment_per_microtask: task.payment?.reviewer_credit_per_microtask ?? null,
     contributor_payment_per_microtask: task.payment?.contributor_credit_per_microtask ?? null,
     max_retry_per_task: task.taskRequirement.max_retry_per_task,
-    expected_number_of_total_contributors:
-      task.taskRequirement.expected_number_of_total_contributors,
     max_micro_task_per_contributor: task.taskRequirement.max_micro_task_per_contributor ?? null,
     batch: task.taskRequirement.batch ?? null,
     is_dialect_specific: task.taskRequirement.is_dialect_specific,
@@ -430,8 +424,6 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
           contributor_payment_per_microtask:
             taskData.contributor_payment_per_microtask,
           max_retry_per_task: taskData.max_retry_per_task,
-          expected_number_of_total_contributors:
-            taskData.expected_number_of_total_contributors,
           max_micro_task_per_contributor:
             taskData.max_micro_task_per_contributor,
           batch: taskData.batch,
@@ -447,10 +439,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
             taskData.contributor_completion_time_limit != null
               ? taskData.contributor_completion_time_limit * 24
               : null,
-          reviewer_completion_time_limit:
-            taskData.reviewer_completion_time_limit != null
-              ? taskData.reviewer_completion_time_limit * 24
-              : null,
+          reviewer_completion_time_limit: taskData.reviewer_completion_time_limit,
           is_gender_specific: taskData.is_gender_specific,
           gender: taskData.is_gender_specific
             ? taskData.gender
@@ -508,7 +497,6 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
           reviewer_payment_per_microtask: 0,
           contributor_payment_per_microtask: 0,
           max_retry_per_task: 0,
-          expected_number_of_total_contributors: 0,
           max_expected_no_of_contributors: null,
           max_micro_task_per_contributor: 0,
           batch: 0,
@@ -568,7 +556,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Maximum  Micro Task assignment per contributors {" "}
+                  Maximum contributors per microtask (contributors/microtask){" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -593,7 +581,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Maximum  contributors assignment per facilitator {" "}
+                  Maximum contributors per facilitator (contributors/facilitator){" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -618,7 +606,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Max dataset per reviewer{" "}
+                  Maximum datasets per reviewer (datasets/reviewer){" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -643,7 +631,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Contributors Completion Time in Days
+                  Contributor completion time limit (days)
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -687,7 +675,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Reviewer Completion time in Days
+                  Reviewer completion time limit (days)
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -727,7 +715,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Approximate time to finish task {" "}
+                  Approximate time per batch (minutes){" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -754,7 +742,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
                 <>
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
-                      Minimum Characters Length{" "}
+                      Minimum character length (characters){" "}
                       <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -764,7 +752,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
                       min="0"
                       value={formData.minimum_characters_length ?? ""}
                       onChange={handleChange}
-                      placeholder="Enter seconds"
+                      placeholder="Enter character count"
                       className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                         errors.minimum_characters_length
                           ? "border-red-500"
@@ -779,7 +767,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
                   </div>
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
-                      Maximum Characters Length{" "}
+                      Maximum character length (characters){" "}
                       <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -789,7 +777,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
                       min="0"
                       value={formData.maximum_characters_length ?? ""}
                       onChange={handleChange}
-                      placeholder="Enter seconds"
+                      placeholder="Enter character count"
                       className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                         errors.maximum_characters_length
                           ? "border-red-500"
@@ -808,7 +796,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
                 <>
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
-                      Minimum Recording Length{" "}
+                      Minimum recording length (seconds){" "}
                       <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -833,7 +821,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
                   </div>
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
-                      Maximum Audio Seconds{" "}
+                      Maximum recording length (seconds){" "}
                       <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -860,7 +848,8 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
               )}
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Maximum Retry per mico Task <span className="text-red-500">*</span>
+                  Maximum retries per microtask (retries/microtask){" "}
+                  <span className="text-red-500">*</span>
                 </label>
                 <input
                   name="max_retry_per_task"
@@ -884,7 +873,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Maximum Expected Total contributors{" "}
+                  Maximum expected total contributors (contributors){" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -923,7 +912,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                 maximum assignment per contributor{" "}
+                  Maximum microtasks per contributor (microtasks/contributor){" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -948,7 +937,8 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Batch Size <span className="text-red-500">*</span>
+                   Batch size (microtasks/batch){" "}
+                   <span className="text-red-500">*</span>
                 </label>
                 <input
                   name="batch"
@@ -1278,7 +1268,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
                     <div className="flex items-center space-x-6">
                       <div className="flex-1">
                         <label className="block text-xs font-medium text-gray-600 mb-2">
-                          Minimum Age
+                           Minimum age (years)
                         </label>
                         <input
                           type="number"
@@ -1304,7 +1294,7 @@ const UpdateTask: React.FC<UpdateTaskFormProps> = ({ task, onCancel }) => {
                       </div>
                       <div className="flex-1">
                         <label className="block text-xs font-medium text-gray-600 mb-2">
-                          Maximum Age
+                           Maximum age (years)
                         </label>
                         <input
                           type="number"

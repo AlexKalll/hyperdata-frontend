@@ -1,5 +1,5 @@
 {
-  "name": "leyu-frontend",
+  "name": "mahder-frontend",
   "version": "0.1.0",
   "private": true,
   "license": "Apache-2.0",
@@ -7,10 +7,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "node --test tests/request-contracts.test.cjs"
   },
   "dependencies": {
-    "-": "^0.0.1",
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-avatar": "^1.1.3",
     "@radix-ui/react-checkbox": "^1.2.2",
@@ -30,7 +30,7 @@
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.487.0",
-    "next": "15.4.8",
+    "next": "15.4.10",
     "next-auth": "^4.24.12",
     "nookies": "^2.5.2",
     "papaparse": "^5.5.3",
@@ -50,14 +50,9 @@
     "zod": "^3.24.2",
     "zustand": "^5.0.3"
   },
-  "pnpm": {
-    "overrides": {
-      "jws": ">=3.2.3",
-      "js-yaml": ">=4.1.1"
-    }
-  },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@next/eslint-plugin-next": "^15.4.8",
     "@types/js-cookie": "^3.0.6",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20",
@@ -80,5 +75,11 @@
     "prettier": "^3.5.3",
     "tailwindcss": "^4.1.3",
     "typescript": "^5.8.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "jws": ">=3.2.3",
+      "js-yaml": ">=4.1.1"
+    }
   }
 }

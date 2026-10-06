@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { signIn, useSession } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,6 @@ export default function LoginPage() {
   const [showUpdatenewpassword, setShowUpdatenewpassword] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { data: session, status } = useSession();
   const callbackUrl = searchParams.get("callbackUrl") || "/superadmin";
   const validateNewPassword = (newpassword: string) => {
     const minLength = newpassword.length >= 8;
@@ -164,24 +163,12 @@ export default function LoginPage() {
       if (result?.error) {
         toast.error("Invalid email or password.");
       } else {
+        const authenticatedSession = await getSession();
+        if (!authenticatedSession?.user?.role) {
+          throw new Error("No authenticated role available");
+        }
         toast.success("Login successful. Redirecting...");
-        await fetch("/api/auth/session").then((res) => res.json());
-        setTimeout(() => {
-          if (session?.user?.role) {
-            redirectBasedOnRole(session.user.role);
-          } else {
-            // Fallback: check session again after a delay
-            setTimeout(() => {
-              if (session?.user?.role) {
-                redirectBasedOnRole(session.user.role);
-              } else {
-                // Final fallback: redirect to default
-                router.push("/");
-                router.refresh();
-              }
-            }, 500);
-          }
-        }, 300);
+        redirectBasedOnRole(authenticatedSession.user.role);
       }
 
       // Handle routing based on role
@@ -201,15 +188,14 @@ export default function LoginPage() {
         router.push("/projectmanager");
         break;
       case "Facilitator":
-        router.push("/dashboard/Facilitator");
+        router.push("/facilitator");
         break;
       case "Reviewer":
-        router.push("/dashboard/Reviewer");
+        router.push("/reviewer");
         break;
       default:
         router.push("/dashboard");
     }
-    router.refresh();
   };
   return (
     <div className="min-h-screen flex">
@@ -229,8 +215,8 @@ export default function LoginPage() {
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center p-8 text-white">
-            <h1 className="text-2xl md:text-3xl font-bold mb-4">
-              Welcome to Leyu
+              <h1 className="text-2xl md:text-3xl font-bold mb-4">
+                Welcome to Mahder
             </h1>
             <p className="text-lg">Log in to your account</p>
           </div>
@@ -242,12 +228,15 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           <div className="w-full py-5">
             <div className="flex justify-center mb-7">
-              <Image
-                src="/logo/leyu.png"
-                width={168}
-                height={51}
-                alt="Leyu Logo"
-              />
+              <div className="relative mx-auto h-24 w-full max-w-[280px] overflow-hidden">
+                <Image
+                  src="/Mahder Logo.png"
+                  alt="Mahder logo"
+                  fill
+                  className="object-cover object-center"
+                  priority
+                />
+              </div>
             </div>
 
             {showForget ? (

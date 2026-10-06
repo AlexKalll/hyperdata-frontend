@@ -19,13 +19,14 @@ export function DeactivateUser({
   isOpen,
   onClose,
 }: UserDetailsModalProps) {
-  if (!user) return null;
   const updateUserMutation = usedeactivateUser();
   const [isOpendeactivate, setIsOpendeactivate] = useState(false);
   const handleDeactivate = async () => {
+    if (!user) return;
     await updateUserMutation.mutateAsync(user);
     onClose();
   };
+  if (!user) return null;
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>

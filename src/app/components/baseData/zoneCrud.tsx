@@ -106,7 +106,7 @@ export function ZoneCRUD() {
     {
       accessorKey: "",
       header: "Action",
-      cell: ({ row }) => {
+      cell: function ZoneActionCell({ row }) {
         const [isOpen, setIsOpen] = useState(false);
         const [isOpenDeletor, setIsOpenDeletor] = useState(false);
         return (

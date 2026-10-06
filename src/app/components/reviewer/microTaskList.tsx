@@ -323,6 +323,8 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
       setIsRejectDialogOpen(false);
       setSelectedRejectionReasonIds([]);
       setRejectionComment("");
+      handlePostMutation();
+      setIsRejectFlag(false);
     } catch (error) {
       toast.error("Error rejecting microtask", {
         description: (error as any)?.message || "An unexpected error occurred",
@@ -344,6 +346,8 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
       });
       setIsApproveDialogOpen(false);
       setSelectedAnnotationId("");
+      handlePostMutation();
+      setIsRejectFlag(false);
     } catch (error) {
       toast.error("Error approving microtask", {
         description: (error as any)?.message || "An unexpected error occurred",
@@ -369,6 +373,7 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
       setIsFlagDialogOpen(false);
       setSelectedFlagTypeId("");
       setFlagComment("");
+      handlePostMutation();
     } catch (error) {
       toast.error("Error flagging microtask", {
         description: (error as any)?.message || "An unexpected error occurred",
@@ -413,9 +418,7 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
 
   const submitRejection = () => {
     if (selectedMicroTaskId && selectedRejectionReasonIds.length > 0) {
-      rejectMutation(selectedMicroTaskId);
-      handlePostMutation();
-       setIsRejectFlag(false);
+      return rejectMutation(selectedMicroTaskId);
     } else {
       toast.error("Please select at least one rejection reason.");
     }
@@ -423,9 +426,7 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
 
   const submitApproval = () => {
     if (selectedMicroTaskId && selectedAnnotationId) {
-      approveMutation(selectedMicroTaskId);
-      handlePostMutation();
-       setIsRejectFlag(false);
+      return approveMutation(selectedMicroTaskId);
     } else {
       toast.error("Please select an annotation.");
     }
@@ -433,8 +434,7 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
 
   const submitFlag = () => {
     if (selectedMicroTaskId && selectedFlagTypeId) {
-      flagMutation(selectedMicroTaskId);
-      handlePostMutation();
+      return flagMutation(selectedMicroTaskId);
     } else {
       toast.error("Please select a flag type.");
     }

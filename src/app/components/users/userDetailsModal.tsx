@@ -49,7 +49,6 @@ export function UserDetailsModal({
   isOpen,
   onCloseAction,
 }: UserDetailsModalProps) {
-  if (!user) return null;
   const [isOpenEditer, setIsOpenEditer] = useState(false);
   const [isOpenDiactivate, setIsOpenDiactivate] = useState(false);
   const updateUserMutation = usedeactivateUser();
@@ -57,6 +56,7 @@ export function UserDetailsModal({
     "User Details"
   );
   const handleDeactivate = async () => {
+    if (!user) return;
     await updateUserMutation.mutateAsync(user);
     onCloseAction();
   };
@@ -69,7 +69,7 @@ export function UserDetailsModal({
     isLoading: islogLoading,
     error: logError,
   } = useSingleUserlog(
-    user.id as string,
+    user?.id ?? "",
     page,
     pageSize,
     searchQuery,
@@ -155,6 +155,8 @@ export function UserDetailsModal({
     manualPagination: true,
     rowCount: logTotalElements,
   });
+
+  if (!user) return null;
 
   if (logError) {
     return (
