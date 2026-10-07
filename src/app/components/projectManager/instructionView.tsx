@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import EditTaskInstruction from "./editTaskInstruction";
+import { DeleteInstruction } from "@/lib/hooks/useProjectManager";
 interface InstructionViewProps {
   onCancel: () => void;
   open: boolean;
@@ -30,6 +30,20 @@ const InstructionView: React.FC<InstructionViewProps> = ({
   setOpen,
 }) => {
   const [showEditInstruction, setShowEditInstruction] = useState(false);
+  const deleteInstruction = DeleteInstruction();
+
+  const handleDelete = async () => {
+    if (!window.confirm("Delete this instruction?")) return;
+
+    try {
+      await deleteInstruction.mutateAsync(taskInstructions.task_id);
+      setOpen(false);
+      onCancel();
+    } catch {
+      return;
+    }
+  };
+
   if (!taskInstructions) {
     return (
       <div className="p-4">
@@ -125,7 +139,8 @@ const InstructionView: React.FC<InstructionViewProps> = ({
       {showEditInstruction && (
         <EditTaskInstruction
           onCancel={() => {
-            setShowEditInstruction(false), onCancel();
+            setShowEditInstruction(false);
+            onCancel();
           }}
           taskId={taskInstructions.task_id}
           taskInstructions={taskInstructions}
@@ -171,6 +186,8 @@ const InstructionView: React.FC<InstructionViewProps> = ({
         </Button>
         <Button
           variant="outline"
+          onClick={handleDelete}
+          disabled={deleteInstruction.isPending}
           className=" text-left px-4 py-2 text-red-500 border  border-red-300 hover:bg-red-200 flex items-center"
         >
           <svg
@@ -187,7 +204,7 @@ const InstructionView: React.FC<InstructionViewProps> = ({
               strokeWidth="1.25"
             />
           </svg>
-          Delete Instruction
+          {deleteInstruction.isPending ? "Deleting..." : "Delete Instruction"}
         </Button>
       </div>
     </div>

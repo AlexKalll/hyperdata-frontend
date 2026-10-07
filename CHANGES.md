@@ -119,6 +119,17 @@ Section 4(b) of the Apache License, Version 2.0.
   supported pagination and contributor filter parameters, preventing strict
   validation 400 responses when opening a submission.
 
+## 2026-09-25 - Instruction deletion
+
+- The task instruction delete control now calls the authenticated endpoint,
+  stays disabled while pending, and closes its view only after success.
+- Added request-contract coverage for the delete URL and control wiring.
+
+## 2026-09-25 - Task user names
+
+- Rendered task-member full names from the nested user data in the SuperAdmin
+  task users table.
+
 ## How to record future changes
 - When making non-trivial modifications, add a short entry under a new dated section below
 - Split commits by cohesive behavior or deployable concern, use Conventional Commit messages

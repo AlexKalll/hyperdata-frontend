@@ -90,7 +90,7 @@ function loadHooks(file, token = "test-token") {
     return { data: { success: true } };
   };
   const mocks = {
-    axios: { put: request, post: request },
+    axios: { delete: request, put: request, post: request },
     sonner: { toast: { success() {}, error() {} } },
     "next-auth/react": { useSession: () => ({ data: { access_token: token } }) },
     "@tanstack/react-query": {
@@ -109,6 +109,19 @@ function loadHooks(file, token = "test-token") {
   });
   return { hooks: exports, requests };
 }
+
+test("instruction deletion uses the task instruction endpoint", async () => {
+  const { hooks, requests } = loadHooks("src/lib/hooks/useProjectManager.ts");
+  await hooks.DeleteInstruction().mutationFn("task-id");
+  assert.deepEqual(requests, [[
+    "https://api.example.test/api/project-mgmt/task/task-id/instruction",
+    { headers: { Authorization: "Bearer test-token" } },
+  ]]);
+
+  const view = read("src/app/components/projectManager/instructionView.tsx");
+  assert.match(view, /onClick=\{handleDelete\}/);
+  assert.match(view, /disabled=\{deleteInstruction\.isPending\}/);
+});
 
 for (const [hook, action, input, body] of [
   ["useApprove", "approve", { annotation_id: "annotation-id", annotation: "Correct" }, { annotation: "Correct" }],
