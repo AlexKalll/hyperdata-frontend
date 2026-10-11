@@ -502,15 +502,12 @@ Reviewers are responsible for quality assurance, reviewing submissions, and ensu
 
 - Apply filters to narrow down results
 - Use multiple filters simultaneously
-- Save filter preferences for future use
 
 ## Data Export
 
 ### Export Options:
 
-- Export data to CSV, Excel, or PDF formats
-- Select specific data fields for export
-- Schedule regular exports if needed
+Export actions are available only on pages that provide them. The formats and fields depend on the specific page and your role; use the options shown in the application.
 
 ## Notifications
 
@@ -586,14 +583,11 @@ Reviewers are responsible for quality assurance, reviewing submissions, and ensu
 ### Self-Service Options:
 
 - Check this user manual
-- Review FAQ sections
-- Use in-app help features
+- Review any help resources provided by your organization
 
 ### Contact Support:
 
-- **Email**: [Support Email]
-- **Phone**: [Support Phone]
-- **Hours**: [Support Hours]
+Contact your organization's system administrator or project manager for account access, role permissions, and deployment-specific support.
 
 ### Escalation Process:
 
@@ -601,16 +595,7 @@ Reviewers are responsible for quality assurance, reviewing submissions, and ensu
 2. Contact support team
 3. Escalate to system administrator if needed
 
-## Training Resources
-
-### Available Training:
-
-- User manual (this document)
-- Video tutorials
-- Live training sessions
-- Documentation library
-
-### Best Practices:
+## Best Practices
 
 - Follow role-specific guidelines
 - Maintain data quality standards
@@ -623,9 +608,9 @@ Reviewers are responsible for quality assurance, reviewing submissions, and ensu
 
 This comprehensive user manual provides detailed guidance for all user types in the Mahder Frontend system. Each role has specific responsibilities and access levels, ensuring efficient project management and data quality control.
 
-For additional support or questions not covered in this manual, please contact the system administrator or support team.
+For additional support or questions not covered in this manual, contact your organization's system administrator or project manager.
 
 ---
 
-_Last Updated: [Current Date]_
+_Last Updated: 2026-10-11_
 _Version: 1.0_
