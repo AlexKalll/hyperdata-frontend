@@ -199,8 +199,8 @@ Follow these step-by-step instructions to set up the project locally:
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd mahder-frontend
+   git clone https://github.com/iCog-Labs-Dev/hyperdata-frontend.git
+   cd hyperdata-frontend
    ```
 
 2. **Install dependencies**
@@ -226,11 +226,11 @@ Follow these step-by-step instructions to set up the project locally:
    NEXT_PUBLIC_BASE_URL=http://localhost:3001
    
    # NextAuth Configuration
-   NEXTAUTH_SECRET=your-strong-secret-here
+    NEXTAUTH_SECRET=replace-with-a-unique-secret-of-at-least-32-characters
    NEXTAUTH_URL=http://localhost:3001
    ```
    
-   **Important**: Replace `your-strong-secret-here` with a secure random string. You can generate one using:
+    **Important**: Replace the placeholder with a secure random string. Generate one using:
    ```bash
    # Generate a secure secret
    openssl rand -base64 32
@@ -257,7 +257,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
 NEXT_PUBLIC_BASE_URL=http://localhost:3001
 
 # NextAuth Configuration
-NEXTAUTH_SECRET=your-strong-secret-here
+NEXTAUTH_SECRET=replace-with-a-unique-secret-of-at-least-32-characters
 NEXTAUTH_URL=http://localhost:3001
 ```
 
@@ -446,7 +446,7 @@ The Mahder Frontend project follows a well-organized directory structure that le
 ### Directory Overview
 
 ```
-mahder-frontend/
+hyperdata-frontend/
 ├── .kiro/                          # Kiro IDE configuration and specs
 │   └── specs/                      # Feature specifications and documentation
 ├── public/                         # Static assets served directly by the web server
@@ -685,7 +685,7 @@ This structure provides a solid foundation for scalable development while mainta
 
 ## Deployment
 
-This section covers various deployment options for the Mahder Frontend application, from Docker-based deployments to traditional production builds. Choose the deployment method that best fits your infrastructure and requirements.
+This section covers Docker-based deployment and traditional production builds. Public `NEXT_PUBLIC_*` values are compiled into the client bundle, so set them as Docker build arguments; runtime environment variables alone do not change the built client bundle.
 
 ### Quick Docker Setup
 
@@ -693,8 +693,8 @@ For a clean Docker build experience, follow these steps:
 
 ```bash
 # 1. Clone the repository
-git clone <repository-url>
-cd mahder-frontend
+git clone https://github.com/iCog-Labs-Dev/hyperdata-frontend.git
+cd hyperdata-frontend
 
 # 2. Ensure no node_modules directory exists (clean state)
 rm -rf node_modules
@@ -702,14 +702,15 @@ rm -rf node_modules
 # 3. Copy environment file
 cp .env.example .env
 
-# 4. Build the Docker image
-docker build -t mahder-frontend:latest .
+# 4. Build the Docker image with public values embedded in the bundle
+docker build -t mahder-frontend:latest \
+  --build-arg NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api \
+  --build-arg NEXT_PUBLIC_BASE_URL=http://localhost:3001 .
 
 # 5. Run the container
+NEXTAUTH_SECRET=$(openssl rand -base64 32)
 docker run -d --name mahder-frontend-app -p 3001:3000 \
-  -e NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api \
-  -e NEXT_PUBLIC_BASE_URL=http://localhost:3001 \
-  -e NEXTAUTH_SECRET=your-strong-secret-here \
+  -e NEXTAUTH_SECRET="$NEXTAUTH_SECRET" \
   -e NEXTAUTH_URL=http://localhost:3001 \
   mahder-frontend:latest
 
@@ -727,11 +728,15 @@ The project includes a Dockerfile for containerized deployment, which provides a
 To build a Docker image for the application:
 
 ```bash
-# Build the Docker image with a specific tag
-docker build -t mahder-frontend:latest .
+# Build with the public URLs embedded in the client bundle
+docker build -t mahder-frontend:latest \
+  --build-arg NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api \
+  --build-arg NEXT_PUBLIC_BASE_URL=http://localhost:3001 .
 
 # Build with a custom tag for versioning
-docker build -t mahder-frontend:v1.0.0 .
+docker build -t mahder-frontend:v1.0.0 \
+  --build-arg NEXT_PUBLIC_API_BASE_URL=https://api.example.com/api \
+  --build-arg NEXT_PUBLIC_BASE_URL=https://example.com .
 ```
 
 **Build Process:**
@@ -750,16 +755,15 @@ To run the containerized application:
 # Run with default settings
 docker run -p 3000:3000 mahder-frontend:latest
 
-# Run with custom environment variables
+# NEXT_PUBLIC_* values are already embedded during docker build.
+# Supply server-side NextAuth values at runtime.
 docker run -p 3000:3000 \
-  -e NEXT_PUBLIC_API_BASE_URL=https://api.yourdomain.com/api \
-  -e NEXT_PUBLIC_BASE_URL=https://yourdomain.com \
-  -e NEXTAUTH_SECRET=your-production-secret \
-  -e NEXTAUTH_URL=https://yourdomain.com \
+  -e NEXTAUTH_SECRET="$NEXTAUTH_SECRET" \
+  -e NEXTAUTH_URL=https://example.com \
   mahder-frontend:latest
 
 # Run in detached mode with a custom name
-docker run -d --name mahder-frontend-app -p 3000:3000 Mahder-frontend:latest
+docker run -d --name mahder-frontend-app -p 3000:3000 mahder-frontend:latest
 ```
 
 **Container Configuration:**
@@ -801,13 +805,13 @@ failed to solve: invalid file request node_modules/-
 1. **Ensure .dockerignore exists**: Check that `.dockerignore` is in the same directory as your `Dockerfile`
 2. **Clean node_modules**: Remove the `node_modules` directory before building:
    ```bash
-   rm -rf mahder-frontend/node_modules
-   docker build -t mahder-frontend:latest mahder-frontend/
+   rm -rf hyperdata-frontend/node_modules
+   docker build -t mahder-frontend:latest hyperdata-frontend/
    ```
 3. **Check for hidden files**: Ensure no hidden files are causing issues:
    ```bash
    # List all files including hidden ones
-   ls -la mahder-frontend/
+   ls -la hyperdata-frontend/
    ```
 4. **Build from clean state**: Clone a fresh copy of the repository if the issue persists
 
@@ -855,21 +859,22 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3000/api}
+        NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL:-http://localhost:3001}
     image: ${DOCKER_IMAGE_NAME:-mahder-frontend}:${DOCKER_IMAGE_TAG:-latest}
     container_name: ${CONTAINER_NAME:-mahder-frontend-app}
     ports:
       - "${HOST_PORT:-3001}:3000"
     environment:
-      - NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3000/api}
-      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL:-http://localhost:3001}
-      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-your-strong-secret-here}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:?Set a strong NEXTAUTH_SECRET in .env}
       - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3001}
       - NODE_ENV=${NODE_ENV:-production}
     restart: unless-stopped
     networks:
       - mahder-network
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -885,14 +890,13 @@ networks:
 - `DOCKER_IMAGE_TAG`: Docker image tag (e.g., `latest`, `v1.0.0`)
 - `CONTAINER_NAME`: Docker container name (e.g., `mahder-frontend-app`)
 - `HOST_PORT`: Host port to map to container port 3000
-- `NEXT_PUBLIC_API_BASE_URL`: Backend API URL
-- `NEXT_PUBLIC_BASE_URL`: Frontend application URL
+- `NEXT_PUBLIC_API_BASE_URL` and `NEXT_PUBLIC_BASE_URL`: Public URLs embedded in the client bundle; supply them as Docker build arguments because Next.js reads them during `pnpm build`.
 - `NEXTAUTH_SECRET`: Authentication secret key
 - `NEXTAUTH_URL`: Authentication callback URL
 - `NODE_ENV`: Node runtime environment for the container
 
 **Setting Environment Variables:**
-Create a `.env` file in the same directory as the Docker Compose file, or copy `.env.docker` to `.env`:
+Create a `.env` file in the repository root by copying `.env.example`:
 
 ```env
 DOCKER_IMAGE_NAME=mahder-frontend
@@ -901,7 +905,7 @@ CONTAINER_NAME=mahder-frontend-app
 HOST_PORT=3001
 NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
 NEXT_PUBLIC_BASE_URL=http://localhost:3001
-NEXTAUTH_SECRET=your-strong-secret-here
+NEXTAUTH_SECRET=replace-with-a-unique-secret-of-at-least-32-characters
 NEXTAUTH_URL=http://localhost:3001
 NODE_ENV=production
 ```
@@ -1005,8 +1009,10 @@ NEXTAUTH_URL=https://yourdomain.com
 
 **Docker-based Platforms (AWS ECS, Google Cloud Run, Azure Container Instances):**
 ```bash
-# Build and tag for registry
-docker build -t your-registry/mahder-frontend:v1.0.0 .
+# Build and tag for registry; use the actual public URLs for this deployment
+docker build -t your-registry/mahder-frontend:v1.0.0 \
+  --build-arg NEXT_PUBLIC_API_BASE_URL=https://api.example.com/api \
+  --build-arg NEXT_PUBLIC_BASE_URL=https://example.com .
 docker push your-registry/mahder-frontend:v1.0.0
 
 # Deploy with platform-specific commands
@@ -1016,8 +1022,8 @@ docker push your-registry/mahder-frontend:v1.0.0
 **Traditional VPS/Server Deployment:**
 ```bash
 # On your production server
-git clone <repository-url>
-cd mahder-frontend
+git clone https://github.com/iCog-Labs-Dev/hyperdata-frontend.git
+cd hyperdata-frontend
 pnpm install
 pnpm build
 
@@ -1037,8 +1043,8 @@ pm2 start "pnpm start" --name mahder-frontend
 
 **Health Checks:**
 ```bash
-# Check if the application is running
-curl http://localhost:3000/api/health
+# Check if the frontend is responding
+curl -I http://localhost:3001/
 
 # Monitor application logs
 docker logs mahder-frontend-app
@@ -1229,13 +1235,12 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ### Open Source
 
-Mahder Frontend is an open source project. We welcome contributions from the community! Please read our [Contributing Guidelines](CONTRIBUTING.md) to get started.
+Mahder Frontend is an open source project. We welcome contributions from the community! Review existing [pull requests](https://github.com/iCog-Labs-Dev/hyperdata-frontend/pulls) and submit your changes through a pull request.
 
 
 #### Community
 
-- **Issues**: Report bugs and request features through [GitHub Issues](../../issues)
-- **Discussions**: Join community discussions and ask questions
+- **Issues**: Report bugs and request features through [GitHub Issues](https://github.com/iCog-Labs-Dev/hyperdata-frontend/issues)
 - **Pull Requests**: Submit your contributions through pull requests
 
 ### Usage Rights
