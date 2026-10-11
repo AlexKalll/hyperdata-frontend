@@ -236,6 +236,41 @@ export const EditInstruction = () => {
 
 
 };
+export const DeleteInstruction = () => {
+    const queryClient = useQueryClient();
+    const { data: session } = useSession();
+
+    return useMutation({
+        mutationFn: async (taskId: string) => {
+            if (!session?.access_token) {
+                throw new Error("No authentication token available");
+            }
+
+            return axios.delete(
+                `${process.env.NEXT_PUBLIC_API_BASE_URL}/project-mgmt/task/${taskId}/instruction`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${session.access_token}`,
+                    },
+                }
+            );
+        },
+        onSuccess: () => {
+            toast.success("Success", {
+                description: "Instruction deleted successfully",
+            });
+            queryClient.invalidateQueries({ queryKey: ["task"] });
+        },
+        onError: (error) => {
+            if (axios.isAxiosError(error)) {
+                toast.error("Error", {
+                    description:
+                        error.response?.data?.message || "Failed to delete instruction",
+                });
+            }
+        },
+    });
+};
 export function MyProjectProfilesDetail({
     id
 }: NewProjectrofilesProps) {
@@ -475,4 +510,3 @@ export const AddFacilitatorContributor = () => {
 
 
 };
-

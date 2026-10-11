@@ -115,21 +115,14 @@ export const menuConfig: MenuItem[] = [
   },
   {
     label: "Settings",
-    href: "/",
+    href: "/settings",
     iconName: "settings",
-    roles: ["ProjectManager"],
+    roles: ["ProjectManager", "Reviewer", "Facilitator"],
   },
-
   {
     label: "Help & Support",
     href: "/help",
     iconName: "help",
-    roles: ["SuperAdmin", "ProjectManager", "User", "Reviewer", "Facilitator"],
+    roles: ["ProjectManager", "Reviewer", "Facilitator"],
   },
-  // {
-  //   label: "Login",
-  //   href: "/login",
-  //   iconName: "help",
-  //   roles: [null],
-  // },
 ];

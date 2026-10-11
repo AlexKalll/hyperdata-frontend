@@ -101,7 +101,18 @@ export function SectorCRUD() {
       accessorKey: "name",
       header: "Name",
     },
-    { accessorKey: "description", header: "Description" },
+    {
+      accessorKey: "description",
+      header: "Description",
+      cell: ({ row }) => (
+        <span
+          className="block max-w-[240px] truncate"
+          title={row.original.description || ""}
+        >
+          {row.original.description || "—"}
+        </span>
+      ),
+    },
     {
       accessorKey: "",
       header: "Action",
