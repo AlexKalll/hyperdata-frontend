@@ -433,24 +433,21 @@ export default function SettingsDetailPage() {
       return;
     }
 
-    // Combine country code with phone number
-    const phoneWithCountryCode = `${selectedCountryCode}${profile.phone}`;
+    const phone = profile.phone.trim();
 
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/iam/users/me`,
         {
-          first_name: profile.first_name,
-          last_name: profile.last_name,
-          middle_name: profile.middle_name,
-          email: profile.email,
-          phone_number: phoneWithCountryCode, // Use phone number with country code
-          country_id: profile.country_id?profile.country_id:null,
-          region_id: profile.region_id?profile.region_id:null,
-          zone_id: profile.zone_id?profile.zone_id:null,
-          city: profile.city?profile.city:null,
-          sub_city: profile.subCity?profile.subCity:null,
-          woreda: profile.woreda?profile.woreda:null,
+          first_name: profile.first_name.trim(),
+          last_name: profile.last_name.trim(),
+          middle_name: profile.middle_name.trim() || null,
+          email: profile.email.trim() || null,
+          phone_number: phone ? `${selectedCountryCode}${phone}` : null,
+          region_id: profile.region_id || null,
+          zone_id: profile.zone_id || null,
+          city: profile.city.trim() || null,
+          woreda: profile.woreda.trim() || null,
         },
         {
           headers: {
@@ -489,7 +486,16 @@ export default function SettingsDetailPage() {
       }
     } catch (error) {
       console.error("Update profile error:", error);
-      toast.error("Failed to update profile.");
+      const message = axios.isAxiosError(error)
+        ? error.response?.data?.message
+        : undefined;
+      toast.error(
+        Array.isArray(message)
+          ? message.join(", ")
+          : typeof message === "string"
+            ? message
+            : "Failed to update profile.",
+      );
     }
   };
 

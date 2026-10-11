@@ -134,6 +134,17 @@ Section 4(b) of the Apache License, Version 2.0.
 
 - Display sector descriptions in a compact, single-line truncated table cell.
 
+## 2026-10-11 - Profile editing and navigation cleanup
+
+- Send only supported profile fields, preserve optional values, and surface
+  backend validation messages when profile updates fail.
+- Added a concise, role-specific Help & Support guide for project managers,
+  facilitators, and reviewers, and allowed those roles to open it without a
+  dashboard redirect.
+- Replaced the project-manager project picker dashboard with owned-project
+  totals and a direct link to Projects; routed Settings to account settings.
+- Added the account Settings link to Reviewer and Facilitator navigation.
+
 ## How to record future changes
 - When making non-trivial modifications, add a short entry under a new dated section below
 - Split commits by cohesive behavior or deployable concern, use Conventional Commit messages
