@@ -17,6 +17,7 @@ interface ExtendedUser {
   last_name: string;
   middle_name: string;
   expires_at?: number;
+  must_change_password?: boolean;
 }
 
 
@@ -54,6 +55,7 @@ export const authOptions: NextAuthOptions = {
             profile_picture: responseData.user.profile_picture,
             role: responseData.user.role.name as UserRole,
             access_token: responseData.access_token,
+            must_change_password: responseData.user.must_change_password === true,
           };
         } catch (error: any) {
           
@@ -72,13 +74,14 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.role = user.role;
         token.access_token = (user as ExtendedUser).access_token;
+        token.must_change_password = (user as ExtendedUser).must_change_password === true;
         token.profile_picture = (user as ExtendedUser).profile_picture;
         token.email = (user as ExtendedUser).email;
         token.username = (user as ExtendedUser).username;
         token.first_name = (user as ExtendedUser).first_name;
         token.last_name = (user as ExtendedUser).last_name;
         token.middle_name = (user as ExtendedUser).middle_name;
-        token.expires_at = Date.now() + 24 * 60 * 60 * 1000;
+        token.expires_at = Date.now() + (token.must_change_password ? 15 * 60 * 1000 : 24 * 60 * 60 * 1000);
       } else {
         if (
           typeof token.expires_at === "number" &&
@@ -104,6 +107,7 @@ export const authOptions: NextAuthOptions = {
         session.user.first_name = token.first_name as string;
         session.user.last_name = token.last_name as string;
         session.user.middle_name = token.middle_name as string;
+        session.user.must_change_password = token.must_change_password === true;
       }
       return session;
     },

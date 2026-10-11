@@ -363,8 +363,8 @@ const TaskDetailPage: React.FC = () => {
         );
       }
       if (
-        responseLink.data.data.role.toLowerCase() === "Facilitator" ||
-        responseLink.data.data.role.toLowerCase() === "Facilitators"
+        responseLink.data.data.role.toLowerCase() === "facilitator" ||
+        responseLink.data.data.role.toLowerCase() === "facilitators"
       ) {
         usertype = "facilitator";
         setGeneratedLinkAddress(

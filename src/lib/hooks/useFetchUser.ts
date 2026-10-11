@@ -688,7 +688,7 @@ export const useAddUser = () => {
     },
     onSuccess: () => {
       toast.success("Success", {
-        description: "User created successfully",
+        description: "User created and temporary password emailed",
       });
       queryClient.invalidateQueries({ queryKey: ["usersList"] });
     },

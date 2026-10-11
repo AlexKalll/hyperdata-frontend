@@ -68,7 +68,7 @@ export default function LoginPage() {
     try {
       const response = await axios.post<ResetPassword>(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/iam/auth/reset-password`,
-        userData
+        userData,
       );
 
       toast.success("Success", {
@@ -122,7 +122,7 @@ export default function LoginPage() {
     try {
       const response = await axios.post<ResetPassword>(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/iam/auth/forgot-password`,
-        userData
+        userData,
       );
 
       toast.success("Success", {
@@ -160,12 +160,21 @@ export default function LoginPage() {
         callbackUrl: "/",
       });
 
-      if (result?.error) {
+      if (result?.error === "CONTRIBUTOR_MOBILE_ONLY") {
+        toast.error("Use the Mahder mobile app", {
+          description:
+            "Contributor accounts sign in on the mobile app with their registered phone number. Website sign-in is for other account roles.",
+        });
+      } else if (result?.error) {
         toast.error("Invalid email or password.");
       } else {
         const authenticatedSession = await getSession();
         if (!authenticatedSession?.user?.role) {
           throw new Error("No authenticated role available");
+        }
+        if (authenticatedSession.user.must_change_password) {
+          router.push("/change-password");
+          return;
         }
         toast.success("Login successful. Redirecting...");
         redirectBasedOnRole(authenticatedSession.user.role);
@@ -173,7 +182,6 @@ export default function LoginPage() {
 
       // Handle routing based on role
     } catch (error) {
-     
       toast.error("Authentication failed. Please check your credentials.");
     } finally {
       setLoading(false);
@@ -215,8 +223,8 @@ export default function LoginPage() {
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center p-8 text-white">
-              <h1 className="text-2xl md:text-3xl font-bold mb-4">
-                Welcome to Mahder
+            <h1 className="text-2xl md:text-3xl font-bold mb-4">
+              Welcome to Mahder
             </h1>
             <p className="text-lg">Log in to your account</p>
           </div>
