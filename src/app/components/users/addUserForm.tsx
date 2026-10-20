@@ -8,6 +8,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { countryCodes } from "@/app/types/countryCodes";
+import { NewUser } from "@/app/types/global";
 
 interface Role {
   id: string;
@@ -71,7 +72,6 @@ export default function AddUserForm({
     middle_name: "",
     last_name: "",
     email: "",
-    password: "",
     birth_date: "",
     gender: "",
     role_id: "",
@@ -86,36 +86,6 @@ export default function AddUserForm({
     return date.toISOString().split("T")[0];
   };
 
-  // Password strength
-  const [passwordStrength, setPasswordStrength] = useState({
-    isStrong: false,
-    message: "",
-  });
-
-  const validatePassword = (password: string) => {
-    const minLength = password.length >= 8;
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasNumber = /[0-9]/.test(password);
-    const hasSpecialChar = /[!@#$%^&*]/.test(password);
-
-    const isStrong =
-      minLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
-
-    let message = "";
-    if (!minLength) message = "Password must be at least 8 characters long.";
-    else if (!hasUpperCase)
-      message = "Password must contain at least one uppercase letter.";
-    else if (!hasLowerCase)
-      message = "Password must contain at least one lowercase letter.";
-    else if (!hasNumber) message = "Password must contain at least one number.";
-    else if (!hasSpecialChar)
-      message =
-        "Password must contain at least one special character (!@#$%^&*).";
-
-    return { isStrong, message };
-  };
-
   const defaultCountryCode =
     countryCodes.find((country) => country.code === "ET")?.dial_code || "+251";
   const [selectedCountryCode, setSelectedCountryCode] =
@@ -126,13 +96,6 @@ export default function AddUserForm({
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const password = e.target.value;
-    setFormData({ ...formData, password });
-    const { isStrong, message } = validatePassword(password);
-    setPasswordStrength({ isStrong, message });
   };
 
   // Fetch languages
@@ -243,12 +206,6 @@ export default function AddUserForm({
       return;
     }
 
-    const { isStrong, message } = validatePassword(formData.password);
-    if (!isStrong) {
-      toast.error(message || "Please provide a stronger password.");
-      return;
-    }
-
     const phoneDigits = formData.phone.replace(/[^0-9]/g, "");
     const phoneWithCountryCode = `${selectedCountryCode}${phoneDigits}`;
     const minLength = selectedCountryCode === "+251" ? 9 : 10;
@@ -259,15 +216,14 @@ export default function AddUserForm({
     }
 
     try {
-      const userPayload: any = {
-        first_name: formData.first_name,
-        middle_name: formData.middle_name,
-        last_name: formData.last_name,
-        email: formData.email,
-        birth_date: JSON.stringify(formData.birth_date),
+      const userPayload: NewUser = {
+        first_name: formData.first_name.trim(),
+        middle_name: formData.middle_name.trim() || undefined,
+        last_name: formData.last_name.trim(),
+        email: formData.email.trim(),
+        birth_date: formData.birth_date,
         gender: formData.gender,
         role_id: formData.role_id,
-        password: formData.password,
         phone_number: phoneWithCountryCode,
       };
 
@@ -275,7 +231,6 @@ export default function AddUserForm({
       if (formData.dialect_id) userPayload.dialect_id = formData.dialect_id;
 
       await addUserMutation.mutateAsync(userPayload);
-      toast.success("User created successfully!");
       oncloseAction();
     } catch (error: any) {
       console.error("Error creating user:", error);
@@ -343,34 +298,10 @@ export default function AddUserForm({
         />
       </div>
 
-      <div>
-        <label className="block text-gray-700 mb-1">
-          Password<span className="text-red-500">*</span>
-        </label>
-        <input
-          type="password"
-          value={formData.password}
-          onChange={handlePasswordChange}
-          className={`w-full p-2 border rounded focus:outline-none focus:border-primary ${
-            formData.password && !passwordStrength.isStrong
-              ? "border-red-500"
-              : "border-gray-300"
-          }`}
-          required
-          minLength={8}
-        />
-        {formData.password && (
-          <p
-            className={`text-sm mt-1 ${
-              passwordStrength.isStrong ? "text-green-500" : "text-red-500"
-            }`}
-          >
-            {passwordStrength.isStrong
-              ? "Strong password"
-              : passwordStrength.message}
-          </p>
-        )}
-      </div>
+      <p className="text-sm text-gray-600">
+        Mahder will email a temporary password to the user. They must choose
+        their own password when they first sign in.
+      </p>
 
       <div>
         <label className="block text-gray-700 mb-1">
@@ -529,8 +460,7 @@ export default function AddUserForm({
           type="submit"
           disabled={
             addUserMutation.isPending ||
-            rolesLoading ||
-            !passwordStrength.isStrong
+            rolesLoading
           }
         >
           {addUserMutation.isPending ? "Creating..." : "Create User"}

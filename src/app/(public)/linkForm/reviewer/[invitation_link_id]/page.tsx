@@ -21,6 +21,7 @@ interface CountryResponse {
 }
 
 interface Region {
+  country_id: string;
   id: string;
   name: string;
   description: string;
@@ -33,6 +34,7 @@ interface RegionResponse {
 }
 
 interface Zone {
+  region_id: string;
   id: string;
   name: string;
   description: string;
@@ -57,6 +59,7 @@ interface LanguageResponse {
 }
 
 interface Dialect {
+  language_id: string;
   id: string;
   name: string;
   description: string;
@@ -130,67 +133,25 @@ const LinkFormPage: React.FC = () => {
     },
   });
 
-  // Fetch countries
-  const { data: countryResponseData, isLoading: countriesLoading } = useQuery<CountryResponse>({
-    queryKey: ["countries"],
+  const { data: options, isLoading, error: optionsError } = useQuery({
+    queryKey: ["invitation-registration-options", invitation_link_id],
     queryFn: async () => {
-      const response = await axios.get<CountryResponse>(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting/country/all`
-      );
-      return response.data;
+      const response = await axios.get<{ data: {
+        countries: Country[]; regions: Region[]; zones: Zone[];
+        languages: Language[]; dialects: Dialect[];
+      } }>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/project-mgmt/invitation-link/${invitation_link_id}/registration-options`);
+      return response.data.data;
     },
+    enabled: !!invitation_link_id,
+    retry: false,
   });
-
-  // Fetch regions
-  const { data: regionResponseData, isLoading: regionsLoading } = useQuery<RegionResponse>({
-    queryKey: ["regions", formData.country_id],
-    queryFn: async () => {
-  
-      const response = await axios.get<RegionResponse>(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting/region/country/${formData.country_id}`
-      );
-     
-      return response.data;
-    },
-    enabled: !!formData.country_id,
-  });
-
-  // Fetch zones
-  const { data: zoneResponseData, isLoading: zonesLoading, error: zonesError } = useQuery<ZoneResponse>({
-    queryKey: ["zones", formData.region_id],
-    queryFn: async () => {
-     
-      const response = await axios.get<ZoneResponse>(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting/zone/region/${formData.region_id}`
-      );
- 
-      return response.data;
-    },
-    enabled: !!formData.region_id,
-  });
-
-  // Fetch languages
-  const { data: languageResponseData, isLoading: languagesLoading } = useQuery<LanguageResponse>({
-    queryKey: ["languages"],
-    queryFn: async () => {
-      const response = await axios.get<LanguageResponse>(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting/language/all`
-      );
-      return response.data;
-    },
-  });
-
-  // Fetch dialects
-  const { data: dialectResponseData, isLoading: dialectsLoading } = useQuery<DialectResponse>({
-    queryKey: ["dialects", formData.language_id],
-    queryFn: async () => {
-      const response = await axios.get<DialectResponse>(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting/dialect/language/${formData.language_id}`
-      );
-      return response.data;
-    },
-    enabled: !!formData.language_id,
-  });
+  const countryResponseData = { data: options?.countries ?? [] };
+  const regionResponseData = { data: options?.regions.filter(item => item.country_id === formData.country_id) ?? [] };
+  const zoneResponseData = { data: options?.zones.filter(item => item.region_id === formData.region_id) ?? [] };
+  const languageResponseData = { data: options?.languages ?? [] };
+  const dialectResponseData = { data: options?.dialects.filter(item => item.language_id === formData.language_id) ?? [] };
+  const countriesLoading = isLoading, regionsLoading = isLoading, zonesLoading = isLoading, languagesLoading = isLoading, dialectsLoading = isLoading;
+  const zonesError = optionsError;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -254,8 +215,20 @@ const LinkFormPage: React.FC = () => {
     mutation.mutate({
       invitationLinkId: invitation_link_id as string,
       data: {
-        ...formData,
-        confirmPassword: undefined,
+        first_name: formData.first_name,
+        middle_name: formData.middle_name || undefined,
+        last_name: formData.last_name,
+        email: formData.email,
+        password: formData.password,
+        phone_number: formData.phone.replace(/^0(?=\d{9}$)/, "+251").replace(/^(?=\d{9}$)/, "+251"),
+        birth_date: formData.birth_date,
+        gender: formData.gender,
+        city: formData.city,
+        woreda: formData.woreda,
+        dialect_id: formData.dialect_id || undefined,
+        language_id: formData.language_id || undefined,
+        region_id: formData.region_id || undefined,
+        zone_id: formData.zone_id || undefined,
       },
     });
   };

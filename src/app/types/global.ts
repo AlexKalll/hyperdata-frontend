@@ -114,14 +114,13 @@ export interface Project_User {
 
 export interface NewUser {
 
-  middle_name: string;
+  middle_name?: string;
   first_name: string;
   last_name: string;
   email: string;
   gender: string;
   birth_date: string;
   role_id: string;
-  password: string
   phone_number?: string;
   dialect_id?: string;
   language_id?: string;
