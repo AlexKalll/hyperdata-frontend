@@ -28,6 +28,11 @@ export default withAuth(
 
     const userRole = req.nextauth.token?.role as keyof typeof roleRoutes | null;
 
+    if (req.nextauth.token?.must_change_password && pathname !== "/change-password") {
+      return NextResponse.redirect(new URL("/change-password", req.url));
+    }
+    if (userRole && pathname === "/change-password") return NextResponse.next();
+
     // If user is not authenticated, redirect to login
     if (!userRole) {
       return NextResponse.redirect(new URL("/login", req.url));

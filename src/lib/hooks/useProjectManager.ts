@@ -37,7 +37,12 @@ export const GenerateInvitationLink = () => {
 
                 const response = await axios.post<InvitationResponseData>(
                     `${process.env.NEXT_PUBLIC_API_BASE_URL}/project-mgmt/invitation-link/project/${data.projectId}`,
-                    data,
+                    {
+                        expiry_date: data.expiry_date || null,
+                        max_invitations: data.max_invitations || undefined,
+                        organization_id: data.organization_id || undefined,
+                        role: data.role,
+                    },
                     {
                         headers: {
                             Authorization: `Bearer ${session.access_token}`,
@@ -79,7 +84,12 @@ export const GenerateTaskInvitationLink = () => {
 
                 const response = await axios.post<InvitationResponseData>(
                     `${process.env.NEXT_PUBLIC_API_BASE_URL}/project-mgmt/invitation-link/task/${data.taskId}`,
-                    data,
+                    {
+                        expiry_date: data.expiry_date || null,
+                        max_invitations: data.max_invitations || undefined,
+                        organization_id: data.organization_id || undefined,
+                        role: data.role,
+                    },
                     {
                         headers: {
                             Authorization: `Bearer ${session.access_token}`,

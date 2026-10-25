@@ -79,6 +79,7 @@ import {
   GenerateAutomaticAssignXontributortoFacilitator,
 } from "@/lib/hooks/useProjectManager";
 import { formatDateMedium } from "@/app/types/dateUtils";
+import { getInvitationUrl } from "@/lib/invitation";
 import { PaginationControls } from "@/components/ui/pagination";
 import {
   Dialog,
@@ -109,6 +110,7 @@ interface InvitationLink {
   organization: string;
   link: string;
   dateCreated: string;
+  expiration: string;
 }
 
 interface PaginationProps {
@@ -189,6 +191,9 @@ const TaskDetailPage: React.FC = () => {
   const [showGeneratedLinkAddress, setShowGenerateLinkAddress] =
     useState(false);
   const [generatedLinkAddress, setGeneratedLinkAddress] = useState<string>();
+  const [generatedLinkExpiry, setGeneratedLinkExpiry] = useState<string | null>(
+    null,
+  );
   const [copied, setCopied] = useState(false);
   const [maxInvitations, setMaxInvitations] = useState<number>(0);
   const [showInviteUsers, setShowInviteUsers] = useState(false);
@@ -254,8 +259,11 @@ const TaskDetailPage: React.FC = () => {
     invitationData?.data?.result?.map((invitation: any) => ({
       id: invitation.id,
       organization: invitation.organization?.name || "Unknown",
-      link: `${process.env.NEXT_PUBLIC_BASE_URL}/linkForm/${invitation.role.toLowerCase()}/${invitation.id}`,
+      link: getInvitationUrl(invitation.role, invitation.id),
       dateCreated: formatDateMedium(invitation.created_date),
+      expiration: invitation.expiry_date
+        ? formatDateMedium(invitation.expiry_date)
+        : "No expiration",
     })) || [];
   const invitationTotalElements = invitationData?.data?.total || 0;
   const invitationTotalPages = invitationData?.data?.totalPages || 1;
@@ -327,7 +335,7 @@ const TaskDetailPage: React.FC = () => {
   };
   const handleGenerateLink = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedOrganization || !selectedRole || !expiryDate) {
+    if (!selectedOrganization || !selectedRole) {
       toast.info("Missing required fields for invitation link");
       return;
     }
@@ -343,38 +351,11 @@ const TaskDetailPage: React.FC = () => {
         taskId: taskId,
         role: selectedRole,
       });
-      let usertype = "";
-      if (
-        responseLink.data.data.role.toLowerCase() === "contributor" ||
-        responseLink.data.data.role.toLowerCase() === "contributors"
-      ) {
-        usertype = "contributor";
-        setGeneratedLinkAddress(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/linkForm/${usertype}/${responseLink.data.data.id}`,
-        );
-      }
-      if (
-        responseLink.data.data.role.toLowerCase() === "reviewer" ||
-        responseLink.data.data.role.toLowerCase() === "reviewers"
-      ) {
-        usertype = "reviewer";
-        setGeneratedLinkAddress(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/linkForm/${usertype}/${responseLink.data.data.id}`,
-        );
-      }
-      if (
-        responseLink.data.data.role.toLowerCase() === "Facilitator" ||
-        responseLink.data.data.role.toLowerCase() === "Facilitators"
-      ) {
-        usertype = "facilitator";
-        setGeneratedLinkAddress(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/linkForm/${usertype}/${responseLink.data.data.id}`,
-        );
-      }
-
-      setTimeout(() => {
-        setShowGenerateLinkAddress(true);
-      }, 200);
+      const invitation = responseLink.data.data;
+      setGeneratedLinkAddress(getInvitationUrl(invitation.role, invitation.id));
+      setGeneratedLinkExpiry(invitation.expiry_date);
+      setCopied(false);
+      setShowGenerateLinkAddress(true);
       toast.success("Invitation link generated successfully");
     } catch (error) {
       console.error("Error generating link:", error);
@@ -1275,7 +1256,7 @@ const TaskDetailPage: React.FC = () => {
                         </div>
                         <div className="flex-1">
                           <label className="text-sm font-medium text-gray-500">
-                            Expiry Date
+                            Expiry Date (leave blank for no expiration)
                           </label>
                           <input
                             type="date"
@@ -1286,7 +1267,7 @@ const TaskDetailPage: React.FC = () => {
                         </div>
                         <div className="flex-1">
                           <label className="text-sm font-medium text-gray-500">
-                            Max Invitations
+                            Max Invitations (0 means no limit)
                           </label>
                           <input
                             type="number"
@@ -1302,29 +1283,28 @@ const TaskDetailPage: React.FC = () => {
                           open={showGeneratedLinkAddress}
                           onOpenChange={setShowGenerateLinkAddress}
                         >
-                          <DialogTrigger asChild>
-                            <Button
-                              className="mt-6 bg-primary text-white flex items-center gap-2"
-                              onClick={handleGenerateLink}
+                          <Button
+                            className="mt-6 bg-primary text-white flex items-center gap-2"
+                            onClick={handleGenerateLink}
+                            disabled={addLinkMutation.isPending}
+                          >
+                            <svg
+                              width="19"
+                              height="20"
+                              viewBox="0 0 19 20"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
-                              <svg
-                                width="19"
-                                height="20"
-                                viewBox="0 0 19 20"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M7.8335 10.8333C8.19138 11.3118 8.64796 11.7077 9.17229 11.9941C9.69662 12.2806 10.2764 12.4509 10.8724 12.4936C11.4683 12.5363 12.0665 12.4503 12.6263 12.2415C13.1861 12.0327 13.6944 11.7059 14.1168 11.2833L16.6168 8.78334C17.3758 7.9975 17.7958 6.94499 17.7863 5.85251C17.7768 4.76002 17.3386 3.71497 16.5661 2.94243C15.7935 2.1699 14.7485 1.7317 13.656 1.7222C12.5635 1.71271 11.511 2.13269 10.7252 2.89168L9.29183 4.31668M11.1668 9.16668C10.809 8.68824 10.3524 8.29236 9.82804 8.00589C9.30371 7.71943 8.72391 7.54908 8.12796 7.5064C7.532 7.46372 6.93384 7.54971 6.37405 7.75853C5.81425 7.96735 5.3059 8.29412 4.8835 8.71668L2.3835 11.2167C1.62451 12.0025 1.20453 13.055 1.21402 14.1475C1.22352 15.24 1.66172 16.2851 2.43426 17.0576C3.20679 17.8301 4.25184 18.2683 5.34433 18.2778C6.43681 18.2873 7.48932 17.8673 8.27517 17.1083L9.70017 15.6833"
-                                  stroke="white"
-                                  strokeWidth="1.66667"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                              Generate Link
-                            </Button>
-                          </DialogTrigger>
+                              <path
+                                d="M7.8335 10.8333C8.19138 11.3118 8.64796 11.7077 9.17229 11.9941C9.69662 12.2806 10.2764 12.4509 10.8724 12.4936C11.4683 12.5363 12.0665 12.4503 12.6263 12.2415C13.1861 12.0327 13.6944 11.7059 14.1168 11.2833L16.6168 8.78334C17.3758 7.9975 17.7958 6.94499 17.7863 5.85251C17.7768 4.76002 17.3386 3.71497 16.5661 2.94243C15.7935 2.1699 14.7485 1.7317 13.656 1.7222C12.5635 1.71271 11.511 2.13269 10.7252 2.89168L9.29183 4.31668M11.1668 9.16668C10.809 8.68824 10.3524 8.29236 9.82804 8.00589C9.30371 7.71943 8.72391 7.54908 8.12796 7.5064C7.532 7.46372 6.93384 7.54971 6.37405 7.75853C5.81425 7.96735 5.3059 8.29412 4.8835 8.71668L2.3835 11.2167C1.62451 12.0025 1.20453 13.055 1.21402 14.1475C1.22352 15.24 1.66172 16.2851 2.43426 17.0576C3.20679 17.8301 4.25184 18.2683 5.34433 18.2778C6.43681 18.2873 7.48932 17.8673 8.27517 17.1083L9.70017 15.6833"
+                                stroke="white"
+                                strokeWidth="1.66667"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                            Generate Link
+                          </Button>
                           <DialogContent>
                             <DialogHeader>
                               <DialogTitle>
@@ -1333,6 +1313,12 @@ const TaskDetailPage: React.FC = () => {
                             </DialogHeader>
                             <div className="text-sm text-gray-600">
                               <p>{generatedLinkAddress}</p>
+                              <p className="mt-2">
+                                Expiration:{" "}
+                                {generatedLinkExpiry
+                                  ? formatDateMedium(generatedLinkExpiry)
+                                  : "No expiration"}
+                              </p>
                               <Button
                                 onClick={handleCopy}
                                 className="mt-6 bg-primary text-white flex items-center gap-2"
@@ -1369,6 +1355,9 @@ const TaskDetailPage: React.FC = () => {
                               <TableHead className="text-sm font-bold text-gray-500">
                                 Date Created
                               </TableHead>
+                              <TableHead className="text-sm font-bold text-gray-500">
+                                Expiration
+                              </TableHead>
                               <TableHead className="text-sm font-bold text-gray-500"></TableHead>
                             </TableRow>
                           </TableHeader>
@@ -1387,6 +1376,9 @@ const TaskDetailPage: React.FC = () => {
                                   </TableCell>
                                   <TableCell className="py-5 px-2 text-sm">
                                     {link.dateCreated}
+                                  </TableCell>
+                                  <TableCell className="py-5 px-2 text-sm">
+                                    {link.expiration}
                                   </TableCell>
                                   <TableCell className="py-5 px-2 text-sm">
                                     <button
@@ -1412,7 +1404,7 @@ const TaskDetailPage: React.FC = () => {
                             ) : (
                               <TableRow>
                                 <TableCell
-                                  colSpan={4}
+                                  colSpan={5}
                                   className="h-24 text-center text-gray-600"
                                 >
                                   {isInvitationLoading

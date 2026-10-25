@@ -153,6 +153,48 @@ Section 4(b) of the Apache License, Version 2.0.
 - Required a deployment-specific `NEXTAUTH_SECRET` instead of a weak Compose default.
 - Documented that public Next.js environment values are embedded at build time.
 
+## 2026-10-11 - Invitation link generation
+
+- Send only invitation body fields, keeping project/task IDs in the URL, and
+  correctly generate facilitator invitation URLs.
+
+## 2026-10-11 - Administrator-created accounts
+
+- Remove the administrator password field and email system-generated temporary
+  credentials; normalize names, optional middle name, and the birth-date payload.
+- Route temporary-password sessions to a mandatory password-change screen and
+  require a fresh sign-in after the new password is saved.
+- Correct both account-creation forms, invitation phone/optional-field payloads,
+  and invitation-specific registration reference-data loading.
+
+## 2026-10-12 - Invitation registration compatibility
+
+- Keep phone numbers optional for invitation registration and send normalized
+  phone numbers only when provided.
+
+## 2026-10-12 - Contributor website sign-in guidance
+
+- Explain that contributor accounts use the Mahder mobile app and registered
+  phone number when a contributor tries to sign in to the website.
+
+## 2026-10-18 - Invitation expiry and link display
+
+- Allow the expiry date to be left blank for no expiration and display expiration
+  in the generated-link dialog and invitation table.
+- Use the current browser origin when the public frontend URL is unset, avoiding
+  invitation links starting with `undefined`.
+- Omit the default zero invitation limit so unlimited invitations use the API's
+  optional limit, and open the generated-link dialog only after creation succeeds.
+
+## 2026-10-23 - Invitation limit guidance
+
+- Clarify in the Max Invitations label that 0 means no limit.
+
+## 2026-10-23 - Production frontend domain
+
+- Set the VPS frontend build and authentication URLs to `https://portal.mahder.ai`
+  for the next deployment.
+
 ## How to record future changes
 - When making non-trivial modifications, add a short entry under a new dated section below
 - Split commits by cohesive behavior or deployable concern, use Conventional Commit messages

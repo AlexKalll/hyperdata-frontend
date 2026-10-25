@@ -621,7 +621,7 @@ export interface UpdateProject {
 }
 export interface Invitation {
   projectId: string,
-  expiry_date: string,
+  expiry_date?: string | null,
   role: "" | "Contributor" | "Facilitator" | "Reviewer",
   organization_id: string,
   max_invitations: number,
@@ -645,7 +645,7 @@ export interface AssignAutomaticContributor {
 }
 export interface InvitationTask {
   taskId: string,
-  expiry_date: string,
+  expiry_date?: string | null,
   role: "" | "Contributor" | "Facilitator" | "Reviewer",
   organization_id: string,
   max_invitations: number,
@@ -660,7 +660,7 @@ export interface Instruction {
 export interface InvitationResponse {
   created_by: string,
   created_date: string,
-  expiry_date: string,
+  expiry_date: string | null,
   id: string,
   max_invitations: number
   organization_id: string,

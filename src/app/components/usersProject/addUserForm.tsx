@@ -24,7 +24,7 @@ export default function AddUserForm({ onClose }: { onClose: () => void }) {
     middle_name: "",
     last_name: "",
     email: "",
-    password: "",
+    phone_number: "",
     birth_date: "",
     gender: "",
     role_id: "",
@@ -55,14 +55,14 @@ export default function AddUserForm({ onClose }: { onClose: () => void }) {
     e.preventDefault();
     try {
       await addUserMutation.mutateAsync({
-        first_name: formData.first_name,
-        middle_name: formData.middle_name,
-        last_name: formData.last_name,
-        email: formData.email,
-        birth_date: JSON.stringify(formData.birth_date),
+        first_name: formData.first_name.trim(),
+        middle_name: formData.middle_name.trim() || undefined,
+        last_name: formData.last_name.trim(),
+        email: formData.email.trim(),
+        birth_date: formData.birth_date,
         gender: formData.gender,
         role_id: formData.role_id,
-        password: formData.password,
+        phone_number: formData.phone_number.trim(),
       });
       onClose();
     } catch (error) {
@@ -131,19 +131,22 @@ export default function AddUserForm({ onClose }: { onClose: () => void }) {
 
       <div>
         <label className="block text-gray-700 mb-2">
-          Password<span className="text-red-500">*</span>
+          Phone number<span className="text-red-500">*</span>
         </label>
         <input
-          type="password"
-          value={formData.password}
+          type="tel"
+          placeholder="+251900000000"
+          value={formData.phone_number}
           onChange={(e) =>
-            setFormData({ ...formData, password: e.target.value })
+            setFormData({ ...formData, phone_number: e.target.value })
           }
           className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-primary"
           required
-          minLength={6}
+          minLength={9}
         />
       </div>
+
+      <p className="text-sm text-gray-600">Mahder will email a temporary password. The user must change it on first sign-in.</p>
 
       <div>
         <label className="block text-gray-700 mb-2">
