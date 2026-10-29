@@ -76,7 +76,7 @@ Get a visual overview of the Mahder Frontend platform's key features and interfa
 
 The platform supports four distinct user roles, each with specific capabilities and access levels:
 
-#### SuperAdmin
+#### Admin
 - **System Administration**: Complete system configuration and management capabilities
 - **User Management**: Create, modify, and manage all user accounts across the platform
 - **Global Oversight**: Access to all projects, analytics, and system-wide reporting
@@ -459,7 +459,7 @@ hyperdata-frontend/
 │   │   ├── (auth)/                 # Authentication route group
 │   │   │   └── login/              # Login page and authentication flows
 │   │   ├── (dashboard)/            # Role-based dashboard route group
-│   │   │   ├── superadmin/         # SuperAdmin dashboard and features
+│   │   │   ├── admin/              # Admin dashboard and features
 │   │   │   ├── projectmanager/     # Project Manager dashboard and features
 │   │   │   ├── facilitator/        # Facilitator dashboard and features
 │   │   │   ├── reviewer/           # Reviewer dashboard and features
@@ -563,7 +563,7 @@ The project leverages Next.js 15's App Router with route groups (indicated by pa
 
 **`(dashboard)` - Role-Based Dashboard Routes**
 - **Purpose**: Main application interface with role-specific functionality
-- **URL Pattern**: `/superadmin/*`, `/projectmanager/*`, `/facilitator/*`, `/reviewer/*`
+- **URL Pattern**: `/admin/*`, `/projectmanager/*`, `/facilitator/*`, `/reviewer/*`
 - **Features**: Role-specific dashboards, navigation, and feature access
 - **Access**: Protected routes requiring authentication and role verification
 
@@ -583,10 +583,10 @@ The project leverages Next.js 15's App Router with route groups (indicated by pa
 
 Each role has its own dedicated dashboard area with specific features and capabilities:
 
-#### SuperAdmin Dashboard (`/superadmin`)
+#### Admin Dashboard (`/admin`)
 ```
-superadmin/
-├── page.tsx                    # SuperAdmin dashboard overview
+admin/
+├── page.tsx                    # Admin dashboard overview
 ├── basedata/                   # System base data management
 ├── log/                        # System activity logs
 ├── project/                    # All projects management
@@ -1141,7 +1141,7 @@ For comprehensive information about using the Mahder Frontend system, refer to t
 The **[USER_MANUAL.md](USER_MANUAL.md)** file contains detailed guides for all user roles and system features:
 
 - **System Overview**: Complete introduction to the platform and its capabilities
-- **Role-Specific Guides**: Detailed instructions for SuperAdmin, Project Manager, Facilitator, and Reviewer roles
+- **Role-Specific Guides**: Detailed instructions for Admin, Project Manager, Facilitator, and Reviewer roles
 - **Feature Documentation**: Step-by-step guides for all major features and workflows
 - **Common Tasks**: Instructions for frequently performed operations
 - **Troubleshooting**: Solutions to common issues and error scenarios
@@ -1195,7 +1195,7 @@ If you encounter issues or need assistance with the Mahder Frontend system, foll
 When reporting issues, please include the following information to help with troubleshooting:
 
 **For End Users:**
-- Your user role (SuperAdmin, Project Manager, Facilitator, Reviewer)
+- Your user role (Admin, Project Manager, Facilitator, Reviewer)
 - The specific page or feature where the issue occurred
 - Steps to reproduce the problem
 - Any error messages displayed
