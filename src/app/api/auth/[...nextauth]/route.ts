@@ -8,7 +8,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 
 // Match the role names exactly as they come from your API
-type UserRole = "SuperAdmin" | "ProjectManager" | "Facilitator" | "Reviewer";
+type UserRole = "SuperAdmin" | "Admin" | "ProjectManager" | "Facilitator" | "Reviewer";
 const CONTRIBUTOR_MOBILE_ONLY_ERROR = "CONTRIBUTOR_MOBILE_ONLY";
 const CONTRIBUTOR_WEB_LOGIN_MESSAGE = "Contributors are not allowed to sign in";
 

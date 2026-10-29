@@ -7,7 +7,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 
 // Match the role names exactly as they come from your API
-type UserRole = "SuperAdmin" | "ProjectManager" | "Facilitator" | "Reviewer";
+type UserRole = "SuperAdmin" | "Admin" | "ProjectManager" | "Facilitator" | "Reviewer";
 
 interface ExtendedUser {
   id: string;

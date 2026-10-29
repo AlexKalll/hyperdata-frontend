@@ -33,6 +33,7 @@ export const individualColumns: ColumnDef<UserData>[] = [
       const role = typeof roleData === 'object' ? roleData?.name : roleData;
       const roleColors: Record<string, string> = {
         SuperAdmin: "text-red-500 ",
+        Admin: "text-red-500 ",
         Contributor: "bg-[#ECF6FF] text-[#095FAF]",
         ProjectManager: "text-[#0502C2] bg-[#F0EFFF]",
         Facilitator: "text-[#3F3748] bg-[#F2F4F7]",

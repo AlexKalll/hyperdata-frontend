@@ -190,6 +190,7 @@ export default function LoginPage() {
   const redirectBasedOnRole = (role: string) => {
     switch (role) {
       case "SuperAdmin":
+      case "Admin":
         router.push("/superadmin");
         break;
       case "ProjectManager":

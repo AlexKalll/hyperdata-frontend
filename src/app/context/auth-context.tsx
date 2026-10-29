@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 type User = NonNullable<Session["user"]>;
 
-type UserRole = "SuperAdmin" | "ProjectManager" | "Facilitator" | "Reviewer";
+type UserRole = "SuperAdmin" | "Admin" | "ProjectManager" | "Facilitator" | "Reviewer";
 interface ExtendedUser {
   id: string;
   role: UserRole;

@@ -1,5 +1,5 @@
 // Define user roles
-export type UserRole = "SuperAdmin" | "ProjectManager" | "User" | "Reviewer" | "Facilitator" | null;
+export type UserRole = "SuperAdmin" | "Admin" | "ProjectManager" | "User" | "Reviewer" | "Facilitator" | null;
 
 // Define menu item structure
 export interface MenuItem {
@@ -16,7 +16,7 @@ export const menuConfig: MenuItem[] = [
     label: "Dashboard",
     href: "/superadmin",
     iconName: "overview",
-    roles: ["SuperAdmin"],
+    roles: ["SuperAdmin", "Admin"],
   },
   {
     label: "Dashboard",
@@ -34,13 +34,13 @@ export const menuConfig: MenuItem[] = [
     label: "User Management",
     href: "/superadmin/users",
     iconName: "userManagement",
-    roles: ["SuperAdmin"],
+    roles: ["SuperAdmin", "Admin"],
   },
   {
     label: "Project Management",
     href: "/superadmin/project",
     iconName: "projectManagement",
-    roles: ["SuperAdmin"],
+    roles: ["SuperAdmin", "Admin"],
   },
   {
     label: "Dashboard",
@@ -71,7 +71,7 @@ export const menuConfig: MenuItem[] = [
     label: "Base Data",
     href: "",
     iconName: "baseData",
-    roles: ["SuperAdmin"],
+    roles: ["SuperAdmin", "Admin"],
     subItems: [
       { label: "Language", href: "/superadmin/basedata/language" },
       { label: "Dialect", href: "/superadmin/basedata/dialect" },
@@ -90,20 +90,20 @@ export const menuConfig: MenuItem[] = [
     label: "Archive",
     href: "/superadmin/projectArchive",
     iconName: "archive",
-    roles: ["SuperAdmin"],
+    roles: ["SuperAdmin", "Admin"],
   },
   {
     label: "Settings",
     href: "/superadmin/setting",
     iconName: "settings",
-    roles: ["SuperAdmin"],
+    roles: ["SuperAdmin", "Admin"],
   },
 
   {
     label: "System Log",
     href: "/superadmin/log",
     iconName: "log",
-    roles: ["SuperAdmin"],
+    roles: ["SuperAdmin", "Admin"],
   },
 
 

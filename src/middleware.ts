@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 // Define role-based routes
 const roleRoutes: Record<string, string[]> = {
   SuperAdmin: ["/superadmin", "/superadmin/users", "/superadmin/project", "/superadmin/basedata", "/superadmin/tasks/", "/superadmin/log", "/superadmin/userLog", "/settings"],
+  Admin: ["/superadmin", "/superadmin/users", "/superadmin/project", "/superadmin/basedata", "/superadmin/tasks/", "/superadmin/log", "/superadmin/userLog", "/settings"],
   ProjectManager: ["/projectmanager", "/projectmanager/project", "/projectmanager/setting", "/settings", "/help"],
   Facilitator: ["/facilitator", "/facilitator/tasks", "/settings", "/help"],
   Reviewer: ["/reviewer", "/reviewer/tasks", "/settings", "/help"],
