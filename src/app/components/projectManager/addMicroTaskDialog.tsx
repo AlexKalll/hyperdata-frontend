@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dialogLeft";
 import { Button } from "@/components/ui/button";
 import { Plus, Upload, FileAudio } from "lucide-react";
-import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { projectTaskasAll, projectTaskasRelated } from "@/lib/hooks/useProject";
 import {
@@ -46,10 +45,8 @@ interface AddMicroTaskDialogProps {
 }
 
 interface CsvRow {
-  name: string;
+  no: string;
   text: string;
-  taskId: string;
-  [key: string]: string;
 }
 
 const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
@@ -106,14 +103,14 @@ const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
 
     if (file.size > maxSize) {
       toast.error(
-        `${type === "csv" ? "CSV/XLSX" : "Audio"} file is too large. Maximum allowed: ${maxSizeMB}MB`
+        `${type === "csv" ? "CSV/XLSX/TXT" : "Audio"} file is too large. Maximum allowed: ${maxSizeMB}MB`
       );
       return false;
     }
     return true;
   };
 
-  // Parse CSV or XLSX file
+  // Parse CSV, XLSX, or line-by-line text files.
   useEffect(() => {
     if (!csvFile) {
       setCsvData([]);
@@ -123,108 +120,67 @@ const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
 
     const fileExtension = csvFile.name.split(".").pop()?.toLowerCase();
 
-    if (fileExtension === "csv") {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const text = e.target?.result as string;
-        Papa.parse<CsvRow>(text, {
-          header: true,
-          skipEmptyLines: true,
-          complete: (result) => {
-            const data = result.data;
-            const requiredColumns: string[] = ["no", "text"];
-            const headers: string[] = result.meta.fields || [];
-
-            const missingColumns = requiredColumns.filter(
-              (col) => !headers.includes(col)
-            );
-            if (missingColumns.length > 0) {
-              setCsvError(
-                `Missing required columns: ${missingColumns.join(", ")}`
-              );
-              setCsvData([]);
-              return;
-            }
-
-            const validRows: CsvRow[] = data.filter((row) =>
-              requiredColumns.every((col) => row[col]?.toString().trim())
-            );
-
-            if (validRows.length === 0) {
-              setCsvError("No valid rows found in the file");
-              setCsvData([]);
-              return;
-            }
-
-            setCsvData(validRows);
-            setCsvError(null);
-          },
-        });
-      };
-      reader.onerror = () => {
-        setCsvError("Failed to read CSV file");
-        setCsvData([]);
-      };
-      reader.readAsText(csvFile);
-    } else if (fileExtension === "xlsx") {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const data = new Uint8Array(e.target?.result as ArrayBuffer);
-          const workbook = XLSX.read(data, { type: "array" });
-          const sheetName = workbook.SheetNames[0];
-          const worksheet = workbook.Sheets[sheetName];
-          const jsonData: unknown[] = XLSX.utils.sheet_to_json(worksheet, {
-            header: 1,
-          });
-
-          const headers = jsonData[0] as string[];
-          const requiredColumns: string[] = ["no", "text"];
-          const missingColumns = requiredColumns.filter(
-            (col) => !headers.includes(col)
-          );
-
-          if (missingColumns.length > 0) {
-            setCsvError(
-              `Missing required columns: ${missingColumns.join(", ")}`
-            );
-            setCsvData([]);
-            return;
-          }
-
-          const rows: CsvRow[] = jsonData
-            .slice(1)
-            .reduce((acc: CsvRow[], row: unknown) => {
-              if (Array.isArray(row)) {
-                const rowData: CsvRow = {} as CsvRow;
-                headers.forEach((header, index) => {
-                  rowData[header] = row[index]?.toString() || "";
-                });
-                if (requiredColumns.every((col) => rowData[col]?.trim())) {
-                  acc.push(rowData);
-                }
-              }
-              return acc;
-            }, []);
-
-          if (rows.length === 0) {
-            setCsvError("No valid rows found in the XLSX file");
-            setCsvData([]);
-            return;
-          }
-
-          setCsvData(rows);
-          setCsvError(null);
-        } catch (error) {
-          setCsvError(`Error parsing XLSX: ${(error as Error).message}`);
-          setCsvData([]);
-        }
-      };
-      reader.onerror = () => setCsvError("Failed to read XLSX file");
-      reader.readAsArrayBuffer(csvFile);
-    } else {
-      setCsvError("Please upload a valid .csv or .xlsx file");
+    if (!["csv", "xlsx", "txt"].includes(fileExtension || "")) {
+      setCsvError("Please upload a valid .csv, .xlsx, or .txt file");
       setCsvData([]);
+      return;
+    }
+
+    const isText = fileExtension === "txt";
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        let data: unknown[][];
+        if (isText) {
+          data = String(e.target?.result || "")
+            .replace(/^\uFEFF/, "")
+            .split(/\r\n|\n|\r/)
+            .map((line) => [line]);
+        } else {
+          const workbook = XLSX.read(
+            new Uint8Array(e.target?.result as ArrayBuffer),
+            { type: "array", codepage: 65001, raw: true }
+          );
+          data = XLSX.utils.sheet_to_json<unknown[]>(
+            workbook.Sheets[workbook.SheetNames[0]],
+            { header: 1, defval: "", blankrows: false }
+          );
+        }
+        data = data.filter((row) =>
+          row.some((value) => String(value ?? "").trim())
+        );
+        const headers = (data[0] || []).map((value) =>
+          String(value ?? "").trim().toLowerCase()
+        );
+        const hasHeaders = !isText && headers.includes("text");
+        const textColumn = headers.indexOf("text");
+        const noColumn = headers.indexOf("no");
+        const rows = (hasHeaders ? data.slice(1) : data)
+          .map((row, index) => {
+            const numbered =
+              row.length > 1 && /^\d+$/.test(String(row[0] ?? "").trim());
+            const number = hasHeaders ? row[noColumn] : numbered ? row[0] : undefined;
+            return {
+              no: String(number ?? "").trim() || String(index + 1),
+              text: String(row[hasHeaders ? textColumn : numbered ? 1 : 0] ?? ""),
+            };
+          })
+          .filter((row) => row.text.trim());
+        setCsvData(rows);
+        setCsvError(rows.length ? null : "No valid rows found in the file");
+      } catch (error) {
+        setCsvError(`Error parsing file: ${(error as Error).message}`);
+        setCsvData([]);
+      }
+    };
+    reader.onerror = () => {
+      setCsvError("Failed to read file");
+      setCsvData([]);
+    };
+    if (isText) {
+      reader.readAsText(csvFile);
+    } else {
+      reader.readAsArrayBuffer(csvFile);
     }
   }, [csvFile]);
 
@@ -263,7 +219,7 @@ const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
       setCsvError(null);
       setOpen(false);
     } else {
-      toast.error("Please upload a valid CSV/XLSX file with data");
+      toast.error("Please upload a valid CSV/XLSX/TXT file with data");
     }
   };
 
@@ -330,7 +286,7 @@ const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
                 }`}
               >
                 {tab === "Single" && "Single Micro Task"}
-                {tab === "CsvUpload" && "From CSV/XLSX"}
+                {tab === "CsvUpload" && "From CSV/XLSX/TXT"}
                 {tab === "ImportTask" && "Import from Task"}
               </button>
             ))}
@@ -495,11 +451,11 @@ const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
               <form onSubmit={handleCsvSubmit} className="space-y-5">
                 <div>
                   <label className="block text-gray-700 font-medium mb-2">
-                    Upload CSV or XLSX File *
+                    Upload CSV, XLSX, or TXT File *
                   </label>
                   <input
                     type="file"
-                    accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    accept=".csv,.xlsx,.txt,text/csv,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                     multiple={false}
                     onChange={(e) => {
                       const file = e.target.files?.[0] || null;
@@ -522,9 +478,14 @@ const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
                     </p>
                   )}
                   <p className="text-xs text-gray-500 mt-1">
-                    Max size: 10MB • Required columns:{" "}
+                    Max size: 10MB • Optional headers:{" "}
                     <code className="bg-gray-100 px-1 rounded">no</code>,{" "}
-                    <code className="bg-gray-100 px-1 rounded">text</code>
+                    <code className="bg-gray-100 px-1 rounded">text</code>{" "}
+                    (case-insensitive)
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Without headers, use one text column or numbered text rows.
+                    TXT files use one microtask per non-empty line.
                   </p>
                   {csvError && (
                     <p className="text-sm text-red-600 mt-2">{csvError}</p>
@@ -548,7 +509,7 @@ const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
                           {csvData.slice(0, 10).map((row, i) => (
                             <tr key={i} className="border-t">
                               <td className="px-3 py-2">
-                                {row.no || row.name}
+                                {row.no}
                               </td>
                               <td className="px-3 py-2 max-w-md truncate">
                                 {row.text}

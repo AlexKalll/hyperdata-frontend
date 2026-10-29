@@ -195,6 +195,12 @@ Section 4(b) of the Apache License, Version 2.0.
 - Set the VPS frontend build and authentication URLs to `https://portal.mahder.ai`
   for the next deployment.
 
+## 2026-10-26 - Flexible microtask imports
+
+- Accept case-insensitive CSV/XLSX headers, headerless text or numbered rows, and
+  TXT files with one microtask per non-empty line, generating row numbers as needed.
+- Keep CSV/XLSX previews consistent with backend parsing and preserve UTF-8 text.
+
 ## How to record future changes
 - When making non-trivial modifications, add a short entry under a new dated section below
 - Split commits by cohesive behavior or deployable concern, use Conventional Commit messages
