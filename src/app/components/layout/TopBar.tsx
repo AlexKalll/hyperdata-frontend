@@ -10,6 +10,7 @@ import { MeResponse } from "@/app/types/global";
 import { useRouter, usePathname } from "next/navigation";
 import { useNotificationCount } from "@/lib/hooks/useNotifications";
 import NotificationModal from "./NotificationModal";
+import { normalizeRole } from "@/lib/roles";
 
 export default function TopBar({
   title,
@@ -147,8 +148,8 @@ export default function TopBar({
     const projectManagerDetailMatch = pathname.match(
       /^\/projectmanager\/projectDetail\/([^/]+)$/
     );
-    const superadminDetailMatch = pathname.match(
-      /^\/superadmin\/projectDetail\/([^/]+)$/
+    const adminDetailMatch = pathname.match(
+      /^\/admin\/projectDetail\/([^/]+)$/
     );
 
     if (projectManagerDetailMatch) {
@@ -159,8 +160,8 @@ export default function TopBar({
           sessionStorage.setItem("lastProjectDetailPath", path);
         } catch {}
       }
-    } else if (superadminDetailMatch) {
-      const path = `/superadmin/projectDetail/${superadminDetailMatch[1]}`;
+    } else if (adminDetailMatch) {
+      const path = `/admin/projectDetail/${adminDetailMatch[1]}`;
       setLastProjectDetailPath(path);
       if (typeof window !== "undefined") {
         try {
@@ -197,10 +198,10 @@ export default function TopBar({
 
       // Extract IDs from pathname
       const projectDetailMatch = pathname.match(
-        /\/(projectmanager|superadmin)\/projectDetail\/([^/]+)$/
+        /\/(projectmanager|admin)\/projectDetail\/([^/]+)$/
       );
       const taskMatch = pathname.match(
-        /\/(projectmanager|superadmin|reviewer|facilitator)\/tasks\/([^/]+)/
+        /\/(projectmanager|admin|reviewer|facilitator)\/tasks\/([^/]+)/
       );
 
       try {
@@ -289,8 +290,8 @@ export default function TopBar({
       backTo: "/projectmanager/project",
     },
     {
-      pattern: /^\/superadmin\/projectDetail\/[^/]+$/,
-      backTo: "/superadmin/project",
+      pattern: /^\/admin\/projectDetail\/[^/]+$/,
+      backTo: "/admin/project",
     },
     {
       pattern: /^\/reviewer\/tasks\/[^/]+\/review$/,
@@ -301,7 +302,7 @@ export default function TopBar({
   // Routes that should show BREADCRUMB (not back button)
   const breadcrumbRoutes = [
     /^\/projectmanager\/tasks\/[^/]+$/,
-    /^\/superadmin\/tasks\/[^/]+$/,
+    /^\/admin\/tasks\/[^/]+$/,
     /^\/reviewer\/tasks\/[^/]+$/,
     /^\/facilitator\/tasks\/[^/]+$/,
   ];
@@ -353,7 +354,7 @@ export default function TopBar({
               <>
                 <button
                   onClick={() => {
-                    const role = pathname.includes("superadmin") ? "superadmin" : "projectmanager";
+                    const role = pathname.includes("/admin/") ? "admin" : "projectmanager";
                     router.push(`/${role}/projectDetail/${breadcrumbData.projectId}`);
                   }}
                   className="text-gray-600 hover:text-primary hover:underline font-medium transition-colors"
@@ -474,9 +475,9 @@ export default function TopBar({
                         "Name"}
                     </p>
                     <p className="text-xs text-gray-500">
-                      {(session?.user?.role ||
+                      {normalizeRole(session?.user?.role ||
                         localUserdata.role?.name ||
-                        "User Role").replace("SuperAdmin", "Admin")}
+                        "User Role")}
                     </p>
                   </div>
                 </div>

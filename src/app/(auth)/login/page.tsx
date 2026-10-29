@@ -22,7 +22,7 @@ export default function LoginPage() {
   const [showUpdatenewpassword, setShowUpdatenewpassword] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/superadmin";
+  const callbackUrl = searchParams.get("callbackUrl") || "/admin";
   const validateNewPassword = (newpassword: string) => {
     const minLength = newpassword.length >= 8;
     const hasUpperCase = /[A-Z]/.test(newpassword);
@@ -189,9 +189,8 @@ export default function LoginPage() {
   };
   const redirectBasedOnRole = (role: string) => {
     switch (role) {
-      case "SuperAdmin":
       case "Admin":
-        router.push("/superadmin");
+        router.push("/admin");
         break;
       case "ProjectManager":
         router.push("/projectmanager");

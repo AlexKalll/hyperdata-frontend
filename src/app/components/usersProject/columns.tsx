@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { UserData } from "@/app/types/global";
 import { Badge } from "@/app/components/ui/badge";
 import { UserDetailsModal } from "./userDetailsModal";
+import { normalizeRole } from "@/lib/roles";
 export const individualColumns: ColumnDef<UserData>[] = [
   {
     accessorKey: "first_name",
@@ -47,9 +48,8 @@ export const individualColumns: ColumnDef<UserData>[] = [
     header: "Role",
     cell: function ProjectUserRoleCell({ row }) {
       const roleData = row.original?.role;
-      const role = typeof roleData === 'object' ? roleData?.name : roleData;
+      const role = normalizeRole(typeof roleData === 'object' ? roleData?.name : roleData);
       const roleColors: Record<string, string> = {
-        SuperAdmin: "text-red-500",
         Admin: "text-red-500",
         Contributor: "text-blue-500",
         ProjectManager: "text-green-500",

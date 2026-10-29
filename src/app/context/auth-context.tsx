@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 type User = NonNullable<Session["user"]>;
 
-type UserRole = "SuperAdmin" | "Admin" | "ProjectManager" | "Facilitator" | "Reviewer";
+type UserRole = "Admin" | "ProjectManager" | "Facilitator" | "Reviewer";
 interface ExtendedUser {
   id: string;
   role: UserRole;
@@ -24,8 +24,8 @@ interface AuthState {
   expires_at: number | null;
   setAuth: (user: ExtendedUser | null, expires_at: number | null) => void;
   setUser: (user: ExtendedUser | null) => void;
-  isSuperAdmin: () => boolean;
   isAdmin: () => boolean;
+  isProjectManager: () => boolean;
   isFacilitator: () => boolean;
   isReviewer: () => boolean;
   checkSessionExpiry: () => boolean;
@@ -36,8 +36,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   expires_at: null,
   setAuth: (user, expires_at) => set({ user, expires_at }),
   setUser: (user) => set({ user }),
-  isSuperAdmin: () => get().user?.role === "SuperAdmin",
-  isAdmin: () => get().user?.role === "ProjectManager",
+  isAdmin: () => get().user?.role === "Admin",
+  isProjectManager: () => get().user?.role === "ProjectManager",
   isFacilitator: () => get().user?.role === "Facilitator",
   isReviewer: () => get().user?.role === "Reviewer",
   checkSessionExpiry: () => {

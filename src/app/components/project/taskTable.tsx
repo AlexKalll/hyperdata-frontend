@@ -257,7 +257,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
   };
   const handleTaskClick = (taskId: string) => {
     // For Next.js App Router (src/app directory)
-    router.push(`/superadmin/tasks/${taskId}`);
+    router.push(`/admin/tasks/${taskId}`);
   };
   // Columns for Users Table (unchanged)
   const userColumns: ColumnDef<User>[] = [

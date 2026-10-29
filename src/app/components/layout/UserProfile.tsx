@@ -1,5 +1,6 @@
 import React from "react";
 import { Session } from "next-auth";
+import { normalizeRole } from "@/lib/roles";
 
 interface UserProfileProps {
   session: Session | null;
@@ -29,7 +30,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
           />
           <div>
             <p className="text-gray-700">{user.name || user.username}</p>
-            <p className="text-sm text-gray-500">{(user.role || " ").replace("SuperAdmin", "Admin")}</p>
+            <p className="text-sm text-gray-500">{normalizeRole(user.role) || " "}</p>
           </div>
         </>
       )}

@@ -77,7 +77,7 @@ const ProjectsPage: React.FC = () => {
   const router = useRouter();
   
   const handleTaskClick = (projectId: string) => {
-    router.push(`/superadmin/projectDetail/${projectId}`);
+    router.push(`/admin/projectDetail/${projectId}`);
   };
 
   useEffect(() => {
