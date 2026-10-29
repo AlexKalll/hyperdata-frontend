@@ -29,7 +29,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
           />
           <div>
             <p className="text-gray-700">{user.name || user.username}</p>
-            <p className="text-sm text-gray-500">{user.role || " "}</p>
+            <p className="text-sm text-gray-500">{(user.role || " ").replace("SuperAdmin", "Admin")}</p>
           </div>
         </>
       )}

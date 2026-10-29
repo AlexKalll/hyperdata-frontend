@@ -474,9 +474,9 @@ export default function TopBar({
                         "Name"}
                     </p>
                     <p className="text-xs text-gray-500">
-                      {session?.user?.role ||
+                      {(session?.user?.role ||
                         localUserdata.role?.name ||
-                        "User Role"}
+                        "User Role").replace("SuperAdmin", "Admin")}
                     </p>
                   </div>
                 </div>
