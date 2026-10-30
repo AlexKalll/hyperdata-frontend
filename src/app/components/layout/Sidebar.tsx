@@ -9,6 +9,7 @@ import { Session } from "next-auth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MenuItem from "./MenuItem";
+import { normalizeRole } from "@/lib/roles";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -29,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   useEffect(() => {
     setIsClient(true);
     if (typeof window !== "undefined") {
-      const role = localStorage.getItem("userRole") as UserRole;
+      const role = normalizeRole(localStorage.getItem("userRole")) as UserRole;
       setCachedRole(role);
     }
   }, []);

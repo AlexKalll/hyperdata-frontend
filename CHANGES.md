@@ -7,6 +7,12 @@ Section 4(b) of the Apache License, Version 2.0.
 - **License:** Apache License 2.0
 - **Fork:** [iCog-Labs-Dev/hyperdata-frontend](https://github.com/iCog-Labs-Dev/hyperdata-frontend)
 
+## 2026-10-29: Admin role consolidation
+
+- Standardized role types, authentication, menus, dashboard routes, and statistics requests on `Admin` and `/admin`.
+- Redirected legacy dashboard URLs and normalized existing role values in browser sessions, cached navigation, and role badges.
+- Completed administrator role-label cleanup in user and project-user tables and corrected the administrator role helper.
+
 ## Modifications (by category & date)
 
 ### Branding and rebranding

@@ -1,10 +1,11 @@
 // middleware.ts
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import { normalizeRole } from "@/lib/roles";
 
 // Define role-based routes
 const roleRoutes: Record<string, string[]> = {
-  SuperAdmin: ["/superadmin", "/superadmin/users", "/superadmin/project", "/superadmin/basedata", "/superadmin/tasks/", "/superadmin/log", "/superadmin/userLog", "/settings"],
+  Admin: ["/admin", "/settings"],
   ProjectManager: ["/projectmanager", "/projectmanager/project", "/projectmanager/setting", "/settings", "/help"],
   Facilitator: ["/facilitator", "/facilitator/tasks", "/settings", "/help"],
   Reviewer: ["/reviewer", "/reviewer/tasks", "/settings", "/help"],
@@ -26,15 +27,15 @@ export default withAuth(
       return NextResponse.next();
     }
 
-    const userRole = req.nextauth.token?.role as keyof typeof roleRoutes | null;
+    const userRole = normalizeRole(req.nextauth.token?.role);
 
     if (req.nextauth.token?.must_change_password && pathname !== "/change-password") {
       return NextResponse.redirect(new URL("/change-password", req.url));
     }
-    if (userRole && pathname === "/change-password") return NextResponse.next();
+    if (userRole && roleRoutes[userRole] && pathname === "/change-password") return NextResponse.next();
 
     // If user is not authenticated, redirect to login
-    if (!userRole) {
+    if (!userRole || !roleRoutes[userRole]) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
@@ -71,7 +72,7 @@ export default withAuth(
         }
 
         // For protected routes, require a valid token
-        return !!token && !!token.role;
+        return !!token && !!roleRoutes[normalizeRole(token.role)];
       },
     },
     pages: {

@@ -1,15 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "sonner";
-import { StatisticsData_sets, StatisticsSuperadmin, StatisticsProject, SuperAdminDatasetLanguage } from "@/app/types/statistics";
+import { StatisticsData_sets, StatisticsAdmin, StatisticsProject, AdminDatasetLanguage } from "@/app/types/statistics";
 import { PaginationResponse, SinglerResponse, AllResponse, UserLog } from "@/app/types/global";
 import { useSession } from "next-auth/react";
 
 interface SingleStatisticsData_sets extends SinglerResponse<StatisticsData_sets> { }
 interface UserLogResponse extends PaginationResponse<UserLog> { }
-interface SingleStatisticsSuperadmin extends SinglerResponse<StatisticsSuperadmin> { }
+interface SingleStatisticsAdmin extends SinglerResponse<StatisticsAdmin> { }
 interface SingleStatisticsProject extends SinglerResponse<StatisticsProject> { }
-interface SingleSuperAdminDatasetLanguage extends SinglerResponse<SuperAdminDatasetLanguage> { }
+interface SingleAdminDatasetLanguage extends SinglerResponse<AdminDatasetLanguage> { }
 
 export function useSingleprojecStatisticsData_sets(view_type: string) {
     const { data: session } = useSession();
@@ -22,7 +22,7 @@ export function useSingleprojecStatisticsData_sets(view_type: string) {
                 }
                 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
                 const response = await axios.get<SingleStatisticsData_sets>(
-                    `${baseUrl}/statistics/superadmin/dataset-contribution?view_type=${view_type}`,
+                    `${baseUrl}/statistics/admin/dataset-contribution?view_type=${view_type}`,
                     {
                         headers: {
                             Authorization: `Bearer ${session.access_token}`,
@@ -47,18 +47,18 @@ export function useSingleprojecStatisticsData_sets(view_type: string) {
     });
 }
 
-export function useSingleprojecStatisticsSuperadmins() {
+export function useAdminStatistics() {
     const { data: session } = useSession();
-    return useQuery<SingleStatisticsSuperadmin>({
-        queryKey: ["SingleStatisticsSuperadmin"],
+    return useQuery<SingleStatisticsAdmin>({
+        queryKey: ["SingleStatisticsAdmin"],
         queryFn: async () => {
             try {
                 if (!session?.access_token) {
                     throw new Error("No authentication token available");
                 }
                 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-                const response = await axios.get<SingleStatisticsSuperadmin>(
-                    `${baseUrl}/statistics/superadmin/`,
+                const response = await axios.get<SingleStatisticsAdmin>(
+                    `${baseUrl}/statistics/admin/`,
                     {
                         headers: {
                             Authorization: `Bearer ${session.access_token}`,
@@ -69,7 +69,7 @@ export function useSingleprojecStatisticsSuperadmins() {
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     const message =
-                        error.response?.data?.message || "Failed to fetch superadmin statistics";
+                        error.response?.data?.message || "Failed to fetch admin statistics";
                     toast.error("Error", { description: message });
                 }
                 throw error;
@@ -197,18 +197,18 @@ export function useSingleProjectManagerStatisticsData_sets(view_type: string, pr
     });
 }
 
-export function useSingleSuperAdminDatasetLanguage(view_type: string) {
+export function useSingleAdminDatasetLanguage(view_type: string) {
     const { data: session } = useSession();
-    return useQuery<SingleSuperAdminDatasetLanguage>({
-        queryKey: ["SingleSuperAdminDatasetLanguage", view_type],
+    return useQuery<SingleAdminDatasetLanguage>({
+        queryKey: ["SingleAdminDatasetLanguage", view_type],
         queryFn: async () => {
             try {
                 if (!session?.access_token) {
                     throw new Error("No authentication token available");
                 }
                 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-                const response = await axios.get<SingleSuperAdminDatasetLanguage>(
-                    `${baseUrl}/statistics/superadmin/dataset-language?view_type=${view_type}`,
+                const response = await axios.get<SingleAdminDatasetLanguage>(
+                    `${baseUrl}/statistics/admin/dataset-language?view_type=${view_type}`,
                     {
                         headers: {
                             Authorization: `Bearer ${session.access_token}`,

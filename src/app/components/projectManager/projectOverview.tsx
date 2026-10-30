@@ -55,7 +55,7 @@ interface TaskTableProps {
 }
 const ProjectOverview: React.FC<TaskTableProps> = ({ projectId }) => {
   const [viewType, setViewType] = useState("WEEKLY");
-  const { data: superadminData, isLoading: superadminLoading } =
+  const { data: projectData, isLoading: projectLoading } =
     useSingleprojecStatisticsProject(projectId);
   const { data: datasetData, isLoading: datasetLoading } =
     useSingleProjectManagerStatisticsData_sets(viewType, projectId);
@@ -129,32 +129,32 @@ const ProjectOverview: React.FC<TaskTableProps> = ({ projectId }) => {
       />
     </svg>
   );
-  const metrics = superadminData?.data
+  const metrics = projectData?.data
     ? [
         {
           title: "Total Tasks",
-          value: superadminData.data.total_tasks,
+          value: projectData.data.total_tasks,
           change: "bg-blue-100",
           icon: projecIcon,
         },
         {
           title: "Total Micro Tasks",
-          value: superadminData.data.total_micro_tasks,
+          value: projectData.data.total_micro_tasks,
           change: "bg-white",
           icon: totalmictotaskIcon,
         },
         {
           title: "Total Datasets",
-          value: superadminData.data.total_data_sets,
+          value: projectData.data.total_data_sets,
           change: "bg-blue-100",
           icon: TotalMicroTasksIcon,
         },
         {
           title: "Total Users",
           value:
-            superadminData.data.total_reviewers +
-            superadminData.data.total_contributors +
-            superadminData.data.total_facilitators,
+            projectData.data.total_reviewers +
+            projectData.data.total_contributors +
+            projectData.data.total_facilitators,
           change: "bg-white",
           icon: totalUsersIcon,
         },
@@ -278,7 +278,7 @@ const ProjectOverview: React.FC<TaskTableProps> = ({ projectId }) => {
                 {metric.title}
               </p>
               <p className="text-2xl font-bold text-gray-900">
-                {superadminLoading ? "Loading..." : metric.value}
+                {projectLoading ? "Loading..." : metric.value}
               </p>
             </div>
           </div>

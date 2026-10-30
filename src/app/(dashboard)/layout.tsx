@@ -28,7 +28,7 @@ export default function DashboardLayout({
     basedata: "Base Data",
     country: "Country",
     projectmanager: "Dashboard",
-    superadmin: "Dashboard",
+    admin: "Dashboard",
     help: "Help & Support",
     users :"User Management"
   };

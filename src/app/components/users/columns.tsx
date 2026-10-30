@@ -5,6 +5,7 @@ import { UserData } from "@/app/types/global";
 import { Badge } from "@/app/components/ui/badge";
 import { UserDetailsModal } from "./userDetailsModal";
 import { formatDateMedium } from "@/app/types/dateUtils";
+import { normalizeRole } from "@/lib/roles";
 export const individualColumns: ColumnDef<UserData>[] = [
   {
     accessorKey: "",
@@ -30,9 +31,9 @@ export const individualColumns: ColumnDef<UserData>[] = [
     header: "Role",
     cell: function UserRoleCell({ row }) {
       const roleData = row.original?.role;
-      const role = typeof roleData === 'object' ? roleData?.name : roleData;
+      const role = normalizeRole(typeof roleData === 'object' ? roleData?.name : roleData);
       const roleColors: Record<string, string> = {
-        SuperAdmin: "text-red-500 ",
+        Admin: "text-red-500 ",
         Contributor: "bg-[#ECF6FF] text-[#095FAF]",
         ProjectManager: "text-[#0502C2] bg-[#F0EFFF]",
         Facilitator: "text-[#3F3748] bg-[#F2F4F7]",

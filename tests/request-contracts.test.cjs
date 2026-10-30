@@ -16,6 +16,82 @@ const transpile = (source) =>
     },
   }).outputText;
 
+function loadModule(file, mocks = {}) {
+  const module = { exports: {} };
+  vm.runInNewContext(transpile(read(file)), {
+    module,
+    exports: module.exports,
+    process: { env: {} },
+    console: { error() {} },
+    URL,
+    require(name) {
+      if (name === "@/lib/roles") return loadModule("src/lib/roles.ts");
+      assert.ok(name in mocks, `Unexpected dependency: ${name}`);
+      return mocks[name];
+    },
+  });
+  return module.exports;
+}
+
+test("legacy role normalization preserves other roles and absent values", () => {
+  const { normalizeRole } = loadModule("src/lib/roles.ts");
+  assert.equal(normalizeRole("SuperAdmin"), "Admin");
+  for (const role of ["Admin", "ProjectManager", "Reviewer", "Facilitator", "Contributor", "unknown", null, undefined]) {
+    assert.equal(normalizeRole(role), role);
+  }
+});
+
+for (const file of ["src/app/api/auth/[...nextauth]/route.ts", "src/app/lib/auth.ts", "src/lib/auth.ts"]) {
+  test(`existing administrator sessions retain access and password-change restrictions (${file})`, async () => {
+    const exports = loadModule(file, {
+      "next-auth": (options) => options,
+      "next-auth/providers/credentials": (provider) => provider,
+      axios: {},
+    });
+    const options = exports.authOptions || exports.GET;
+    const token = await options.callbacks.jwt({
+      token: {
+        id: "admin-id",
+        role: "SuperAdmin",
+        access_token: "existing-token",
+        must_change_password: true,
+        expires_at: Date.now() + 60_000,
+      },
+    });
+    assert.equal(token.role, "Admin");
+    assert.equal(token.access_token, "existing-token");
+    const session = await options.callbacks.session({ session: { user: {} }, token });
+    assert.equal(session.user.role, "Admin");
+    assert.equal(session.user.must_change_password, true);
+  });
+}
+
+test("administrator routing retains legacy sessions and denies other roles", () => {
+  const { default: middleware } = loadModule("src/middleware.ts", {
+    "next-auth/middleware": { withAuth: (handler, options) => ({ handler, options }) },
+    "next/server": {
+      NextResponse: {
+        next: () => ({ type: "next" }),
+        redirect: (url) => ({ type: "redirect", path: url.pathname }),
+      },
+    },
+  });
+  const request = (role, pathname, must_change_password = false) => ({
+    nextUrl: new URL(`https://example.test${pathname}`),
+    url: `https://example.test${pathname}`,
+    nextauth: { token: { role, must_change_password } },
+  });
+  for (const role of ["Admin", "SuperAdmin"]) {
+    assert.equal(middleware.handler(request(role, "/admin/users")).type, "next");
+    assert.equal(middleware.handler(request(role, "/admin", true)).path, "/change-password");
+    assert.equal(middleware.handler(request(role, "/change-password", true)).type, "next");
+    assert.equal(middleware.handler(request(role, "/administrator")).path, "/admin");
+  }
+  for (const [role, home] of [["ProjectManager", "/projectmanager"], ["Reviewer", "/reviewer"], ["Facilitator", "/facilitator"], ["Contributor", "/login"], ["unknown", "/login"]]) {
+    assert.equal(middleware.handler(request(role, "/admin")).path, home);
+  }
+});
+
 function variableInitializer(file, name) {
   const source = ts.createSourceFile(
     file,
@@ -403,7 +479,7 @@ test("login redirects each supported role to an existing dashboard page", () => 
   visit(source);
   assert.ok(redirect, "Role redirect function must exist");
   for (const [role, destination] of [
-    ["SuperAdmin", "/superadmin"],
+    ["Admin", "/admin"],
     ["ProjectManager", "/projectmanager"],
     ["Facilitator", "/facilitator"],
     ["Reviewer", "/reviewer"],

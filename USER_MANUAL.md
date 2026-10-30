@@ -5,7 +5,7 @@
 1. [Introduction](#introduction)
 2. [System Overview](#system-overview)
 3. [User Roles](#user-roles)
-4. [SuperAdmin User Manual](#superadmin-user-manual)
+4. [Admin User Manual](#admin-user-manual)
 5. [Project Manager User Manual](#project-manager-user-manual)
 6. [Facilitator User Manual](#facilitator-user-manual)
 7. [Reviewer User Manual](#reviewer-user-manual)
@@ -27,22 +27,22 @@ The Mahder Frontend system is designed to manage projects, tasks, and data annot
 
 The system supports four main user roles:
 
-1. **SuperAdmin** - Full system administration and management
+1. **Admin** - Full system administration and management
 2. **ProjectManager** - Project and task management
 3. **Facilitator** - Task facilitation and user management
 4. **Reviewer** - Quality assurance and data review
 
 ---
 
-# SuperAdmin User Manual
+# Admin User Manual
 
 ## Overview
 
-SuperAdmins have complete system access and are responsible for overall system administration, user management, and system configuration.
+Admins have complete system access and are responsible for overall system administration, user management, and system configuration.
 
 ## Dashboard Features
 
-### Main Dashboard (`/superadmin`)
+### Main Dashboard (`/admin`)
 
 - **Total Projects**: View count of all projects in the system
 - **Total Tasks**: View count of all tasks across projects
@@ -51,7 +51,7 @@ SuperAdmins have complete system access and are responsible for overall system a
 - **Language/Dialect Distribution**: Visual charts showing data distribution by language and dialect
 - **Dataset Statistics**: Yearly and language-based dataset analytics
 
-## User Management (`/superadmin/users`)
+## User Management (`/admin/users`)
 
 ### Features:
 
@@ -71,7 +71,7 @@ SuperAdmins have complete system access and are responsible for overall system a
 4. Use the action buttons to edit, activate, or deactivate users
 5. Apply filters to view users by role, status, or other criteria
 
-## Project Management (`/superadmin/project`)
+## Project Management (`/admin/project`)
 
 ### Features:
 
@@ -91,21 +91,21 @@ SuperAdmins have complete system access and are responsible for overall system a
 4. Use the project cards to access detailed project information
 5. Assign project managers using the assignment interface
 
-## Base Data Management (`/superadmin/basedata`)
+## Base Data Management (`/admin/basedata`)
 
 ### Available Base Data Types:
 
-- **Language** (`/superadmin/basedata/language`)
-- **Dialect** (`/superadmin/basedata/dialect`)
-- **Sector** (`/superadmin/basedata/sector`)
-- **Organization** (`/superadmin/basedata/organization`)
-- **Country** (`/superadmin/basedata/country`)
-- **Region** (`/superadmin/basedata/region`)
-- **Zone** (`/superadmin/basedata/zone`)
-- **Rejection Type** (`/superadmin/basedata/rejectionType`)
-- **Annotation Type** (`/superadmin/basedata/annotationType`)
-- **Annotation** (`/superadmin/basedata/annotation`)
-- **Flag Type** (`/superadmin/basedata/flagType`)
+- **Language** (`/admin/basedata/language`)
+- **Dialect** (`/admin/basedata/dialect`)
+- **Sector** (`/admin/basedata/sector`)
+- **Organization** (`/admin/basedata/organization`)
+- **Country** (`/admin/basedata/country`)
+- **Region** (`/admin/basedata/region`)
+- **Zone** (`/admin/basedata/zone`)
+- **Rejection Type** (`/admin/basedata/rejectionType`)
+- **Annotation Type** (`/admin/basedata/annotationType`)
+- **Annotation** (`/admin/basedata/annotation`)
+- **Flag Type** (`/admin/basedata/flagType`)
 
 ### How to Use Base Data:
 
@@ -115,7 +115,7 @@ SuperAdmins have complete system access and are responsible for overall system a
 4. Search and filter data as needed
 5. Export data for external use
 
-## Archive Management (`/superadmin/projectArchive`)
+## Archive Management (`/admin/projectArchive`)
 
 ### Features:
 
@@ -124,7 +124,7 @@ SuperAdmins have complete system access and are responsible for overall system a
 - Permanent deletion of archived items
 - Archive search and filtering
 
-## System Logs (`/superadmin/log`)
+## System Logs (`/admin/log`)
 
 ### Features:
 
@@ -134,7 +134,7 @@ SuperAdmins have complete system access and are responsible for overall system a
 - Export log data
 - Filter logs by date, user, or action type
 
-## Settings (`/superadmin/setting`)
+## Settings (`/admin/setting`)
 
 ### Features:
 

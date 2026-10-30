@@ -1,10 +1,10 @@
-// app/superadmin/layout.tsx
+// app/facilitator/layout.tsx
 "use client";
 
 import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
 
-export default function SuperAdminLayout({
+export default function FacilitatorLayout({
   children,
 }: {
   children: ReactNode;
