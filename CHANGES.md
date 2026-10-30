@@ -7,6 +7,10 @@ Section 4(b) of the Apache License, Version 2.0.
 - **License:** Apache License 2.0
 - **Fork:** [iCog-Labs-Dev/hyperdata-frontend](https://github.com/iCog-Labs-Dev/hyperdata-frontend)
 
+## 2026-10-30: Administrator URL cleanup
+
+- Removed the legacy `/superadmin` dashboard redirect; administrator navigation uses `/admin` directly.
+
 ## 2026-10-29: Admin role consolidation
 
 - Standardized role types, authentication, menus, dashboard routes, and statistics requests on `Admin` and `/admin`.
@@ -200,6 +204,12 @@ Section 4(b) of the Apache License, Version 2.0.
 
 - Set the VPS frontend build and authentication URLs to `https://portal.mahder.ai`
   for the next deployment.
+
+## 2026-10-26 - Flexible microtask imports
+
+- Accept case-insensitive CSV/XLSX headers, headerless text or numbered rows, and
+  TXT files with one microtask per non-empty line, generating row numbers as needed.
+- Keep CSV/XLSX previews consistent with backend parsing and preserve UTF-8 text.
 
 ## How to record future changes
 - When making non-trivial modifications, add a short entry under a new dated section below
