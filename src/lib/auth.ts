@@ -2,8 +2,9 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
+import { normalizeRole } from "@/lib/roles";
 
-type UserRole = "SuperAdmin" | "ProjectManager" | "Facilitator" | "Reviewer";
+type UserRole = "Admin" | "ProjectManager" | "Facilitator" | "Reviewer";
 
 interface ExtendedUser {
   id: string;
@@ -53,7 +54,7 @@ export const authOptions: NextAuthOptions = {
             last_name: responseData.user.last_name,
             middle_name: responseData.user.middle_name,
             profile_picture: responseData.user.profile_picture,
-            role: responseData.user.role.name as UserRole,
+            role: normalizeRole(responseData.user.role.name) as UserRole,
             access_token: responseData.access_token,
             must_change_password: responseData.user.must_change_password === true,
           };
@@ -91,12 +92,13 @@ export const authOptions: NextAuthOptions = {
           throw new Error("SessionExpired");
         }
       }
+      token.role = normalizeRole(token.role as UserRole);
       return token;
     },
     async session({ session, token }) {
       if (session.user && token) {
         session.user.id = token.id as string;
-        session.user.role = token.role as UserRole;
+        session.user.role = normalizeRole(token.role as UserRole);
         session.access_token = token.access_token as string;
         session.user.profile_picture =
           typeof token.profile_picture === "string"

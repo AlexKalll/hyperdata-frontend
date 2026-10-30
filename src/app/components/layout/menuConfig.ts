@@ -1,5 +1,5 @@
 // Define user roles
-export type UserRole = "SuperAdmin" | "ProjectManager" | "User" | "Reviewer" | "Facilitator" | null;
+export type UserRole = "Admin" | "ProjectManager" | "User" | "Reviewer" | "Facilitator" | null;
 
 // Define menu item structure
 export interface MenuItem {
@@ -14,9 +14,9 @@ export interface MenuItem {
 export const menuConfig: MenuItem[] = [
   {
     label: "Dashboard",
-    href: "/superadmin",
+    href: "/admin",
     iconName: "overview",
-    roles: ["SuperAdmin"],
+    roles: ["Admin"],
   },
   {
     label: "Dashboard",
@@ -32,15 +32,15 @@ export const menuConfig: MenuItem[] = [
   },
   {
     label: "User Management",
-    href: "/superadmin/users",
+    href: "/admin/users",
     iconName: "userManagement",
-    roles: ["SuperAdmin"],
+    roles: ["Admin"],
   },
   {
     label: "Project Management",
-    href: "/superadmin/project",
+    href: "/admin/project",
     iconName: "projectManagement",
-    roles: ["SuperAdmin"],
+    roles: ["Admin"],
   },
   {
     label: "Dashboard",
@@ -71,39 +71,39 @@ export const menuConfig: MenuItem[] = [
     label: "Base Data",
     href: "",
     iconName: "baseData",
-    roles: ["SuperAdmin"],
+    roles: ["Admin"],
     subItems: [
-      { label: "Language", href: "/superadmin/basedata/language" },
-      { label: "Dialect", href: "/superadmin/basedata/dialect" },
-      { label: "Sector", href: "/superadmin/basedata/sector" },
-      { label: "Organization", href: "/superadmin/basedata/organization" },
-      { label: "Country", href: "/superadmin/basedata/country" },
-      { label: "Region", href: "/superadmin/basedata/region" },
-      { label: "Zone", href: "/superadmin/basedata/zone" },
-      { label: "Rejection Type", href: "/superadmin/basedata/rejectionType" },
-      { label: "Annotation Type", href: "/superadmin/basedata/annotationType" },
-      { label: "Annotation ", href: "/superadmin/basedata/annotation" },
-      { label: "Flag Type", href: "/superadmin/basedata/flagType" },
+      { label: "Language", href: "/admin/basedata/language" },
+      { label: "Dialect", href: "/admin/basedata/dialect" },
+      { label: "Sector", href: "/admin/basedata/sector" },
+      { label: "Organization", href: "/admin/basedata/organization" },
+      { label: "Country", href: "/admin/basedata/country" },
+      { label: "Region", href: "/admin/basedata/region" },
+      { label: "Zone", href: "/admin/basedata/zone" },
+      { label: "Rejection Type", href: "/admin/basedata/rejectionType" },
+      { label: "Annotation Type", href: "/admin/basedata/annotationType" },
+      { label: "Annotation ", href: "/admin/basedata/annotation" },
+      { label: "Flag Type", href: "/admin/basedata/flagType" },
     ],
   },
   {
     label: "Archive",
-    href: "/superadmin/projectArchive",
+    href: "/admin/projectArchive",
     iconName: "archive",
-    roles: ["SuperAdmin"],
+    roles: ["Admin"],
   },
   {
     label: "Settings",
-    href: "/superadmin/setting",
+    href: "/admin/setting",
     iconName: "settings",
-    roles: ["SuperAdmin"],
+    roles: ["Admin"],
   },
 
   {
     label: "System Log",
-    href: "/superadmin/log",
+    href: "/admin/log",
     iconName: "log",
-    roles: ["SuperAdmin"],
+    roles: ["Admin"],
   },
 
 

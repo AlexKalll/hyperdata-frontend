@@ -6,9 +6,10 @@ import type { JWTEncodeParams, JWTDecodeParams } from "next-auth/jwt";
 import type { Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
+import { normalizeRole } from "@/lib/roles";
 
 // Match the role names exactly as they come from your API
-type UserRole = "SuperAdmin" | "ProjectManager" | "Facilitator" | "Reviewer";
+type UserRole = "Admin" | "ProjectManager" | "Facilitator" | "Reviewer";
 const CONTRIBUTOR_MOBILE_ONLY_ERROR = "CONTRIBUTOR_MOBILE_ONLY";
 const CONTRIBUTOR_WEB_LOGIN_MESSAGE = "Contributors are not allowed to sign in";
 
@@ -91,7 +92,7 @@ const authOptions: NextAuthOptions = {
             last_name: responseData.user.last_name,
             middle_name: responseData.user.middle_name,
             profile_picture: responseData.user.profile_picture,
-            role: responseData.user.role.name as UserRole, // Using role.name from your API
+            role: normalizeRole(responseData.user.role.name) as UserRole,
             access_token: responseData.access_token,
             must_change_password:
               responseData.user.must_change_password === true,
@@ -142,6 +143,8 @@ const authOptions: NextAuthOptions = {
             : 24 * 60 * 60 * 1000);
       }
 
+      extendedToken.role = normalizeRole(extendedToken.role);
+
       // Check if token has expired - handle in session callback instead
       // This ensures we always return a consistent JWT type
       return extendedToken;
@@ -162,7 +165,7 @@ const authOptions: NextAuthOptions = {
 
       if (session.user) {
         session.user.id = extendedToken.id;
-        session.user.role = extendedToken.role;
+        session.user.role = normalizeRole(extendedToken.role);
         session.access_token = extendedToken.access_token;
         session.user.profile_picture = extendedToken.profile_picture || null;
         session.user.email = extendedToken.email || "";

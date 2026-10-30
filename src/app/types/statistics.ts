@@ -1,4 +1,4 @@
-export interface StatisticsSuperadmin {
+export interface StatisticsAdmin {
     "total_micro_tasks": number,
     "total_projects": number,
     "total_tasks": number,
@@ -30,7 +30,7 @@ export interface StatisticsProjectDatasetLanguage {
     "count": string
 
 }
-export interface SuperAdminDatasetLanguage extends Array<StatisticsProjectDatasetLanguage> { }
+export interface AdminDatasetLanguage extends Array<StatisticsProjectDatasetLanguage> { }
 interface StatisticsData_setsData {
     date: number;
     count: string;

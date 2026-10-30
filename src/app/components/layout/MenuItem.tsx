@@ -38,14 +38,14 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, isSidebarOpen }) => {
              pathname.startsWith("/projectmanager/tasks/");
     }
     
-    if (item.href === "/superadmin/project") {
-      return pathname === "/superadmin/project" || 
-             pathname.startsWith("/superadmin/projectDetail/") ||
-             pathname === "/superadmin/tasks";
+    if (item.href === "/admin/project") {
+      return pathname === "/admin/project" ||
+             pathname.startsWith("/admin/projectDetail/") ||
+             pathname === "/admin/tasks";
     }
     
-    if (item.href === "/superadmin/projectArchive") {
-      return pathname === "/superadmin/projectArchive";
+    if (item.href === "/admin/projectArchive") {
+      return pathname === "/admin/projectArchive";
     }
     
     return false;

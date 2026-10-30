@@ -127,7 +127,7 @@ const ProjectsArchivePage: React.FC = () => {
   const router = useRouter();
   const handleTaskClick = (projectId: string) => {
     // For Next.js App Router (src/app directory)
-    router.push(`/superadmin/projectDetail/${projectId}`);
+    router.push(`/admin/projectDetail/${projectId}`);
   };
   interface LoadingDateProps {}
 
