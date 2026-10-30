@@ -7,6 +7,10 @@ Section 4(b) of the Apache License, Version 2.0.
 - **License:** Apache License 2.0
 - **Fork:** [iCog-Labs-Dev/hyperdata-frontend](https://github.com/iCog-Labs-Dev/hyperdata-frontend)
 
+## 2026-10-30: Administrator URL cleanup
+
+- Removed the legacy `/superadmin` dashboard redirect; administrator navigation uses `/admin` directly.
+
 ## 2026-10-29: Admin role consolidation
 
 - Standardized role types, authentication, menus, dashboard routes, and statistics requests on `Admin` and `/admin`.
