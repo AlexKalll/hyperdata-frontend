@@ -1,4 +1,5 @@
 "use client";
+import MicroTaskImage from "../common/microTaskImage";
 import React, { useState, useEffect, useRef } from "react";
 import { Badge } from "@/app/components/ui/badge";
 import {
@@ -325,6 +326,7 @@ const TaskDatasetSubmit: React.FC<TaskDatasetProps> = ({
           wavesurferRef.current.playPause();
         };
 
+        if (row.original.microTask?.type === "image") return <MicroTaskImage src={fullAudioUrl} />;
         if (row.original.microTask?.type === "audio" && fullAudioUrl) {
           return (
             <div className="w-[250px] max-w-[250px] overflow-hidden">

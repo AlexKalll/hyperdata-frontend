@@ -1,4 +1,5 @@
 "use client";
+import MicroTaskImage from "../common/microTaskImage";
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
@@ -851,6 +852,8 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
                               Question
                             </p>
                             <div className="mb-4 px-4 py-4 bg-[#FCFCFD]">
+                              {microtasks[currentRowIndex].microTask.type === "image" && <MicroTaskImage key={microtasks[currentRowIndex].id} src={microtasks[currentRowIndex].microTask.file_path} />}
+                              {microtasks[currentRowIndex].microTask.type === "image" && microtasks[currentRowIndex].microTask.instruction && <p className="mt-3 whitespace-pre-wrap">{microtasks[currentRowIndex].microTask.instruction}</p>}
                               {microtasks[currentRowIndex].microTask.type ===
                               "text" ? (
                                 <>
@@ -1591,6 +1594,7 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
                           </div>
                         </div>
                       )}
+                      {selectedMicroTask.microTask.type === "image" && <MicroTaskImage src={selectedMicroTask.microTask.file_path} />}
                       {selectedMicroTask.microTask.type === "audio" &&
                         selectedMicroTask.microTask.file_path && (
                           <div>

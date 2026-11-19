@@ -1,4 +1,5 @@
 "use client";
+import MicroTaskImage from "../common/microTaskImage";
 import React, { useState, useEffect, useRef } from "react";
 import {
   Table,
@@ -332,6 +333,7 @@ const TaskDataset: React.FC<TaskDatasetProps> = ({ taskId }) => {
           wavesurferRef.current.playPause();
         };
 
+        if (row.original.microTask?.type === "image") return <MicroTaskImage src={fullAudioUrl} />;
         if (row.original.microTask?.type === "audio" && fullAudioUrl) {
           return (
             <div className="flex items-center gap-2 w-full max-w-[280px] mt-3 mb-3">

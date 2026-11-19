@@ -355,6 +355,7 @@ export interface ReviewerDatset {
     id: string;
     code: string;
     is_test: boolean;
+    instruction?: string | null;
     file_path: string | null;
     text: string | null;
     type: string | null;

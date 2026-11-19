@@ -16,6 +16,7 @@ import {
   ProjectTask,
 } from "@/app/types/project";
 import { toast } from "sonner";
+import ImageMicroTaskUpload from "./imageMicroTaskUpload";
 
 interface AddMicroTaskDialogProps {
   tasks: TaskResponse[];
@@ -74,6 +75,8 @@ const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
   });
 
   const [audioFiles, setAudioFiles] = useState<File[]>([]);
+  const [imageUploading, setImageUploading] = useState(false);
+  const isImageTask = taskMetadata?.taskType?.task_type === "image-text";
   const [csvFile, setCsvFile] = useState<File | null>(null);
   const [csvData, setCsvData] = useState<CsvRow[]>([]);
   const [csvError, setCsvError] = useState<string | null>(null);
@@ -258,7 +261,7 @@ const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(value) => { if (!imageUploading) setOpen(value); }}>
       <DialogTrigger asChild>
         <Button className="bg-primary text-white hover:bg-blue-700 flex items-center gap-2">
           <Plus className="h-4 w-4" />
@@ -275,9 +278,10 @@ const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
         {/* Tabs */}
         <div className="border-b border-gray-200 mb-6 flex-shrink-0">
           <nav className="flex space-x-6">
-            {["Single", "CsvUpload", "ImportTask"].map((tab) => (
+            {(isImageTask ? ["Single", "ImportTask"] : ["Single", "CsvUpload", "ImportTask"]).map((tab) => (
               <button
                 key={tab}
+                disabled={imageUploading}
                 onClick={() => setActiveTab(tab as any)}
                 className={`py-2 px-1 text-sm font-medium border-b-2 transition-colors ${
                   activeTab === tab
@@ -285,7 +289,7 @@ const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
                     : "border-transparent text-gray-500 hover:text-gray-700"
                 }`}
               >
-                {tab === "Single" && "Single Micro Task"}
+                {tab === "Single" && (isImageTask ? "Upload Images" : "Single Micro Task")}
                 {tab === "CsvUpload" && "From CSV/XLSX/TXT"}
                 {tab === "ImportTask" && "Import from Task"}
               </button>
@@ -296,7 +300,8 @@ const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
         {/* Scrollable content area */}
         <div className="flex-1 overflow-y-auto pr-2">
           {/* === Single Micro Task === */}
-          {activeTab === "Single" && (
+          {activeTab === "Single" && isImageTask && <ImageMicroTaskUpload taskId={taskMetadata.id} requireTest={taskMetadata.require_contributor_test} onComplete={() => setOpen(false)} onUploadingChange={setImageUploading} />}
+          {activeTab === "Single" && !isImageTask && (
             <form
               onSubmit={
                 taskMetadata?.taskType?.task_type === "text-text" ||
@@ -586,7 +591,7 @@ const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
                   />
                   <span>From MicroTasks</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer">
+                {!isImageTask && <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="radio"
                     checked={from_data_set}
@@ -594,7 +599,7 @@ const AddMicroTaskDialog: React.FC<AddMicroTaskDialogProps> = ({
                     className="text-blue-600"
                   />
                   <span>From Dataset</span>
-                </label>
+                </label>}
               </div>
 
               <div>

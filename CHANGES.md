@@ -7,6 +7,19 @@ Section 4(b) of the Apache License, Version 2.0.
 - **License:** Apache License 2.0
 - **Fork:** [iCog-Labs-Dev/hyperdata-frontend](https://github.com/iCog-Labs-Dev/hyperdata-frontend)
 
+## 2026-11-19: Bulk image selection and retries
+
+- Increased the selection limit to 100 images while retaining sequential uploads and lazy-loading image previews.
+- Added uploaded/failed counts and an explicit **Retry failed uploads** action that sends only the remaining failed files.
+- Keep each file's upload identifier and original settings across retries so interrupted responses do not create duplicate microtasks.
+
+## 2026-11-12: Image-to-text management and review
+
+- Added multi-image prompt selection, thumbnails, instructions, qualification marking, upload progress, and retryable per-file failures for `image-text` tasks.
+- Added full-image previews and zoom controls to manager, administrator, reviewer, and facilitator views.
+- Kept image uploads within the existing task and microtask management flow, using the task types provided by the API.
+- Keep the upload dialog mounted when the first image populates an empty list and refresh the matching microtask query after successful uploads.
+
 ## 2026-10-30: Administrator URL cleanup
 
 - Removed the legacy `/superadmin` dashboard redirect; administrator navigation uses `/admin` directly.

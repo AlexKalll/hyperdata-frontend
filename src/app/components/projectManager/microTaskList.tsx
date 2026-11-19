@@ -1,4 +1,5 @@
 "use client";
+import MicroTaskImage from "../common/microTaskImage";
 import React, { useState, useEffect, useRef } from "react";
 import {
   Table,
@@ -368,7 +369,7 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
     {
       accessorKey: "audio",
       header: (props) => (
-        <div className="text-center align-middle justify-center">Audio</div>
+        <div className="text-center align-middle justify-center">{taskType === "image-text" ? "Image" : "Audio"}</div>
       ),
       enableSorting: false,
       cell: function ProjectManagerAudioCell({ row }) {
@@ -455,6 +456,7 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
           wavesurferRef.current.playPause();
         };
 
+        if (row.original.type === "image") return <MicroTaskImage src={fullAudioUrl} />;
         if (row.original.type === "audio" && fullAudioUrl) {
           return (
             <div className="flex items-center gap-2 min-w-[200px] mt-3 mb-3">
@@ -537,7 +539,7 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
       "accessorKey" in column && typeof column.accessorKey === "string"
         ? column.accessorKey
         : column.id;
-    if (taskType === "audio-text" && key === "text") {
+    if ((taskType === "audio-text" || taskType === "image-text") && key === "text") {
       return false;
     }
     if (
@@ -588,8 +590,6 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
 
   return (
     <>
-      {microtasks.length === 0 ? (
-        <>
           <div className="flex justify-end items-center gap-4 mb-4">
             {taskMetadata &&
               showCreateMicroTaskForm !== undefined &&
@@ -616,6 +616,8 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
               endpoint={`/api/workspace/micro-task/task/${taskId}`}
             />
           </div>
+      {microtasks.length === 0 ? (
+        <>
           <div className="relative flex flex-col items-center justify-center py-12">
             <img 
               src="/empty.svg" 
@@ -637,32 +639,6 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
         </div>
       ) : (
         <div>
-          <div className="flex justify-end items-center gap-4 mb-4">
-            {taskMetadata &&
-              showCreateMicroTaskForm !== undefined &&
-              setShowCreateMicroTaskForm &&
-              onSubmitSingle &&
-              onSubmitCsv &&
-              onSubmitAudio &&
-              onSubmitTask && (
-                <AddMicroTaskDialog
-                  taskMetadata={taskMetadata}
-                  open={showCreateMicroTaskForm}
-                  setOpen={setShowCreateMicroTaskForm}
-                  tasks={[]}
-                  onSubmitSingle={onSubmitSingle}
-                  onSubmitCsv={onSubmitCsv}
-                  onSubmitAudio={onSubmitAudio}
-                  onSubmitTask={onSubmitTask}
-                />
-              )}
-            <FilterComponent
-              columns={filterableColumns}
-              onFilterChangeAction={handleFilterChange}
-              initialFilters={filters}
-              endpoint={`/api/workspace/micro-task/task/${taskId}`}
-            />
-          </div>
           <div className="rounded-md border border-gray-100 bg-white overflow-hidden relative">
             <Table>
               <TableHeader>

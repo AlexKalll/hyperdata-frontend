@@ -1,4 +1,5 @@
 "use client";
+import MicroTaskImage from "../common/microTaskImage";
 import React, { useState, useEffect, useRef } from "react";
 import {
   Table,
@@ -232,7 +233,7 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
     },
     {
       accessorKey: "audio",
-      header: () => <div className="text-center">Audio</div>,
+      header: () => <div className="text-center">{taskType === "image-text" ? "Image" : "Audio"}</div>,
       enableSorting: false,
       cell: function ProjectAudioCell({ row }) {
         const waveformRef = useRef<HTMLDivElement>(null);
@@ -318,6 +319,7 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
           wavesurferRef.current.playPause();
         };
 
+        if (row.original.type === "image") return <MicroTaskImage src={fullAudioUrl} />;
         if (row.original.type === "audio" && fullAudioUrl) {
           return (
             <div className="flex items-center gap-2 min-w-[200px] mt-3 mb-3">
@@ -373,7 +375,7 @@ const MicroTaskList: React.FC<MicroTaskListProps> = ({
       "accessorKey" in column && typeof column.accessorKey === "string"
         ? column.accessorKey
         : column.id;
-    if (taskType === "audio-text" && key === "text") {
+    if ((taskType === "audio-text" || taskType === "image-text") && key === "text") {
       return false;
     }
     if (

@@ -48,6 +48,18 @@ The platform is designed to handle large-scale data annotation projects, researc
 - **Responsive Design**: Mobile-friendly interface that works seamlessly across desktop, tablet, and mobile devices
 - **Integration Ready**: RESTful API architecture designed for easy integration with external systems and tools
 
+### Image-to-text tasks
+
+Select `image-text` when creating a task. In its Micro Tasks tab, choose **New
+Micro Task → Upload Images**. Select up to 100 JPEG, PNG, or WebP images (10 MB
+each), enter instructions, and optionally mark them as qualification prompts.
+Each image uploads sequentially and creates a separate microtask. The panel shows
+uploaded/failed counts and a **Retry failed uploads** button. Failed uploads keep
+their identifiers and original settings; successful uploads are removed from the
+retry list. Matching retries return the original microtask rather than creating
+a duplicate, even if the original success response was lost. Reviewers can enlarge
+and zoom the source image while comparing it with the contributor's text.
+
 ### Screenshots
 
 Get a visual overview of the Mahder Frontend platform's key features and interfaces:

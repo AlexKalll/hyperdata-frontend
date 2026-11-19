@@ -1,4 +1,5 @@
 "use client";
+import MicroTaskImage from "../common/microTaskImage";
 import React, { useState, useEffect, useRef } from "react";
 import {
   Table,
@@ -293,6 +294,7 @@ const TaskDataset: React.FC<TaskDatasetProps> = ({ microTaskId }) => {
 
         const toggle = () => wsRef.current?.playPause();
 
+        if (mt?.type === "image") return <MicroTaskImage src={url} />;
         if (isAudio && url) {
           return (
             <div className="flex items-center gap-2 min-w-[220px]">
